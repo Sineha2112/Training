@@ -1,0 +1,200 @@
+@charset "ISO-8859-1";
+*{
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+}
+body{
+    background-color: white  ;
+    min-height: 100vh;
+    width: 100%;
+}
+.AdminMenu{
+    height: 100%;
+    background-color: #2e4b85;
+    position: fixed;
+    width: 240px; 
+    z-index:1;
+    overflow-x:hidden;
+}
+.AdminMenu .logo{
+    height: 80px;
+    display: flex;
+    align-items: center;
+    font-size: 28px;
+    font-weight: 500;
+    min-width: 60px;
+    text-align: center;
+}
+.AdminMenu .links{
+    margin-top: 30px;
+}
+.AdminMenu .links li{
+    height: 60px;
+    width: 100%;
+    list-style: none;
+}
+.AdminMenu .links li a{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: aliceblue;
+    font-size: 18px;
+    font-weight: 400;
+}
+.AdminMenu .links li a i{
+  /*  background: rgb(172, 213, 252);*/
+    min-width: 40px;
+    text-align: center;
+    color:white;
+    font-size: 18px;
+}
+.AdminMenu .links li a:hover{
+    background: #223152;
+    transform: all 0.4s ease;
+}
+.Home{
+   background:white;
+   position: relative;
+   min-height: 100vh;
+   width: calc(100% - 240px);
+   left: 240px;
+}
+.Home nav{
+    height: 80px;
+    background: #2e4b85;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    color: aliceblue;
+    justify-content: space-between;
+}
+.Home nav .side{
+    display: flex;
+    align-items: center;
+    font-size: 24px;
+    font-weight: 500;
+}
+.Home nav .side i{
+    font-size: 35px;
+    margin-right: 10px;
+}
+.Home nav .side .profile{
+    display: flex;
+    height:50px ;
+    min-width: 190px;
+    background: #F5F6FA;
+    border:2px solid #EFEEF1;
+    align-items: center;
+    border-radius: 6px;
+    padding: 0 15px 0 2px;
+}
+nav .profile img{
+    height: 40px;
+    width: 40px;
+    object-fit: cover;
+    border-radius:6px ;
+}
+nav .profile .adminName{
+    font-size: 20px;
+    font-weight: 500;
+    color: black;
+    margin-left: 0 10px ;
+}
+nav .profile{
+    color: #333;
+    font-size: 25px;
+}
+.subMenu1{
+	display:none;
+	background-color: #262626;
+ 	padding-left: 8px;
+}
+.AdminMenu .links li:hover .subMenu1{
+	display:block;
+	position:absolute;
+	background: #2e4b85;
+	margin-top:15px;
+	margin-left:-15px;
+	
+}
+.AdminMenu .links li:hover .subMenu1 ul li{
+	width:150px;
+	padding:10px;
+	border-bottom:1px dotted #fff;
+	background:transparent;
+	border-radius:0;
+	text-align:right;
+}
+
+.subMenu2{
+	display:none;
+	background-color: #262626;
+  	padding-left: 8px;
+}
+.AdminMenu .links li:hover .subMenu2{
+	display:block;
+	position:absolute;
+	background: #2e4b85;
+	margin-top:15px;
+	margin-left:15px;
+	
+}
+.AdminMenu .links li:hover .subMenu2 ul li{
+	width:150px;
+	padding:10px;
+	border-bottom:1px dotted #fff;
+	background:transparent;
+	border-radius:0;
+	text-align:right;
+}
+
+
+.subMenu3{
+	display:none;
+	background-color: #262626;
+  	padding-left: 8px;
+}
+ .AdminMenu .links li:hover .subMenu3{
+	display:block;
+	position:absolute;
+	background: #2e4b85;
+	margin-top:15px;
+	margin-left:-15px;
+	
+}
+.AdminMenu .links li:hover .subMenu3 ul li{
+	width:150px;
+	padding:10px;
+	border-bottom:1px dotted #fff;
+	background:transparent;
+	border-radius:0;
+	text-align:right;
+}
+.subMenu4{
+	display:none;
+	background-color: #262626;
+ 	padding-left: 8px;
+}
+.AdminMenu .links li:hover .subMenu4{
+	display:block;
+	position:absolute;
+	background: #2e4b85;
+	margin-top:15px;
+	margin-left:-15px;	
+}
+.AdminMenu .links li:hover .subMenu4 ul li{
+	width:150px;
+	padding:10px;
+	border-bottom:1px dotted #fff;
+	background:transparent;
+	border-radius:0;
+	text-align:right;
+}
+.fa-caret-down {
+  float: right;
+  padding-left: 20px;
+  
+}
