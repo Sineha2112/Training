@@ -1,0 +1,53 @@
+@charset "ISO-8859-1";
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+.menu{
+    background: rgb(190, 217, 242);
+    display: flex;
+    justify-content: space-between;
+    padding:16px;
+}
+.logo{
+    display:flex;
+    align-items: center;
+}
+.logo img{
+    width:40px;
+    border-radius:25px;
+}
+.logo h3{
+    font-size:26px;
+    margin-left: 9px;
+
+}
+.menu .nav a{
+    display:inline-block;
+    text-decoration:none;
+    color: rgb(11, 1, 1);
+    font-size:18px;
+    padding:10px;
+    margin-left: 8px;    
+}
+
+.active,.menu a:hover{
+    background-color: aliceblue;
+    border-radius: 3px;
+}
+.menu .fa{
+    margin-right: 8px;
+
+}
+.body{
+ background-size: cover;
+ background-repeat: no-repeat; 
+ padding-top: 10 px;
+}
+.container{
+     padding-top: 400px;  
+    margin: 25px;
+    font-style: italic;
+  	text-align:center;
+}
