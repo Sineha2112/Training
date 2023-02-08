@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowCountCallbackHandler;
 import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RestController;
@@ -42,19 +43,28 @@ public class AdminDAO {
 			List<Admin> userList = (List<Admin>) jdbctemplate.query(query, new AdminMapper());
 			 for (Admin adminli : userList) {
 				 if(adminli!=null) {
-
-					 if(aId.equals("admin")) {
-						 if(pass.equals("admin123")) {
+					 String adminId=adminli.getAdminId();
+					 if(aId.equals(adminId)) {
+						 String aPass=adminli.getPassword();
+						 if(pass.equals(aPass)) {
 							 status="Success";
 							 String name=adminli.getAdminName();
 							 session.setAttribute("adminName", name);
 							 model.addAttribute("loginstatus", status);
 						 }
-						 else 
-							 logger.info("Invalid Password");
+						 return ;
 					 }
+						 else {
+							 logger.info("Invalid Password");
+							 status="InvalidCredentials";
+							 model.addAttribute("loginstatus", status);
+							 return ;
+						 }
+					 }
+				 status="InvalidCredentials";
+				 model.addAttribute("loginstatus", status);
 				 }
-			 }
+			 
 		}catch(NullPointerException e) {
 			System.out.println(e);
 		}
@@ -126,12 +136,30 @@ public class AdminDAO {
 		System.out.println("Row Deleted:"+rows);
 	}
 	
-	//Vote count
+	//Maximum Vote count
 	public List<VoteCount> viewResult(){
 		String sql = "select party_name,count from VoteCount where count=(select Max(count) from voteCount) ;";
 		List<VoteCount> countList = (List<VoteCount>) jdbctemplate.query(sql, new VoteCountMapper());
 		System.out.println(countList+"Fetched records");
 		return countList;
+	}
+	
+	//Separate Vote Count
+	public void voteCountOfParticularParty(String partyName) {
+		if(partyName.equals("AIADMK")) {
+			String query="select COUNT(*) as voteCount from CastingVote where party_name='AIADMK'";
+			
+		}
+		
+	}
+	
+	//Total vote count
+	public int totalVoteCount(Model model) {
+		RowCountCallbackHandler countCallback = new RowCountCallbackHandler();
+		jdbctemplate.query("Select * from CastingVote",countCallback);
+		int rowCount = countCallback.getRowCount();
+		return rowCount;
+		
 	}
 	
 	

@@ -23,7 +23,7 @@
 		<a href="#">View Result</a>
 		<a href="JSP/Feedback.jsp">Feedback</a>
 		<a href="JSP/Report.jsp">Report</a>
-		<a href="JSP/ViewProfile.jsp">View Profile</a>
+		<a href="/viewUser">View Profile</a>
 		<a href="mainpage.jsp">Log Out</a>
 		<%-- <form action="/findUserbyId" method="get">
 		Enter name:<input type="text" name="name">

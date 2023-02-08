@@ -157,28 +157,24 @@ public class VoterController {
 		
 	}
 	
-	@GetMapping("/viewUser")
-	public  String viewProfile(HttpSession session,Model model) {
+	@RequestMapping("/viewUser")
+	public  String viewProfile(HttpSession session) {
 		logger.info("Through Controller4");
-		List<Voter> user=voterdao.viewProfile(session);
+	System.out.println("Through Controller4");
+		voterdao.viewProfile(session);
 		return "JSP/ViewProfile.jsp";
 	}
 	
-	@GetMapping("/findUserbyId")
-    public String findUserById(@RequestParam("name") String name, Model model) {
-        System.out.println("finding");
-        String total = voterdao.findById(name);
-        System.out.println(total);
-        // if no user found in the given name, exception
-        if (total.equals(null)) {
-            throw new EmptyResultDataAccessException(name, 0);
-        } else {
-            System.out.println("TotalCases:" + total);
-            // setting value in model attribute to display in jsp
-            model.addAttribute("findId", total);
-        }
-        return "voterhomepage.jsp";
-    }
+	/*
+	 * @GetMapping("/findUserbyId") public String findUserById(@RequestParam("name")
+	 * String name, Model model) { System.out.println("finding"); String total =
+	 * voterdao.findById(name); System.out.println(total); // if no user found in
+	 * the given name, exception if (total.equals(null)) { throw new
+	 * EmptyResultDataAccessException(name, 0); } else {
+	 * System.out.println("TotalCases:" + total); // setting value in model
+	 * attribute to display in jsp model.addAttribute("findId", total); } return
+	 * "voterhomepage.jsp"; }
+	 */
 	
 	
 	

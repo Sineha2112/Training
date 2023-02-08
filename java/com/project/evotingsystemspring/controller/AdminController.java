@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,22 +27,22 @@ public class AdminController {
 	 Logger logger = LoggerFactory.getLogger(AdminController.class);
 	
 	@PostMapping("/adminLogin")
-	public String adminLogin(@RequestParam("id") String adminId,@RequestParam("password") String password,HttpSession session,Model model) {
+	public String adminLogin(@RequestParam("adminId") String adminId,@RequestParam("password") String password,HttpSession session,Model model) {
 		logger.info("Through Controller");
 		Admin admin=new Admin();
 		
 		admin.setAdminId(adminId);
 		admin.setPassword(password);
 		
-		admindao.adminLogin(admin,session,model);
+		admindao.adminLogin(admin, session, model);
 		
 		if(model.getAttribute("loginstatus").equals("Success")) {
-			return "/JSP/adminlogin.jsp";
+			return "/JSP/adminpage.jsp";
 		}
 		else if(model.getAttribute("loginstatus").equals("InvalidCredentials")) {
 			return "JSP/adminlogin.jsp";
 		}
-		return "/JSP/adminpage.jsp";
+		return "JSP/adminpage.jsp";
 		
 	}
 	
@@ -116,10 +117,21 @@ public class AdminController {
 	}
 	
 	//voteCount
+	
 	public String viewResult(Model model) {
 		logger.info("Through Controller6");
 		List<VoteCount> countList=admindao.viewResult();
-		Model addAttribute=model.addAttribute("COUNT_LIST", countList);
+		model.addAttribute("COUNT_LIST", countList);
 		return "JSP/viewResult";
+	}
+	
+	//totalVoteCount
+	@GetMapping("/totalCount")
+	public String totalVoteCount(Model model) {
+		logger.info("To count the total votes");
+		int totalCount=admindao.totalVoteCount(model);
+		System.out.println(totalCount);
+		model.addAttribute("COUNT", totalCount);
+		return "/JSP/adminpage.jsp"; 
 	}
 }

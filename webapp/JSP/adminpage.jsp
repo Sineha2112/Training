@@ -14,7 +14,7 @@
 </style>
 </head>
 <%HttpSession session1=request.getSession();%>
-<%String str=(String)session1.getAttribute("userName"); %>
+<%String str=(String)session1.getAttribute("adminName"); %>
 <body>
 	 <div class="AdminMenu">
         <ul class="links">

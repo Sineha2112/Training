@@ -1,24 +1,47 @@
+<%@page import="java.sql.Date"%>
 <%@page import="com.project.evotingsystemspring.model.Voter"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<%@page import="java.sql.PreparedStatement" %>
-<%@page import="java.sql.Connection" %>
-<%@page import="java.sql.DriverManager" %>
-<%@page import="java.sql.ResultSet" %>
-<% Class.forName("oracle.jdbc.driver.OracleDriver"); %>
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="ISO-8859-1">
 <title>View Profile</title>
+<style>
+table{
+border-collapse: collapse;
+  width: 100%;
+ 
+  }
+th,td{
+ text-align: left;
+  padding: 5px;
+  border: 2px solid #ddd;
+	background-color:lavender;
+}
+
+</style>
 </head>
+<%HttpSession session1=request.getSession();%>
+<%Integer id=(Integer)session1.getAttribute("Id"); %>
+<%String str=(String)session1.getAttribute("name"); %>
+<%Date dob=(Date)session1.getAttribute("dob"); %>
+<%Integer age=(Integer)session1.getAttribute("age"); %>
+<%String vId=(String)session1.getAttribute("voterId"); %>
+<%String fName=(String)session1.getAttribute("fName"); %>
+<%String gender=(String)session1.getAttribute("gender"); %>
+<%String address=(String)session1.getAttribute("address"); %>
+<%String city=(String)session1.getAttribute("city"); %>
+<%String nationality=(String)session1.getAttribute("nationality"); %>
+<%Long mobile=(Long)session1.getAttribute("mobileNo"); %>
+<%String email=(String)session1.getAttribute("emailId"); %>
+
 <body>
 <h1 style="text-align:center">User Profile</h1>
-	<%
-List <Voter> voter = (List<Voter>)request.getAttribute("USER_LIST");
-	%>
-	<form action="/viewUser">
+	
+	<form>
 	<table>
 	<thead>
 	<tr>
@@ -34,29 +57,25 @@ List <Voter> voter = (List<Voter>)request.getAttribute("USER_LIST");
 	<th>Nationality</th>
 	<th>Mobile Number</th>
 	<th>Email Id</th>
-	<th>Password</th>
+	
 	</tr>
 	</thead>
 	<tbody>
-	<%
-		for (Voter userlist:voter){
-	%>
 		<tr>
-		<td><%=userlist.getUserId()%></td>
-		<td><%=userlist.getVoterName() %></td>
-		<td><%=userlist.getDateOfBirth() %></td>
-		<td><%=userlist.getAge() %></td>
-		<td><%=userlist.getVoterId() %></td>
-		<td><%=userlist.getFatherName() %></td>
-		<td><%=userlist.getGender() %></td>
-		<td><%=userlist.getAddress() %></td>
-		<td><%=userlist.getCity() %></td>
-		<td><%=userlist.getNationality() %></td>
-		<td><%=userlist.getMobileNumber() %></td>
-		<td><%=userlist.getEmailId() %></td>
-		<td><%=userlist.getUserPassword() %></td>
+		<td><%=id %></td>
+		<td><%=str %></td>
+		<td><%=dob%></td>
+		<td><%=age %></td>
+		<td><%=vId %></td>
+		<td><%=fName %></td>
+		<td><%=gender %></td>
+		<td><%=address %></td>
+		<td><%=city %></td>
+		<td><%=nationality %></td>
+		<td><%=mobile %></td>
+		<td><%=email %></td>
+		
 		</tr>
-	<%}%>
 	</tbody>
 	</table>
 	</form>

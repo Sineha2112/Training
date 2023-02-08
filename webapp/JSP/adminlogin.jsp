@@ -62,17 +62,19 @@
         
 </style>
 </head>
-<body background="C:\Users\sine3351\Pictures\admin2.jpg">
+<body >
 	<div class="Admin">
-       <p align="right"> <button type="submit"><a href="Webpage.html">Home</a></button></p> </div>
+       <p align="right"> <button type="submit"><a href="mainPage.jsp">Home</a></button></p> </div>
        <h1 >WELCOME ADMIN</h1>
         <h2>ADMIN LOGIN</h2><br>
-        <form name="Login"  action="AdminLoginServlet" method="post">
+        <form name="Login"  action="/adminLogin" method="post">
             <div class="login">
             <label for="AdminId"><b>Enter Admin Id:</b></label>
-            <input type="text" name="adminId" placeholder="Admin Id" required><br><br>    
+            <input type="text" name="adminId" placeholder="Admin Id" required><br><br>  
+              
             <label for="password"><b>Enter Password:</b></label>
             <input type="password" name="password" placeholder="Password" required><br><br>
+            
             <div >&emsp;&emsp;&emsp;&emsp;<button type="submit">Login</button>&emsp;&emsp;
            <button type="reset">Cancel</button></div><br>
             </div>

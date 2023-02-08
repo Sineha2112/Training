@@ -26,8 +26,7 @@ public class VoterMapper implements RowMapper<Voter> {
 		String nationality=rs.getString(10);
 		Long mNo=rs.getLong(11) ;
 		String email=rs.getString(12) ;
-		String password=rs.getString(13);
-		
+	
 		voter.setUserId(id);
 		voter.setVoterName(name);
 		voter.setDateOfBirth(dob);
@@ -40,7 +39,7 @@ public class VoterMapper implements RowMapper<Voter> {
 		voter.setNationality(nationality);
 		voter.setMobileNumber(mNo);
 		voter.setEmailId(email);
-		voter.setUserPassword(password);
+		
 		
 		return voter;
 	}

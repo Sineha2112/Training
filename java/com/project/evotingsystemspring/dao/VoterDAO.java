@@ -1,5 +1,6 @@
 package com.project.evotingsystemspring.dao;
 
+import java.sql.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -115,16 +116,53 @@ public class VoterDAO {
 	}
 
 	
-	public List<Voter> viewProfile(HttpSession session){ 
+	public void viewProfile(HttpSession session){ 
 		String voterid=(String) session.getAttribute("VoterId");
-		String sql = "select user_id,voter_name,date_of_birth,age,voter_id,father_name,gender,address,city,nationality,mobileNumber,email_id,voter_password from ResidVoter where voter_id=?";
+		System.out.println(voterid);
+		String sql = "select user_id,voter_name,date_of_birth,age,voter_id,father_name,gender,address,city,nationality,mobileNumber,email_id from ResidVoter where voter_id=?";
 		List<Voter> userList = (List<Voter>) jdbctemplate.query(sql, new VoterMapper(),voterid);
 		for(Voter v:userList ) {
 			Integer id=v.getUserId();
 			session.setAttribute("Id", id);
+			
+			String name=v.getVoterName();
+			session.setAttribute("name", name);
+			
+			Date dob=v.getDateOfBirth();
+			session.setAttribute("dob", dob);
+			
+			Integer age=v.getAge();
+			session.setAttribute("age", age);
+			
+			String vId=v.getVoterId();
+			session.setAttribute("voterId", vId);
+			
+			String fatherName=v.getFatherName();
+			session.setAttribute("fName", fatherName);
+			
+			String gender=v.getGender();
+			session.setAttribute("gender", gender);
+			
+			String address=v.getAddress();
+			session.setAttribute("address", address);
+			
+			String city=v.getCity();
+			session.setAttribute("city", city);
+			
+			String nationality=v.getNationality();
+			session.setAttribute("nationality", nationality);
+			
+			Long mNo=v.getMobileNumber();
+			session.setAttribute("mobileNo", mNo);
+			
+			String email=v.getEmailId();
+			session.setAttribute("emailId", email);
+			
+			
+			
 		}
 		logger.info(userList+"Fetched records");
-		return userList;
+
 	}
 	
 	public void CastVote(CastingVote castvote) { 
@@ -136,18 +174,16 @@ public class VoterDAO {
 		
 	}
 
-	public String findById(String name) {
-	     String sql = "select user_id from ResidVoter  where voter_name=?";
-         System.out.println("DB Status");
-         String queryForObject = null;
-         try {
-             queryForObject = jdbctemplate.queryForObject(sql, String.class,name);
-             System.out.println(queryForObject);
-         } catch (EmptyResultDataAccessException e) {
-         }
-         return queryForObject;
-		
-	}
+	/*
+	 * public String findById(String name) { String sql =
+	 * "select user_id from ResidVoter  where voter_name=?";
+	 * System.out.println("DB Status"); String queryForObject = null; try {
+	 * queryForObject = jdbctemplate.queryForObject(sql, String.class,name);
+	 * System.out.println(queryForObject); } catch (EmptyResultDataAccessException
+	 * e) { } return queryForObject;
+	 * 
+	 * }
+	 */
 	
 	public void addFeedback(Voter voter) {
 		logger.info("To Add Feedback");
