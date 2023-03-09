@@ -9,7 +9,7 @@ public class InvalidIdException extends Exception{
 	 */
 	private static final long serialVersionUID = 1L;
 
-	{
+	static{
 		 Logger logger = LoggerFactory.getLogger(InvalidIdException.class);
 		logger.info("Invalid ID!"+"\n"+"must contain positive numbers only");
 	}

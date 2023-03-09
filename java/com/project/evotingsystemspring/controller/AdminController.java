@@ -1,5 +1,8 @@
 package com.project.evotingsystemspring.controller;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.sql.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -13,125 +16,296 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.project.evotingsystemspring.dao.AdminDAO;
 import com.project.evotingsystemspring.model.Admin;
 import com.project.evotingsystemspring.model.Candidate;
-import com.project.evotingsystemspring.model.VoteCount;
+import com.project.evotingsystemspring.model.NRIVoter;
+import com.project.evotingsystemspring.model.Voter;
+import com.project.evotingsystemspring.service.AdminService;
 
 @Controller
 public class AdminController {
 	@Autowired
-	AdminDAO admindao;
+	AdminDAO adminDao;
+	@Autowired
+	Admin admin;
+	@Autowired
+	Candidate candidate;
+	@Autowired
+	AdminService aService;
 	
-	 Logger logger = LoggerFactory.getLogger(AdminController.class);
+	Logger logger = LoggerFactory.getLogger(AdminController.class);
 	
+	 //administrator login
 	@PostMapping("/adminLogin")
 	public String adminLogin(@RequestParam("adminId") String adminId,@RequestParam("password") String password,HttpSession session,Model model) {
 		logger.info("Through Controller");
-		Admin admin=new Admin();
 		
 		admin.setAdminId(adminId);
 		admin.setPassword(password);
 		
-		admindao.adminLogin(admin, session, model);
 		
-		if(model.getAttribute("loginstatus").equals("Success")) {
-			return "/JSP/adminpage.jsp";
+		
+		if(Boolean.TRUE.equals(aService.adminLogin(admin, session, model))) {
+			
+			//Total Vote Count
+			logger.info("To count the total votes");
+			Integer totalCount=adminDao.totalVoteCount();
+			model.addAttribute("VOTE_COUNT", totalCount);
+			
+			//Total User Count
+			logger.info("To count total user count");
+			Integer userCount=adminDao.totalUserCount();
+			model.addAttribute("USER_COUNT", userCount);
+			
+			//Total NRI User Count
+			logger.info("To count total NRI user count");
+			Integer userNRICount=adminDao.totalNRIuserCount();
+			model.addAttribute("NRIUSER_COUNT", userNRICount);
+			
+			//Total Candidate Count
+			logger.info("To count total Candidate count");
+			Integer candidateCount=adminDao.totalCandidateCount();
+			model.addAttribute("CANDIDATE_COUNT", candidateCount);
+			
+			return "adminpage";
+			
 		}
-		else if(model.getAttribute("loginstatus").equals("InvalidCredentials")) {
-			return "JSP/adminlogin.jsp";
+		else if(Boolean.FALSE.equals(aService.adminLogin(admin, session, model))) {
+			return "adminlogin";
 		}
-		return "JSP/adminpage.jsp";
+		
+		
+		return "adminlogin";
 		
 	}
 	
-	//Candidate
+	//Voter
+	@RequestMapping("/viewVoter")
+	public String viewVoter(Model model) {
+		logger.info("To View Voter");
+		aService.viewVoterService(model);
+		return "viewVoter";
+		
+	}
+	
+	//NRI Voter
+	@RequestMapping("/viewNRIvoter")
+	public String viewNriVoter(Model model) {
+		logger.info("To View Voter");
+		aService.viewNRIvoterService(model);
+		return "viewNRIvoter";
+		
+	}
+	
+	//Voter's Vote Details
+	@RequestMapping("/viewVoterVoteDetails")
+	public String viewVoterVote(Model model) {
+		logger.info("To View Voter's Vote details");
+		aService.viewVotersVoteService(model);
+		return "viewVotersVoteDetails";
+		
+	}
+	
+	
 	@PostMapping("/addCandidates")
-	public String addCandidate(@RequestParam("electionId") Integer eId,@RequestParam("id") Integer cId,@RequestParam("partyName") String pName,@RequestParam("partySymbol") String pSymbol,@RequestParam("name") String cName,@RequestParam("gender") String gender,@RequestParam("age") Integer age,@RequestParam("address") String address,@RequestParam("city") String city,@RequestParam("nationality") String nationality,@RequestParam("mobileNo") Long mNo,@RequestParam("email") String email,@RequestParam("history") String history) {
+	public String addCandidate(@RequestParam("canImg") MultipartFile cImg,@RequestParam("sImg") MultipartFile sImg,@RequestParam("eid") Integer eId,@RequestParam("canId") Integer cId,@RequestParam("canPartyName") String pName,@RequestParam("canPartySymbol") String pSymbol,@RequestParam("canName") String cName,@RequestParam("gender") String gender,@RequestParam("canAge") Integer age,@RequestParam("canAaddress") String address,@RequestParam("canCity") String city,@RequestParam("canNationality") String nationality,@RequestParam("mobileNumber") Long mNo,@RequestParam("canEmail") String email,
+			@RequestParam("history") String history)throws IOException {
 		logger.info("Through Controller1");
-		Candidate candidate=new Candidate();
+		
+		String fileName = cImg.getOriginalFilename();
+		try(FileInputStream fin = new FileInputStream("C:\\Users\\sine3351\\eclipse-workspace\\votingSystem\\src\\main\\webapp\\CandidateImages\\"+fileName);){
+		
+	    byte[] images = fin.readAllBytes(); 
+	    candidate.setCandidateImage(images);
+		}
+		
+	    String fileName1 = sImg.getOriginalFilename();
+	    try(FileInputStream fin1 = new FileInputStream("C:\\Users\\sine3351\\eclipse-workspace\\votingSystem\\src\\main\\webapp\\CandidateImages\\"+fileName1);){
+	    	byte[] images1 = fin1.readAllBytes(); 
+	    	candidate.setSymbolImage(images1);
+	    }
+	    
+	    
+		
+		
 		candidate.setElectionId(eId);
 		candidate.setCandidateId(cId);
-		candidate.setPartyName(pName);
-		candidate.setPartySymbol(pSymbol);
+		candidate.setCanPartyName(pName);
+		candidate.setCanPartySymbol(pSymbol);
 		candidate.setCandidateName(cName);
-		candidate.setGender(gender);
-		candidate.setAge(age);
-		candidate.setAddress(address);
-		candidate.setCity(city);
-		candidate.setNationality(nationality);
-		candidate.setMobileNo(mNo);
-		candidate.setEmailId(email);
+		candidate.setCanGender(gender);
+		candidate.setCanAge(age);
+		candidate.setCanAddress(address);
+		candidate.setCanCity(city);
+		candidate.setCanNationality(nationality);
+		candidate.setCanMobileNo(mNo);
+		candidate.setCanEmailId(email);
 		candidate.setHistory(history);
-		admindao.addCandidates(candidate);
-		return "JSP/insertCandidates.jsp";	
+		
+		aService.addCandidateService(candidate);
+		
+		return "popUpCandidates";	
 	}
 	
 	@PostMapping("/updateCandidates")
 	public String updateCandidates(@RequestParam("id") Integer id,@RequestParam("changeData") String data) {
 		logger.info("Through Controller2");
-		Candidate candidate=new Candidate();
+		
 		candidate.setCandidateId(id);
 		candidate.setData(data);
-		admindao.updateCandidates(candidate);
-		return "JSP/updateCandidate.jsp" ;
+		aService.updateCandidateService(candidate);
+		return "updateCandidate" ;
+	}
+	
+	@RequestMapping("/adminDeleteHomePage")
+	public String canDeletePage() {
+		logger.info("admin deleted Page");
+		return "adminpage";
 	}
 	
 	@PostMapping("/deleteCandidates")
 	public String deleteCandidates(@RequestParam("id") Integer id) {
 		logger.info("Through Controller2");
-		Candidate candidate=new Candidate();
+		
 		candidate.setCandidateId(id);
-		admindao.deleteCandidates(candidate);
-		return "JSP/deletecandidate.jsp";
+		aService.deleteCandidateService(candidate);
+		return "popUpdeleteCan";
 	}
 	
-	@PostMapping("/viewCandidates")
+	@RequestMapping("/viewCandidates")
 	public String viewCandidate(Model model) {
 		logger.info("Through Controller3");
-		List<Candidate> candidateList=admindao.viewCandidates();
-		Model addAttribute=model.addAttribute("CANDIDATE_LIST", candidateList);
-		return "JSP/ViewCandidates.jsp";
+		aService.viewCanService(model);
+		return "ViewCandidates";
+	}
+	
+	@GetMapping("/reportsOfCandidate")
+	public String reportOfCandidate(@RequestParam("id") Integer cId,@RequestParam("aValue") Integer assetValue,@RequestParam("pValue")Integer pAssetValue,@RequestParam("report") String report) {
+		logger.info("To report candidate about their asset details");
+		
+		admin.setCandidateName(cId);
+		admin.setAssetValue(assetValue);
+		admin.setPastAssetValue(pAssetValue);
+		admin.setReportOfCandidate(report);
+		
+		aService.reportOfCandidateService(admin);
+		
+		return "popUpReport";
 	}
 	
 	//Election
 	@PostMapping("/addElection")
-	public String addElection(@RequestParam("id") Integer id,@RequestParam("name") String eName,@RequestParam("date") String eDate) {
+	public String addElection(@RequestParam("id") Integer id,@RequestParam("name") String eName,@RequestParam("Date") Date eDate) {
 		logger.info("Through Controller4");
-		Admin admin=new Admin();
+		
 		admin.setElectionId(id);
 		admin.setElectionName(eName);
 		admin.setElectionDate(eDate);
-		admindao.addElection(admin);
-		return "JSP/addelection.jsp";
+		aService.addElectionService(admin);
+		return "addelection";
 	}
 	
 	@PostMapping("/deleteElection")
 	public String deleteElection(@RequestParam("id") Integer id){
 		logger.info("Through Controller5");
-		Admin admin=new Admin();
+		
 		admin.setElectionId(id);
-		admindao.deleteElection(admin);
-		return "JSP/deleteElection.jsp";
+		aService.deleteElectionService(admin);
+		return "deleteElection";
 	}
 	
-	//voteCount
+	@RequestMapping("/viewElection")
+	public String viewElection(Model model) {
+		logger.info("To view Election list");
+		aService.viewElection(model);
+		return "viewElection";
+		
+	}
 	
+	//Feedback list
+	@RequestMapping("/feedbackList")
+	public String feedbackList(Model model) {
+		logger.info("To view Feedback List");
+		aService.viewFeedbackService(model);
+		return "feedbackList";
+		
+	}
+	
+	//Report List
+	@RequestMapping("/reportList")
+	public String reportList(Model model) {
+		logger.info("To view Feedback List");
+		aService.viewReportService(model);
+		return "reportList";
+	}
+	
+	//view result
+	@RequestMapping("/electionResult")
 	public String viewResult(Model model) {
 		logger.info("Through Controller6");
-		List<VoteCount> countList=admindao.viewResult();
-		model.addAttribute("COUNT_LIST", countList);
-		return "JSP/viewResult";
+		aService.viewResultService(model);
+		return "viewResult";
 	}
 	
-	//totalVoteCount
-	@GetMapping("/totalCount")
-	public String totalVoteCount(Model model) {
-		logger.info("To count the total votes");
-		int totalCount=admindao.totalVoteCount(model);
-		System.out.println(totalCount);
-		model.addAttribute("COUNT", totalCount);
-		return "/JSP/adminpage.jsp"; 
-	}
+	//separate Vote Count
+	  @RequestMapping("/voteount")
+		public String voteCount(Model model) {
+		  
+		  aService.voteCountService(model); 
+		  adminDao.separateVoteCount(model);
+		  return "voteCount";
+			
+		}
+	  
+	  @RequestMapping("/voterHomePage")
+		public String voterPage() {
+			logger.info("Voter Register Page");
+			return "voterhomepage";
+		}
+		
+	  @RequestMapping("/voterFeedPage")
+		public String voterFeedPage() {
+			logger.info("Voter Feedback Page");
+			return "voterhomepage";
+		}
+
+	  @RequestMapping("/percentage")
+	  public String votePercentage(Model model) {
+		 Float percentage=adminDao.votePercentageCalculation();
+		 model.addAttribute("VoterPercentage", percentage);
+		 
+		 Float percent=adminDao.voteNRIPercentageCalculation();
+		 model.addAttribute("NRIvoterPercentage", percent);
+		 
+		 logger.info("Percentage:"+percentage);
+		 logger.info("Percentage of NRI User:"+percent);
+		 
+		return "percentageOfVoter" ;
+	  }
+	  
+	  //Searching process
+	  @RequestMapping("/searchList")
+	  public String search(@RequestParam("search") String searchData,Model model) {
+		 List<Voter> searchList=aService.searchService(searchData);
+		 model.addAttribute("SEARCHDATA", searchList);
+		 if(searchList.isEmpty()) {
+			 return "popUpNotFound";
+		 }
+		return "voterSearchList";  
+	  }
+	  
+	  @RequestMapping("/searchNRIList")
+	  public String searchNRIlist(@RequestParam("search") String searchNRIData,Model model) {
+		 List<NRIVoter> searchList=aService.searchNRIService(searchNRIData);
+		 model.addAttribute("SEARCHDATA", searchList);
+		 if(searchList.isEmpty()) {
+			 return "popUpNotFound";
+		 }
+		return "searchNRIList";
+		  
+		  
+	  }
 }

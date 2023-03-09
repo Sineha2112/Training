@@ -9,7 +9,7 @@ public class InvalidCityException extends Exception{
 	 */
 	private static final long serialVersionUID = 1L;
 
-	{
+	static{
 		 Logger logger = LoggerFactory.getLogger(InvalidCityException.class);
 		logger.info("Invalid city name"+"\n"+"city only has characters");
 	}

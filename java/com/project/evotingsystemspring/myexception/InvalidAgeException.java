@@ -9,7 +9,7 @@ public class InvalidAgeException extends Exception{
 	 */
 	private static final long serialVersionUID = 1L;
 
-	{
+	static{
 		 Logger logger = LoggerFactory.getLogger(InvalidAgeException.class);
 		logger.info("Sorry!!Your age is less than 18.You can't vote");
 	}

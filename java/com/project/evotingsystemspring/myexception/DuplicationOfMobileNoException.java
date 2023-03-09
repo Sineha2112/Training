@@ -7,7 +7,7 @@ public class DuplicationOfMobileNoException extends Exception {
 	
 	private static final long serialVersionUID = 1L;
 
-	{
+	static{
 	 Logger logger = LoggerFactory.getLogger(DuplicationOfMobileNoException.class);
 	 logger.info("Mobile Number already Exist");
 	}

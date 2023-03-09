@@ -1,0 +1,24 @@
+@charset "ISO-8859-1";
+body{
+	 background-color: #d2e9ff;
+}
+.card{
+     width: 34%;
+     display: inline-block;
+     box-shadow: 0.5px 0.5px 5px black;
+     border-radius: 5px; 
+     margin: 1%;
+     background-color: white;
+    }
+
+.image img{
+  width: 100%;
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+  }
+
+.image {
+    padding: 2px 16px;
+        
+}
+

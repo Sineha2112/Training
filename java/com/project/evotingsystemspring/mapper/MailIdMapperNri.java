@@ -5,16 +5,16 @@ import java.sql.SQLException;
 
 import org.springframework.jdbc.core.RowMapper;
 
-import com.project.evotingsystemspring.model.NriVoter;
+import com.project.evotingsystemspring.model.NRIVoter;
 import com.project.evotingsystemspring.model.Voter;
 
-public class MailIdMapperNri implements RowMapper<NriVoter>{
+public class MailIdMapperNri implements RowMapper<NRIVoter>{
 
 	@Override
-	public NriVoter mapRow(ResultSet rs, int rowNum) throws SQLException {
-		NriVoter nvoter=new NriVoter();
+	public NRIVoter mapRow(ResultSet rs, int rowNum) throws SQLException {
+		NRIVoter nvoter=new NRIVoter();
 		String email=rs.getString("email_id");
-		nvoter.setEmailId(email);
+		nvoter.setNriEmailId(email);
 		return nvoter;
 	}
 

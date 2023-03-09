@@ -6,12 +6,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class DuplicationOfMailException extends Exception{
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 
-	{
+	static{
 		 Logger logger = LoggerFactory.getLogger(DuplicationOfMailException.class);
 		 logger.info("Mail id already exist");
 	}

@@ -9,7 +9,7 @@ public class InvalidNationalityException extends Exception{
 	 */
 	private static final long serialVersionUID = 1L;
 
-	{
+	static{
 		 Logger logger = LoggerFactory.getLogger(InvalidNationalityException.class);
 		logger.info("Sorry!!you are not an Indian");
 	}

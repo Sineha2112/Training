@@ -6,40 +6,41 @@ import java.sql.SQLException;
 
 import org.springframework.jdbc.core.RowMapper;
 
-import com.project.evotingsystemspring.model.NriVoter;
+import com.project.evotingsystemspring.model.NRIVoter;
 
-public class NriVoterMapper implements RowMapper<NriVoter>{
+public class NriVoterMapper implements RowMapper<NRIVoter>{
 
 	@Override
-	public NriVoter mapRow(ResultSet rs, int rowNum) throws SQLException {
-		NriVoter n=new NriVoter();
-		Integer id=rs.getInt(1);
-		String name=rs.getString(2);
-		Date dob=rs.getDate(3);
-		Integer age=rs.getInt(4);
-		String vId=rs.getString(5);
-		String fname=rs.getString(6);
-		String gender=rs.getString(7);
-		String nationality=rs.getString(8);
-		String state=rs.getString(9);
-		String city=rs.getString(10);
-		String email=rs.getString(11);
-		String password=rs.getString(12);
+	public NRIVoter mapRow(ResultSet rs, int rowNum) throws SQLException {
+		NRIVoter nVoter=new NRIVoter();
 		
-		n.setNriId(id);
-		n.setVoterName(name);
-		n.setDateOfBirth(dob);
-		n.setAge(age);
-		n.setVoterId(vId);
-		n.setFatherName(fname);
-		n.setGender(gender);
-		n.setNationality(nationality);
-		n.setState(state);
-		n.setCity(city);
-		n.setEmailId(email);
-		n.setUserPassword(password);
+		Integer id=rs.getInt("nri_id");
+		String name=rs.getString("voter_name");
+		Date dob=rs.getDate("date_of_birth");
+		Integer age=rs.getInt("age");
+		String vId=rs.getString("voter_id");
+		String fname=rs.getString("father_name");
+		String gender=rs.getString("gender");
+		String nationality=rs.getString("nationality");
+		String state=rs.getString("state");
+		String city=rs.getString("city");
+		String email=rs.getString("email_id");
 		
-		return n;
+		
+		nVoter.setNriId(id);
+		nVoter.setNriVoterName(name);
+		nVoter.setNriDateOfBirth(dob);
+		nVoter.setNriAge(age);
+		nVoter.setNriVoterId(vId);
+		nVoter.setNriFatherName(fname);
+		nVoter.setNriGender(gender);
+		nVoter.setNriNationality(nationality);
+		nVoter.setNriState(state);
+		nVoter.setNriCity(city);
+		nVoter.setNriEmailId(email);
+		
+		
+		return nVoter;
 	}
 
 }

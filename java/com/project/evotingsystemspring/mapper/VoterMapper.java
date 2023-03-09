@@ -3,6 +3,8 @@ package com.project.evotingsystemspring.mapper;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 import org.springframework.jdbc.core.RowMapper;
 
@@ -16,7 +18,9 @@ public class VoterMapper implements RowMapper<Voter> {
 		
 		Integer id=rs.getInt(1);
 		String name=rs.getString(2); 
+		
 		Date dob=rs.getDate(3); 
+		
 		Integer age=rs.getInt(4); 
 		String vId=rs.getString(5);
 		String fname=rs.getString(6);

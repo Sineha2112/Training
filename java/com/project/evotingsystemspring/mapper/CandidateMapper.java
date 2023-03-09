@@ -2,6 +2,7 @@ package com.project.evotingsystemspring.mapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Base64;
 
 import org.springframework.jdbc.core.RowMapper;
 
@@ -12,32 +13,42 @@ public class CandidateMapper implements RowMapper<Candidate> {
 	@Override
 	public Candidate mapRow(ResultSet rs, int rowNum) throws SQLException {
 		Candidate c=new Candidate();
-		int eId=rs.getInt(1);
-		int cId=rs.getInt(2);
-		String pName=rs.getString(3);
-		String pSymbol=rs.getString(4);
-		String cName=rs.getString(5);
-		String gender=rs.getString(6);
-		int age=rs.getInt(7);
-		String address=rs.getString(8);
-		String city=rs.getString(9);
-		String nationality=rs.getString(10);
-		Long mNo=rs.getLong(11);
-		String email=rs.getString(12);
-		String history=rs.getString(13);
 		
+		byte[] canImg=rs.getBytes(1);
+		byte[] syImg=rs.getBytes(2);
+		int eId=rs.getInt(3);
+		int cId=rs.getInt(4);
+		String pName=rs.getString(5);
+		String pSymbol=rs.getString(6);
+		String cName=rs.getString(7);
+		String gender=rs.getString(8);
+		int age=rs.getInt(9);
+		String address=rs.getString(10);
+		String city=rs.getString(11);
+		String nationality=rs.getString(12);
+		Long mNo=rs.getLong(13);
+		String email=rs.getString(14);
+		String history=rs.getString(15);
+		
+		String base64Image = Base64.getEncoder().encodeToString(canImg);
+		String base64Image1 = Base64.getEncoder().encodeToString(syImg);
+		
+		c.setCandidateImage(canImg);
+		c.setSymbolImage(syImg);
+		c.setImgPath(base64Image);
+		c.setImgPath1(base64Image1);
 		c.setElectionId(eId);
 		c.setCandidateId(cId);
-		c.setPartyName(pName);
-		c.setPartySymbol(pSymbol);
+		c.setCanPartyName(pName);
+		c.setCanPartySymbol(pSymbol);
 		c.setCandidateName(cName);
-		c.setGender(gender);
-		c.setAge(age);
-		c.setAddress(address);
-		c.setCity(city);
-		c.setNationality(nationality);
-		c.setMobileNo(mNo);
-		c.setEmailId(email);
+		c.setCanGender(gender);
+		c.setCanAge(age);
+		c.setCanAddress(address);
+		c.setCanCity(city);
+		c.setCanNationality(nationality);
+		c.setCanMobileNo(mNo);
+		c.setCanEmailId(email);
 		c.setHistory(history);
 		
 		return c;

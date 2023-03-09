@@ -9,7 +9,7 @@ public class InvalidEmailIdException extends Exception {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	{
+	static{
 		 Logger logger = LoggerFactory.getLogger(InvalidEmailIdException.class);
 		logger.info("Invalid email id!!"+"\n"+"Mail id should be in characters with one @symbol");
 	}

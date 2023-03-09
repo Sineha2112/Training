@@ -2,6 +2,9 @@ package com.project.evotingsystemspring.model;
 
 import java.sql.Date;
 
+import org.springframework.stereotype.Repository;
+
+@Repository
 public class Voter {
 	//data members of voter class
 		private Integer userId;
@@ -20,10 +23,10 @@ public class Voter {
 		private String changeData;
 		private String updateData;
 		private String vote;
-		private String voterType;
 		private Integer count;
 		private String complaints;
 		private String feedback;
+		private String rate;
 		private String partyName;
 		
 		//Default constructor
@@ -32,17 +35,10 @@ public class Voter {
 		}
 
 		//parameterized constructor
-		public Voter(Integer userId, String voterName, Date dateOfBirth, Integer age, String voterId, String fatherName,
-				String gender, String address, String city, String nationality, Long mobileNumber, String emailId,
+		public Voter(String voterId, String address,String city, String nationality, Long mobileNumber, String emailId,
 				String userPassword) {
 			super();
-			this.userId = userId;
-			this.voterName = voterName;
-			this.dateOfBirth = dateOfBirth;
-			this.age = age;
 			this.voterId = voterId;
-			this.fatherName = fatherName;
-			this.gender = gender;
 			this.address = address;
 			this.city = city;
 			this.nationality = nationality;
@@ -51,29 +47,40 @@ public class Voter {
 			this.userPassword = userPassword;
 		}
 
+		public Voter(Integer userId, String voterName, Date dateOfBirth, Integer age, String fatherName, String gender,String emailId) {
+			super();
+			this.userId = userId;
+			this.voterName = voterName;
+			this.dateOfBirth = dateOfBirth;
+			this.age = age;
+			this.fatherName = fatherName;
+			this.gender = gender;			
+			this.emailId = emailId;
+		}
+
 		//getters & setters
 		public Integer getUserId() {
 			return userId;
 		}
 
-		public Integer setUserId(Integer userId) {
-			return this.userId = userId;
+		public void setUserId(Integer userId) {
+			 this.userId = userId;
 		}
 
 		public String getVoterName() {
 			return voterName;
 		}
 
-		public String setVoterName(String voterName) {
-			return this.voterName = voterName;
+		public void setVoterName(String voterName) {
+			 this.voterName = voterName;
 		}
 
 		public Date getDateOfBirth() {
 			return dateOfBirth;
 		}
 
-		public Date setDateOfBirth(Date dateOfBirth) {
-			return this.dateOfBirth = dateOfBirth;
+		public void setDateOfBirth(Date dateOfBirth) {
+			 this.dateOfBirth = dateOfBirth;
 		}
 
 		public Integer getAge() {
@@ -88,48 +95,48 @@ public class Voter {
 			return voterId;
 		}
 
-		public String setVoterId(String voterId) {
-			return this.voterId = voterId;
+		public void setVoterId(String voterId) {
+			 this.voterId = voterId;
 		}
 
 		public String getFatherName() {
 			return fatherName;
 		}
 
-		public String setFatherName(String fatherName) {
-			return this.fatherName = fatherName;
+		public void setFatherName(String fatherName) {
+			 this.fatherName = fatherName;
 		}
 
 		public String getGender() {
 			return gender;
 		}
 
-		public String setGender(String gender) {
-			return this.gender = gender;
+		public void setGender(String gender) {
+			 this.gender = gender;
 		}
 
 		public String getAddress() {
 			return address;
 		}
 
-		public String setAddress(String address) {
-			return this.address = address;
+		public void setAddress(String address) {
+			 this.address = address;
 		}
 
 		public String getCity() {
 			return city;
 		}
 
-		public String setCity(String city) {
-			return this.city = city;
+		public void setCity(String city) {
+			 this.city = city;
 		}
 
 		public String getNationality() {
 			return nationality;
 		}
 
-		public String setNationality(String nationality) {
-			return this.nationality = nationality;
+		public void setNationality(String nationality) {
+			 this.nationality = nationality;
 		}
 
 		public Long getMobileNumber() {
@@ -144,16 +151,16 @@ public class Voter {
 			return emailId;
 		}
 
-		public String setEmailId(String emailId) {
-			return this.emailId = emailId;
+		public void setEmailId(String emailId) {
+			 this.emailId = emailId;
 		}
 
 		public String getUserPassword() {
 			return userPassword;
 		}
 
-		public String setUserPassword(String userPassword) {
-			return this.userPassword = userPassword;
+		public void setUserPassword(String userPassword) {
+			 this.userPassword = userPassword;
 		}
 
 		public String getChangeData() {
@@ -177,14 +184,6 @@ public class Voter {
 
 		public void setVote(String vote) {
 			this.vote = vote;
-		}
-
-		public String getVoterType() {
-			return voterType;
-		}
-
-		public void setVoterType(String voterType) {
-			this.voterType = voterType;
 		}
 
 		public Integer getCount() {
@@ -219,6 +218,14 @@ public class Voter {
 
 		public void setPartyName(String partyName) {
 			this.partyName = partyName;
+		}
+
+		public String getRate() {
+			return rate;
+		}
+
+		public void setRate(String rate) {
+			this.rate = rate;
 		}
 
 		//toString

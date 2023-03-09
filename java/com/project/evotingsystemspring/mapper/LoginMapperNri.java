@@ -5,22 +5,22 @@ import java.sql.SQLException;
 
 import org.springframework.jdbc.core.RowMapper;
 
-import com.project.evotingsystemspring.model.NriVoter;
+import com.project.evotingsystemspring.model.NRIVoter;
 
 
-public class LoginMapperNri implements RowMapper<NriVoter>{
+public class LoginMapperNri implements RowMapper<NRIVoter>{
 
 	@Override
-	public NriVoter mapRow(ResultSet rs, int rowNum) throws SQLException {
-		NriVoter nVoter=new NriVoter();
+	public NRIVoter mapRow(ResultSet rs, int rowNum) throws SQLException {
+		NRIVoter nVoter=new NRIVoter();
 		
 		String vname=rs.getString("voter_name");
 		String vId=rs.getString("voter_id");
 		String password=rs.getString("voter_password");
 		
-		nVoter.setVoterName(vname);
-		nVoter.setVoterId(vId);
-		nVoter.setUserPassword(password);
+		nVoter.setNriVoterName(vname);
+		nVoter.setNriVoterId(vId);
+		nVoter.setnUserPassword(password);
 		
 		return nVoter;
 	}

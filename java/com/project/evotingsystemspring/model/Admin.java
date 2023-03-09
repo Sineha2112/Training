@@ -1,5 +1,10 @@
 package com.project.evotingsystemspring.model;
 
+import java.sql.Date;
+
+import org.springframework.stereotype.Repository;
+
+@Repository
 public class Admin {
 	//data members of admin class
 		private String adminId;
@@ -10,12 +15,16 @@ public class Admin {
 		private Integer count;
 		private Integer electionId;
 		private String electionName;
-		private String electionDate;
+		private Date electionDate;
+		private Integer assetValue;
+		private Integer pastAssetValue;
+		private Integer candidateName;
+		private Integer partyName;
+		private String reportOfCandidate;
 		
 		//default constructor
 		public Admin() {
 			super();
-			
 		}
 
 		
@@ -60,7 +69,7 @@ public class Admin {
 		}
 
 		public void setCount(Integer count) {
-			this.count = count;
+			 this.count = count;
 		}
 
 		public Integer getElectionId() {
@@ -79,11 +88,11 @@ public class Admin {
 			this.electionName = electionType;
 		}
 
-		public String getElectionDate() {
+		public Date getElectionDate() {
 			return electionDate;
 		}
 
-		public void setElectionDate(String electionDate) {
+		public void setElectionDate(Date electionDate) {
 			this.electionDate = electionDate;
 		}
 
@@ -107,14 +116,67 @@ public class Admin {
 			this.adminEmailId = adminEmailId;
 		}
 
-		//toString
+		public Integer getAssetValue() {
+			return assetValue;
+		}
+
+
+		public void setAssetValue(Integer assetValue) {
+			this.assetValue = assetValue;
+		}
+
+
+		public Integer getPastAssetValue() {
+			return pastAssetValue;
+		}
+
+
+		public void setPastAssetValue(Integer pastAssetValue) {
+			this.pastAssetValue = pastAssetValue;
+		}
+		
+		public Integer getCandidateName() {
+			return candidateName;
+		}
+
+
+		public void setCandidateName(Integer candidateName) {
+			this.candidateName = candidateName;
+		}
+
+
+		public Integer getPartyName() {
+			return partyName;
+		}
+
+
+		public void setPartyName(Integer partyName) {
+			this.partyName = partyName;
+		}
+
+
+		public String getReportOfCandidate() {
+			return reportOfCandidate;
+		}
+
+
+		public void setReportOfCandidate(String reportOfCandidate) {
+			this.reportOfCandidate = reportOfCandidate;
+		}
+
 
 		@Override
 		public String toString() {
 			return "Admin [adminId=" + adminId + ", password=" + password + ", adminName=" + adminName
-					+ ", adminEmailId=" + adminEmailId + "]";
+					+ ", adminEmailId=" + adminEmailId + ", role=" + role + ", count=" + count + ", electionId="
+					+ electionId + ", electionName=" + electionName + ", electionDate=" + electionDate + ", assetValue="
+					+ assetValue + ", pastAssetValue=" + pastAssetValue 
+					+ ", reportOfCandidate=" + reportOfCandidate + "]";
 		}
 
+
+		//toString
+	
 
 	
 

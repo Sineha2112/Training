@@ -9,8 +9,8 @@ public class InvalidAddressException extends Exception{
 	 */
 	private static final long serialVersionUID = 1L;
 
-	{
+	static{
 		 Logger logger = LoggerFactory.getLogger(InvalidAddressException.class);
-		 logger.info("Invalid address!!"+"\n"+"must use # with door number and Valid street name");
+		 logger.info("Invalid address!!"+"\n"+"must contain door number and Valid street name");
 	}
 }

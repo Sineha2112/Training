@@ -1,0 +1,86 @@
+@charset "ISO-8859-1";
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&family=Roboto:wght@300&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: inherit;
+}
+
+html{
+    height: 50%;
+}
+
+body{
+	font-family: sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 50%;
+}
+
+.footer a{
+    text-decoration: none;
+}
+
+footer{
+    background-color:  #bcdeff;
+    text-align: center;
+    text-transform: uppercase;
+    padding-top: 10px;
+    margin-top: 8px;
+}
+
+footer li{
+    list-style: none;
+    margin: 10px;
+    display: inline-block;
+}
+
+.icons a{
+    background: #e8f4ff;
+    color: #272727;
+    padding: 5px;
+    font-size: 30px;
+    border-radius: 100%;
+    display: flex;
+}
+.icons a:hover{
+    color:  #349bff;
+    transition: 0.5s;
+}
+
+.menuBar a{
+    color: black;
+    text-transform: capitalize;
+}
+.menuBar a:hover{
+    color: #52527a;
+    transition: 0.5s;
+}
+
+.footer-copyright{
+    background-color:#d2e9ff;
+    color: balck;
+    padding: 10px;
+    margin-top: 30px;
+    text-transform: capitalize;
+}
+.footer{
+	margin-top: 130px;
+}
+
+.footer-copyright p{
+    margin-bottom: 0px;
+}
+.logo{
+    display:flex;
+    align-items: center;
+}
+.logo img{
+    width:40px;
+    border-radius:25px;
+}
+.logo h3{
+    font-size:26px;
+    margin-left: 9px;
+
+}

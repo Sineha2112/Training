@@ -2,38 +2,37 @@ package com.project.evotingsystemspring.model;
 
 public class CastingVote {
 	private String electionType;
-	private Integer userId;
+	private String voterId;
 	private String partyName;
 	private String vote;
 	
 	//default constructor
 	public CastingVote() {
 		super();
-		
 	}
 	
-	
 	//parameterized constructor
-	public CastingVote(String electionType, Integer userId, String partyName, String vote) {
+	public CastingVote(String electionType, String voterId, String partyName, String vote) {
 		super();
 		this.electionType = electionType;
-		this.userId = userId;
+		this.voterId = voterId;
 		this.partyName = partyName;
 		this.vote = vote;
 	}
-
+	
 	//getters & setters
-	public Integer getUserId() {
-		return userId;
-	}
-
-	public void setUserId(Integer userId) {
-		this.userId = userId;
-	}
-
+	
 
 	public String getPartyName() {
 		return partyName;
+	}
+
+	public String getVoterId() {
+		return voterId;
+	}
+
+	public void setVoterId(String voterId) {
+		this.voterId = voterId;
 	}
 
 	public void setPartyName(String partyName) {
@@ -55,17 +54,18 @@ public class CastingVote {
 
 
 	public void setElectionType(String electionType) {
-		this.electionType = electionType;
+		 this.electionType = electionType;
 	}
-
 
 	//toString
 	@Override
 	public String toString() {
-		return "CastingVote [electionType=" + electionType + ", userId=" + userId + ", partyName=" + partyName
+		return "CastingVote [electionType=" + electionType + ", voterId=" + voterId + ", partyName=" + partyName
 				+ ", vote=" + vote + "]";
 	}
 
+
+	
 
 	
 	

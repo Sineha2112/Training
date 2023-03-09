@@ -1,14 +1,11 @@
 package com.project.evotingsystemspring.controller;
 
 import java.sql.Date;
-import java.util.List;
-
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.project.evotingsystemspring.dao.VoterDAO;
+import com.project.evotingsystemspring.model.CastingVote;
 import com.project.evotingsystemspring.model.Voter;
+import com.project.evotingsystemspring.myexception.AlreadyVotedException;
 import com.project.evotingsystemspring.myexception.DuplicationOfMailException;
 import com.project.evotingsystemspring.myexception.DuplicationOfMobileNoException;
 import com.project.evotingsystemspring.myexception.InvalidAddressException;
@@ -31,37 +30,36 @@ import com.project.evotingsystemspring.myexception.InvalidNameException;
 import com.project.evotingsystemspring.myexception.InvalidNationalityException;
 import com.project.evotingsystemspring.myexception.InvalidPasswordException;
 import com.project.evotingsystemspring.myexception.InvalidVoterIdException;
+import com.project.evotingsystemspring.service.VoterService;
 import com.project.evotingsystemspring.validation.ValidationVs;
 
 @Controller
 public class VoterController {
 	
 	@Autowired
-	VoterDAO voterdao;
+	VoterDAO voterDao;
+	@Autowired
+	Voter voter;
+	@Autowired
+	VoterService vService;
+	
 	 Logger logger = LoggerFactory.getLogger(VoterController.class);
 	 
 	//handler
 	@RequestMapping("/")
 	public String home() {
 		logger.info("Through Controller");
-		return "JSP/mainPage.jsp";
-	}
-	
-	@RequestMapping("/residentVoter")
-	public String resident() {
-		logger.info("Through Controller2");
-		return "JSP/residentvoter.jsp";
+		return "home";
 	}
 	
 	@PostMapping("/registerVoter")
 	public String register(@RequestParam("name") String name, @RequestParam("dob") Date dob,
-			@RequestParam("voterId") String voterId,@RequestParam("fatherName") String fname,@RequestParam("gender") String gender,@RequestParam("address") String address,@RequestParam("city") String city,@RequestParam("nationality") String nationality,@RequestParam("mobileNumber") Long mNo,@RequestParam("email") String email,@RequestParam("password") String password) throws InvalidNameException, InvalidDobException, InvalidAgeException, InvalidVoterIdException, InvalidGenderException, InvalidAddressException, InvalidPasswordException, InvalidEmailIdException, InvalidNationalityException, InvalidCityException, InvalidMobileNoException, DuplicationOfMailException, DuplicationOfMobileNoException {
+			@RequestParam("voterId") String voterId,@RequestParam("fatherName") String fname,@RequestParam("gender") String gender,@RequestParam("address") String address,@RequestParam("city") String city,@RequestParam("nationality") String nationality,@RequestParam("mobileNumber") Long mNo,@RequestParam("email") String email,@RequestParam("password") String password,HttpSession session) throws InvalidNameException, InvalidDobException, InvalidAgeException, InvalidVoterIdException, InvalidGenderException, InvalidAddressException, InvalidPasswordException, InvalidEmailIdException, InvalidNationalityException, InvalidCityException, InvalidMobileNoException, DuplicationOfMailException, DuplicationOfMobileNoException {
 		logger.info("Through Controller3");
 		
-		Voter voter=new Voter();
 		ValidationVs validation=new ValidationVs();
 		
-		Integer userId=voterdao.generateRandomId();
+		Integer userId=voterDao.generateRandomId();
 		voter.setUserId(userId);
 		
 		validation.nameValidation(name);
@@ -92,89 +90,125 @@ public class VoterController {
 		voter.setNationality(nationality);
 		
 		validation.phoneNoValidation(mNo);
+		voterDao.mobileNoExist(voter);
 		voter.setMobileNumber(mNo);
-		voterdao.mobileNoExist(voter);
 		
 		validation.emailValidation(email);
-		voterdao.emailExist(voter);
+		voterDao.emailExist(voter);
 		voter.setEmailId(email);
 		
 		validation.passwordValidation(password);
 		voter.setUserPassword(password);
 		
-		voterdao.voterRegister(voter);
+		vService.voterRegisterService(voter, session);
 		
-		return "JSP/voterhomepage.jsp";
+		return "popUpRegsiter";
 		
 	}
+	
 	
 	@PostMapping("/loginVoter")
 	public String loginVoter(@RequestParam("voterId") String vId,@RequestParam("password") String password,HttpSession session,Model model) {
 		logger.info("Through login controller");
 		
-		Voter voter=new Voter();
+		
 		voter.setVoterId(vId);
 		voter.setUserPassword(password);
 		
-		voterdao.voterLogin(voter,session,model);
-		
-		if(model.getAttribute("loginstatus").equals("Success")) {
-			return "JSP/voterhomepage.jsp";
+		if(Boolean.TRUE.equals(vService.voterLoginService(voter, session, model))) {
+			return "voterhomepage";
 		}
-		else if(model.getAttribute("loginstatus").equals("InvalidCredentials")) {
-			return "JSP/residentvoter.jsp";
+		else if(Boolean.FALSE.equals(vService.voterLoginService(voter, session, model))) {
+			return "residentvoter";
 		}
-		return "JSP/residentvoter.jsp";
+		return "residentvoter";
 		
 		
 	}
 	
+	@PostMapping("/updatePassword")
+	public String updatePassword(@RequestParam("email") String id,@RequestParam("password") String password,@RequestParam("password1") String pass) {
+		logger.info("Update profile ");
+		
+		voter.setEmailId(id);
+		voter.setUserPassword(password);
+		voter.setUserPassword(pass);
+		vService.updatePasswordService(voter);
+		return "popUpForgot";	
+		
+	}
+	
+	@PostMapping("/castVote")
+	public String castVote(@RequestParam("electionName") String electionName,@RequestParam("id") String id,@RequestParam("partyName") String pName,@RequestParam("vote") String vote,Model model,
+			HttpSession session) throws AlreadyVotedException {
+		CastingVote castVote=new CastingVote();
+		
+		castVote.setElectionType(electionName);
+		castVote.setVoterId(id);
+		castVote.setPartyName(pName);
+		castVote.setVote(vote);
+
+		vService.castVoteService(castVote,session);
+		
+		return "popUpVoted" ;
+		
+	}
+	
 	@PostMapping("/feedback")
-	public String userFeedback(@RequestParam("id") Integer id,@RequestParam("feedback") String feedback) {
+	public String userFeedback(@RequestParam("id") Integer id,@RequestParam("feedback") String feedback,@RequestParam("rating") String rate) {
 		logger.info("Through Controller9");
-		Voter voter=new Voter();
 		
 		voter.setUserId(id);
 		voter.setFeedback(feedback);
+		voter.setRate(rate);
 		
-		voterdao.addFeedback(voter);
+		vService.feedbackService(voter);
 		
-		return "JSP/voterhomepage.jsp" ;
+		return "popUpFeed" ;
 	}
 	
 	@PostMapping("/report")
 	public String userComplaints(@RequestParam("id") Integer id,@RequestParam("partyName") String partyName,@RequestParam("complaints") String complaint) {
 		logger.info("Through Controller9");
-		Voter voter=new Voter();
 		
 		voter.setUserId(id);
 		voter.setPartyName(partyName);
 		voter.setComplaints(complaint);
 		
-		voterdao.addComplaints(voter);
+		vService.complaintService(voter);
 		
-		return "JSP/voterhomepage.jsp";
+		return "voterhomepage";
 		
 	}
 	
 	@RequestMapping("/viewUser")
 	public  String viewProfile(HttpSession session) {
 		logger.info("Through Controller4");
-	System.out.println("Through Controller4");
-		voterdao.viewProfile(session);
-		return "JSP/ViewProfile.jsp";
+		
+		vService.viewService(session);
+		
+		return "viewProfilePage";
 	}
 	
-	/*
-	 * @GetMapping("/findUserbyId") public String findUserById(@RequestParam("name")
-	 * String name, Model model) { System.out.println("finding"); String total =
-	 * voterdao.findById(name); System.out.println(total); // if no user found in
-	 * the given name, exception if (total.equals(null)) { throw new
-	 * EmptyResultDataAccessException(name, 0); } else {
-	 * System.out.println("TotalCases:" + total); // setting value in model
-	 * attribute to display in jsp model.addAttribute("findId", total); } return
-	 * "voterhomepage.jsp"; }
-	 */
+	@GetMapping("/updateProfile")
+	public String updateProfile(@RequestParam("upname") String name,@RequestParam("updob") Date dob,@RequestParam("upvoterId") String vId,@RequestParam("upfatherName") String fName,@RequestParam("address") String address,@RequestParam("city") String city,@RequestParam("mobileNumber") Long mNo,@RequestParam("email") String email,HttpSession session) {
+		logger.info("Update profile ");
+		
+		voter.setVoterName(name);
+		voter.setDateOfBirth(dob);
+		voter.setVoterId(vId);
+		voter.setFatherName(fName);
+		voter.setAddress(address);
+		voter.setCity(city);
+		voter.setMobileNumber(mNo);
+		voter.setEmailId(email);
+		
+		vService.updateService( voter, session);
+		
+		return "viewProfilePage" ;
+	}
+	
+	
 	
 	
 	
