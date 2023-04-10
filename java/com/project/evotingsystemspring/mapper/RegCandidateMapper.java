@@ -2,7 +2,7 @@ package com.project.evotingsystemspring.mapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Base64;
+
 
 import org.springframework.jdbc.core.RowMapper;
 
@@ -24,32 +24,20 @@ public class RegCandidateMapper implements RowMapper<Candidate>{
 		Long mNo=rs.getLong(9);
 		String mailId=rs.getString(10);
 		String criminalRec=rs.getString(11);
-		Integer yearsOfPunishment=rs.getInt(12);
-		Integer rYear=rs.getInt(13);
-		byte[] canImg=rs.getBytes(14);
-		byte[] syImg=rs.getBytes(15);
-		
-		String base64Image = Base64.getEncoder().encodeToString(canImg);
-		String base64Image1 = Base64.getEncoder().encodeToString(syImg);
 		
 		
 		candidate.setCandidateName(name);
-		candidate.setCanPartyName(pName);
-		candidate.setCanPartySymbol(pSymbol);
-		candidate.setCanGender(gender);
-		candidate.setCanAge(age);
-		candidate.setCanAddress(address);
-		candidate.setCanCity(city);
-		candidate.setCanNationality(nationality);
-		candidate.setCanMobileNo(mNo);
-		candidate.setCanEmailId(mailId);
+		candidate.setCandidatePartyName(pName);
+		candidate.setCandidatePartySymbol(pSymbol);
+		candidate.setCandidateGender(gender);
+		candidate.setCandidateAge(age);
+		candidate.setCandidateAddress(address);
+		candidate.setCandidateCity(city);
+		candidate.setCandidateNationality(nationality);
+		candidate.setCandidateMobileNo(mNo);
+		candidate.setCandidateEmailId(mailId);
 		candidate.setCriminalCase(criminalRec);
-		candidate.setYearsOfPunishment(yearsOfPunishment);
-		candidate.setReleasedYear(rYear);
-		candidate.setCandidateImage(canImg);
-		candidate.setSymbolImage(syImg);
-		candidate.setImgPath(base64Image);
-		candidate.setImgPath1(base64Image1);
+		
 		
 		
 		return candidate;

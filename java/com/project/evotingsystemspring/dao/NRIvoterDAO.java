@@ -7,58 +7,96 @@ import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
 
+import com.project.evotingsystemspring.connection.ConnectionUtil;
 import com.project.evotingsystemspring.daointerface.NRIvoterInterface;
 import com.project.evotingsystemspring.mapper.LoginMapperNri;
 import com.project.evotingsystemspring.mapper.MailIdMapperNri;
-import com.project.evotingsystemspring.mapper.NriVoterMapper;
+import com.project.evotingsystemspring.mapper.NRIvoterMapper;
 import com.project.evotingsystemspring.mapper.RandomIdMapper;
-import com.project.evotingsystemspring.mapper.RandomIdNRIMapper;
+import com.project.evotingsystemspring.mapper.VoterIdNRIMapper;
 import com.project.evotingsystemspring.model.NRIVoter;
 import com.project.evotingsystemspring.model.Voter;
-import com.project.evotingsystemspring.myexception.DuplicationOfMailException;
+import com.project.evotingsystemspring.validation.ValidationVs;
 
-@Repository
+
 public class NRIvoterDAO implements NRIvoterInterface{
-	@Autowired
-	JdbcTemplate jdbctemplate;
+	
+	JdbcTemplate jdbcTemplate= ConnectionUtil.getJdbcTemplate();
+	
+	VoterDAO voterDao=new VoterDAO();
 	
 	Logger logger = LoggerFactory.getLogger(NRIvoterDAO.class);
 	
-	public void nriVoterRegister(NRIVoter nvoter,HttpSession session) {
-		logger.info("To Register NRI User");
-		String query="insert into NRIVoter(nri_id,voter_name,date_of_birth,age,voter_id,father_name,gender,nationality,state,city,email_id,voter_password) values(?,?,?,?,?,?,?,?,?,?,?,?)";
-		Object[] reg= {nvoter.getNriId(),nvoter.getNriVoterName(),nvoter.getNriDateOfBirth(),nvoter.getNriAge(),nvoter.getNriVoterId(),nvoter.getNriFatherName(),nvoter.getNriGender(),nvoter.getNriCity(),nvoter.getNriState(),nvoter.getNriCity(),nvoter.getNriEmailId(),nvoter.getnUserPassword()};
-		jdbctemplate.update(query, reg);
-		
-		String sql="select nri_id,voter_name from NRIVoter where voter_id=? ";
-		List<NRIVoter> voterList=jdbctemplate.query(sql, new RandomIdNRIMapper(),nvoter.getNriVoterId());
-		for (NRIVoter voter2 : voterList) {
-			session.setAttribute("RANDOM_ID", voter2.getNriId());
-			session.setAttribute("nuserName", voter2.getNriVoterName());
+	ValidationVs validation=new ValidationVs();
+	
+	//resident voter registration
+	public void voterRegister(Voter voter, HttpSession session) {
+		logger.info("To Register User");
+
+
+		Date dob = voter.getDateOfBirth();
+		Integer age = validation.ageCalculator(dob);
+		voter.setAge(age);
+
+		String query = "insert into ResidentVoter(user_id,voter_name,date_of_birth,age,voter_id,father_name,gender,address,city,nationality,mobileNumber,email_id,voter_password) values(?,?,?,?,?,?,?,?,?,?,?,?,?)";
+		Object[] reg = { voter.getUserId(), voter.getVoterName(), voter.getDateOfBirth(), voter.getAge(),
+				voter.getVoterId(), voter.getFatherName(), voter.getGender(), voter.getAddress(), voter.getCity(),
+				voter.getNationality(), voter.getMobileNumber(), voter.getEmailId(), voter.getUserPassword() };
+		jdbcTemplate.update(query, reg);
+
+		String sql = "select user_id,voter_name,voter_id from ResidentVoter where voter_id=? ";
+		List<Voter> voterList = jdbcTemplate.query(sql, new RandomIdMapper(), voter.getVoterId());
+		for (Voter voter2 : voterList) {
+			session.setAttribute("RANDOM_ID", voter2.getUserId());
+			session.setAttribute("VoterId", voter2.getVoterId());
+			session.setAttribute("userName", voter2.getVoterName());
 		}
-		logger.info("Rows Inserted");
+
+		logger.info("Row Inserted");
 	}
 	
+	
+	
 	//existing emailId
-	public void emailExist(NRIVoter nvoter) throws DuplicationOfMailException {
-		String email=nvoter.getNriEmailId();
-		String query="select email_id from NRIVoter";
-		List<NRIVoter> voterList=jdbctemplate.query(query, new MailIdMapperNri());
+	public Boolean emailExist(NRIVoter nVoter, Model model)  {
+		String email=nVoter.getNriEmailId();
+		String query="select email_id from NonResidentVoter";
+		List<NRIVoter> voterList=jdbcTemplate.query(query, new MailIdMapperNri());
 		 for (NRIVoter voterli : voterList) {
 	            String mailId=voterli.getNriEmailId();
 	            if(mailId.equals(email)) {
-	              throw new DuplicationOfMailException();
+	            	String errorMessage = "Email Id Already exist ";
+					model.addAttribute("errorMessage19", errorMessage);
+					return false;
 	                
 	            }
 	            else
 	                 logger.info("Continue");
 	        }
+		return true;
 	}
+	
+	//existing voterId
+		public Boolean voterIdExist(NRIVoter nVoter, Model model)  {
+			String voterId=nVoter.getNriVoterId();
+			String query="select voter_id from NonResidentVoter";
+			List<NRIVoter> voterList=jdbcTemplate.query(query, new VoterIdNRIMapper());
+			 for (NRIVoter voterli : voterList) {
+		            String vId=voterli.getNriVoterId();
+		            if(vId.equals(voterId)) {
+		            	String errorMessage = "Voter Id Already exist ";
+						model.addAttribute("errorMessage20", errorMessage);
+						return false;
+		                
+		            }
+		            else
+		                 logger.info("Continue");
+		        }
+			return true;
+		}
 	
 	
 	
@@ -69,8 +107,8 @@ public class NRIvoterDAO implements NRIvoterInterface{
 		String pass = nVoter.getnUserPassword();
 
 		
-			String query = "select voter_name,voter_id,voter_password from NRIVoter where voter_id=?";
-			List<NRIVoter> userList = jdbctemplate.query(query, new LoginMapperNri(), vId);
+			String query = "select voter_name,voter_id,voter_password from NonResidentVoter where voter_id=?";
+			List<NRIVoter> userList = jdbcTemplate.query(query, new LoginMapperNri(), vId);
 			for (NRIVoter voterli : userList) {
 				if (voterli != null) {
 					String voterId = voterli.getNriVoterId();
@@ -96,15 +134,15 @@ public class NRIvoterDAO implements NRIvoterInterface{
 	}
 	
 	//forget password
-		public void forgetPassword(NRIVoter nvoter) {
+		public void forgetPassword(NRIVoter nVoter) {
 			logger.info("Update NRI User password");
 			
-			String p1=nvoter.getnUserPassword();
-			String p2=nvoter.getnUserPassword();
+			String p1=nVoter.getnUserPassword();
+			String p2=nVoter.getNriNewPassword();
 			if(p1.equals(p2)) {
-				String query="update NRIVoter set voter_password=? where email_id=?";
-				Object[] upd= {nvoter.getnUserPassword(),nvoter.getNriEmailId()};
-				jdbctemplate.update(query, upd);
+				String query="update NonResidentVoter set voter_password=? where email_id=?";
+				Object[] upd= {p1,nVoter.getNriEmailId()};
+				jdbcTemplate.update(query, upd);
 				logger.info("Row Updated");
 			}
 			else {
@@ -115,37 +153,37 @@ public class NRIvoterDAO implements NRIvoterInterface{
 	public void viewNRIprofile( HttpSession session){ 
 		String voterId=(String) session.getAttribute("nVoterId");
 		logger.info(voterId);
-		String sql = "select nri_id,voter_name,date_of_birth,age,voter_id,father_name,gender,nationality,state,city,email_id from NRIVoter where voter_id=?";
-		List<NRIVoter> userList =  jdbctemplate.query(sql, new NriVoterMapper(),voterId);
+		String sql = "select nri_id,voter_name,date_of_birth,age,voter_id,father_name,gender,nationality,address,city,email_id from NonResidentVoter where voter_id=?";
+		List<NRIVoter> userList =  jdbcTemplate.query(sql, new NRIvoterMapper(),voterId);
 		
 		for (NRIVoter n : userList) {
 			
 			Integer nId=n.getNriId();
-			session.setAttribute("id", nId);
+			session.setAttribute("NRIid", nId);
 			
 			String name=n.getNriVoterName();
-			session.setAttribute("name", name);
+			session.setAttribute("VoterName", name);
 			
 			Date dob=n.getNriDateOfBirth();
-			session.setAttribute("dob", dob);
+			session.setAttribute("DOB", dob);
 			
 			Integer age=n.getNriAge();
-			session.setAttribute("age", age);
+			session.setAttribute("Age", age);
 			
 			String vId=n.getNriVoterId();
-			session.setAttribute("voter", vId);
+			session.setAttribute("VoterId", vId);
 			
 			String fatherName=n.getNriFatherName();
-			session.setAttribute("fName", fatherName);
+			session.setAttribute("fatherName", fatherName);
 			
 			String gender=n.getNriGender();
 			session.setAttribute("gender", gender);
 			
-			String nationality=n.getNriCity();
+			String nationality=n.getNriNationality();
 			session.setAttribute("nationality", nationality);
 			
-			String state=n.getNriState();
-			session.setAttribute("state", state);
+			String address=n.getNriAddress();
+			session.setAttribute("Address", address);
 			
 			String city=n.getNriCity();
 			session.setAttribute("city", city);
@@ -158,15 +196,16 @@ public class NRIvoterDAO implements NRIvoterInterface{
 	}
 	
 	//edit user profile
-		public int updateProfile(NRIVoter nvoter,HttpSession session) {
+		public int updateProfile(NRIVoter nVoter,HttpSession session) {
 			logger.info("Update NRI User Profile");
 			Integer id=(Integer) session.getAttribute("id");
 			
-			String query="update NRIVoter set voter_name=?,date_of_birth=?,voter_id=?,father_name=?,state=?,city=?,email_id=? where nri_id=?";
-			Object[] upd= {nvoter.getNriVoterName(),nvoter.getNriDateOfBirth(),nvoter.getNriVoterId(),nvoter.getNriFatherName(),nvoter.getNriState(),nvoter.getNriCity(),nvoter.getNriEmailId(),id};
-			int rows=jdbctemplate.update(query, upd);
+			String query="update NonResidentVoter set email_id=? where nri_id=?";
+			Object[] upd= {nVoter.getNriEmailId(),id};
+			int rows=jdbcTemplate.update(query, upd);
 			logger.info("Row Updated");
 			return rows;
 		}
+		
 
 }

@@ -2,9 +2,7 @@ package com.project.evotingsystemspring.model;
 
 import java.sql.Date;
 
-import org.springframework.stereotype.Repository;
 
-@Repository
 public class Admin {
 	//data members of admin class
 		private String adminId;
@@ -18,8 +16,8 @@ public class Admin {
 		private Date electionDate;
 		private Integer assetValue;
 		private Integer pastAssetValue;
-		private Integer candidateName;
-		private Integer partyName;
+		private String candidateName;
+		private String partyName;
 		private String reportOfCandidate;
 		
 		//default constructor
@@ -135,22 +133,22 @@ public class Admin {
 			this.pastAssetValue = pastAssetValue;
 		}
 		
-		public Integer getCandidateName() {
+		public String getCandidateName() {
 			return candidateName;
 		}
 
 
-		public void setCandidateName(Integer candidateName) {
+		public void setCandidateName(String candidateName) {
 			this.candidateName = candidateName;
 		}
 
 
-		public Integer getPartyName() {
+		public String getPartyName() {
 			return partyName;
 		}
 
 
-		public void setPartyName(Integer partyName) {
+		public void setPartyName(String partyName) {
 			this.partyName = partyName;
 		}
 

@@ -1,30 +1,34 @@
 package com.project.evotingsystemspring.dao;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.project.evotingsystemspring.connection.ConnectionUtil;
 import com.project.evotingsystemspring.daointerface.AdminInterface;
 import com.project.evotingsystemspring.mapper.AdminMapper;
 import com.project.evotingsystemspring.mapper.CandidateMapper;
 import com.project.evotingsystemspring.mapper.ElectionMapper;
 import com.project.evotingsystemspring.mapper.FeedbackMapper;
-import com.project.evotingsystemspring.mapper.NriVoterMapper;
+import com.project.evotingsystemspring.mapper.NRIvoterMapper;
 import com.project.evotingsystemspring.mapper.PartyNameMapper;
 import com.project.evotingsystemspring.mapper.ReportMapper;
-import com.project.evotingsystemspring.mapper.SearchListMapper;
-import com.project.evotingsystemspring.mapper.SearchListNRIMapper;
 import com.project.evotingsystemspring.mapper.VoteCountMapper;
 import com.project.evotingsystemspring.mapper.VoterMapper;
 import com.project.evotingsystemspring.mapper.VoterVoteDetailsMapper;
+import com.project.evotingsystemspring.mapper.CandidateGridMapper;
 import com.project.evotingsystemspring.model.Admin;
 import com.project.evotingsystemspring.model.Candidate;
 import com.project.evotingsystemspring.model.CastingVote;
@@ -32,11 +36,10 @@ import com.project.evotingsystemspring.model.NRIVoter;
 import com.project.evotingsystemspring.model.VoteCount;
 import com.project.evotingsystemspring.model.Voter;
 
-@Repository
 @RestController
 public class AdminDAO implements AdminInterface {
-	@Autowired
-	JdbcTemplate jdbctemplate;
+	
+	JdbcTemplate jdbcTemplate= ConnectionUtil.getJdbcTemplate();
 	
 	Logger logger = LoggerFactory.getLogger(AdminDAO.class);
 
@@ -49,7 +52,7 @@ public class AdminDAO implements AdminInterface {
 		String aId = admin.getAdminId();
 		String pass = admin.getPassword();
 			String query = "select admin_name,admin_id,admin_password from Admin ";
-			List<Admin> userList = jdbctemplate.query(query, new AdminMapper());
+			List<Admin> userList = jdbcTemplate.query(query, new AdminMapper());
 			for (Admin adminli : userList) {
 				if (adminli != null) {
 					String adminId = adminli.getAdminId();
@@ -78,63 +81,136 @@ public class AdminDAO implements AdminInterface {
 	}
 
 	// Voter List
-	public List<Voter> viewVoter() {
-		String sql = "select user_id,voter_name,date_of_birth,age,voter_id,father_name,gender,address,city,nationality,mobileNumber,email_id from ResidVoter";
-		List<Voter> voterList = jdbctemplate.query(sql, new VoterMapper());
-		logger.info(voterList + "voter records");
-		return voterList;
+	public void viewVoter(Model model) throws JsonProcessingException {
+		String sql = "select user_id,voter_name,date_of_birth,age,voter_id,father_name,gender,address,city,nationality,mobileNumber,email_id from ResidentVoter";
+		List<Voter> voterList = jdbcTemplate.query(sql, new VoterMapper());
+	
+		List<Map<String,Object>> voterListGrid=new ArrayList<>();
+		for (Voter vList : voterList) {
+			Map<String,Object> list=new HashMap<>();
+			list.put("userCode", vList.getUserId());
+			list.put("voterName", vList.getVoterName());
+			list.put("dob", vList.getDateOfBirth());
+			list.put("age", vList.getAge());
+			list.put("voterId", vList.getVoterId());
+			list.put("fatherName", vList.getFatherName());
+			list.put("gender", vList.getGender());
+			list.put("address", vList.getAddress());
+			list.put("city", vList.getCity());
+			list.put("nationality", vList.getNationality());
+			list.put("mobileNo", vList.getMobileNumber());
+			list.put("emailId", vList.getEmailId());
+			
+			voterListGrid.add(list);
+			
+		}
+		ObjectMapper voterList1=new ObjectMapper();
+		String voterLi=voterList1.writeValueAsString(voterListGrid);
+		model.addAttribute("voterList", voterLi);
 	}
 
 	//NRI Voter List
-	public List<NRIVoter> viewNriVoter() {
-		String sql = "select nri_id,voter_name,date_of_birth,age,voter_id,father_name,gender,nationality,state,city,email_id from NRIVoter";
-		List<NRIVoter> voterList = jdbctemplate.query(sql, new NriVoterMapper());
-		logger.info(voterList + "NRI voter records");
-		return voterList;
+	public void viewNRIvoter(Model model) throws JsonProcessingException {
+		String sql = "select nri_id,voter_name,date_of_birth,age,voter_id,father_name,gender,nationality,address,city,email_id from NonResidentVoter";
+		List<NRIVoter> voterList = jdbcTemplate.query(sql, new NRIvoterMapper());
+		List<Map<String,Object>> voterNRIlistGrid=new ArrayList<>();
+		for (NRIVoter nList : voterList) {
+			Map<String,Object> list=new HashMap<>();
+			list.put("NRIuserCode", nList.getNriId());
+			list.put("voterName", nList.getNriVoterName());
+			list.put("dob", nList.getNriDateOfBirth());
+			list.put("age", nList.getNriAge());
+			list.put("voterNRIId", nList.getNriVoterId());
+			list.put("fatherName", nList.getNriFatherName());
+			list.put("gender", nList.getNriGender());
+			list.put("nationality", nList.getNriNationality());
+			list.put("state", nList.getNriAddress());
+			list.put("city", nList.getNriCity());
+			list.put("emailId", nList.getNriEmailId());
+			
+			voterNRIlistGrid.add(list);
+			
+		}
+		ObjectMapper voterNRIList=new ObjectMapper();
+		String voterNRILi=voterNRIList.writeValueAsString(voterNRIlistGrid);
+		model.addAttribute("voterNRIlist", voterNRILi);
+		
 	}
 
 	//Voter's Vote Details
-	public List<CastingVote> viewVoterVoteDetails() {
+	public void viewVoterVoteDetails(Model model) throws JsonProcessingException {
 		String sql = "select election_type,voter_id,party_name,vote from CastingVote";
-		List<CastingVote> voterList = jdbctemplate.query(sql, new VoterVoteDetailsMapper());
-		logger.info(voterList + "Vote details records");
-		return voterList;
+		List<CastingVote> voteList = jdbcTemplate.query(sql, new VoterVoteDetailsMapper());
+		List<Map<String,Object>> voterVoteListGrid=new ArrayList<>();
+		for (CastingVote voteGridList : voteList) {
+			Map<String,Object> list=new HashMap<>();
+			list.put("voterId", voteGridList.getVoterId());
+			list.put("electionType", voteGridList.getElectionType());
+			list.put("partyName", voteGridList.getPartyName());
+			list.put("voted", voteGridList.getVote());
+			
+			voterVoteListGrid.add(list);
+			
+		}
+		ObjectMapper voteList1=new ObjectMapper();
+		String voteLi=voteList1.writeValueAsString(voterVoteListGrid);
+		model.addAttribute("voterVotelist", voteLi);
+		
 	}
 
 	// Candidate
-	public void addCandidates(Candidate c) {
+	public void addCandidates(Candidate candidate) {
 		logger.info("To Insert Candidates");
 		String query = "insert into Candidate(candidateImg,symbolmg,election_id,candidate_id,party_name,party_symbol,candidate_name,gender,age,address,city,nationality,mobileNo,emailId,history) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-		Object[] insert = {c.getCandidateImage(),c.getSymbolImage(), c.getElectionId(), c.getCandidateId(), c.getCanPartyName(), c.getCanPartySymbol(),
-				c.getCandidateName(), c.getCanGender(), c.getCanAge(), c.getCanAddress(), c.getCanCity(), c.getCanNationality(),
-				c.getCanMobileNo(), c.getCanEmailId(), c.getHistory() };
-		jdbctemplate.update(query, insert);
+		Object[] insert = {candidate.getCandidateImage(),candidate.getSymbolImage(), candidate.getElectionId(), candidate.getCandidateId(), candidate.getCandidatePartyName(), candidate.getCandidatePartySymbol(),
+				candidate.getCandidateName(), candidate.getCandidateGender(), candidate.getCandidateAge(), candidate.getCandidateAddress(), candidate.getCandidateCity(), candidate.getCandidateNationality(),
+				candidate.getCandidateMobileNo(), candidate.getCandidateEmailId(), candidate.getHistory() };
+		jdbcTemplate.update(query, insert);
 		logger.info("Candidate Inserted" );
 	}
 
-	public int updateCandidates(Candidate c) {
-		logger.info("Update Candidate Details");
-		String query = "update Candidate set candidate_name=? where candidate_id=?";
-		Object[] up = { c.getData(), c.getCandidateId() };
-		int rows = jdbctemplate.update(query, up);
-		logger.info("Candidate Updated:" + rows);
-		return rows;
-
-	}
-
-	public void deleteCandidates(Candidate c) {
+	public void deleteCandidates(Candidate candidate) {
+		Integer id=candidate.getCandidateId();
 		logger.info("Delete Candidate Details");
 		String query = "delete from Candidate where candidate_id=?";
-		Object[] dlt = { c.getCandidateId() };
-	 jdbctemplate.update(query, dlt);
+		Object[] dlt = {id };
+	 jdbcTemplate.update(query, dlt);
 		logger.info("Candidate Deleted" );
 	}
 
-	public List<Candidate> viewCandidates() {
-		String sql = "select candidateImg,symbolmg,election_id,candidate_id,party_name,party_symbol,candidate_name,gender,age,address,city,nationality,mobileNo,emailId,history from Candidate";
-		List<Candidate> candidateList = jdbctemplate.query(sql, new CandidateMapper());
+	public List<Candidate> viewCandidates()  {
+		String sql = "select candidateImg,symbolmg,election_id,candidate_id,party_name,party_symbol,candidate_name,gender,age,address,city,nationality,mobileNo,emailId,history from Candidate where party_name not in 'NOTA'";
+		List<Candidate> candidateList = jdbcTemplate.query(sql, new CandidateMapper());
 		logger.info(candidateList + "candidate records");
 		return candidateList;
+	}
+	
+	public void gridListCandidates(Model model) throws JsonProcessingException {
+	
+	 String sql = "select election_id,candidate_id,party_name,candidate_name,gender,age,address,city,nationality,mobileNo,emailId from Candidate where party_name not in 'NOTA'";
+	 List<Candidate> candidateList = jdbcTemplate.query(sql, new CandidateGridMapper());
+	 List<Map<String,Object>> candidateListGrid=new ArrayList<>();
+	 for (Candidate gridList : candidateList) {
+			Map<String,Object> list=new HashMap<>();
+			list.put("ElectionCode", gridList.getElectionId());
+			list.put("CandidateCode", gridList.getCandidateId());
+			list.put("PartyName", gridList.getCandidatePartyName());
+			list.put("Name", gridList.getCandidateName());
+			list.put("CandidateGender", gridList.getCandidateGender());
+			list.put("age", gridList.getCandidateAge());
+			list.put("Address", gridList.getCandidateAddress());
+			list.put("city", gridList.getCandidateCity());
+			list.put("Nationality", gridList.getCandidateNationality());
+			list.put("MobileNumber", gridList.getCandidateMobileNo());
+			list.put("CandidateEmailId", gridList.getCandidateEmailId());
+		
+			
+			candidateListGrid.add(list);
+			
+	 }
+	 ObjectMapper candidateList1=new ObjectMapper();
+	 String candidateLi=candidateList1.writeValueAsString(candidateListGrid);
+	 model.addAttribute("candidateGrid", candidateLi);
 	}
 
 	// Election
@@ -142,7 +218,7 @@ public class AdminDAO implements AdminInterface {
 		logger.info("To Add Election");
 		String query = "insert into Election(election_id,election_type,election_date)values (?,?,?)";
 		Object[] insert = { a.getElectionId(), a.getElectionName(), a.getElectionDate() };
-		jdbctemplate.update(query, insert);
+		jdbcTemplate.update(query, insert);
 		logger.info("Election Inserted" );
 	}
 
@@ -150,47 +226,87 @@ public class AdminDAO implements AdminInterface {
 		logger.info("Delete Election");
 		String query = "delete from Election where election_id=?";
 		Object[] dlt = { a.getElectionId() };
-		jdbctemplate.update(query, dlt);
+		jdbcTemplate.update(query, dlt);
 		logger.info("Election Deleted");
 	}
 
-	public List<Admin> viewElection() {
+	public List<Admin> viewElection(Model model) throws JsonProcessingException {
 		logger.info("View Election");
 		String sql = "select election_id,election_type,election_date from Election";
-		List<Admin> electionList = jdbctemplate.query(sql, new ElectionMapper());
-		logger.info(electionList + "election records");
+		List<Admin> electionList = jdbcTemplate.query(sql, new ElectionMapper());
+		List<Map<String,Object>> electionListGrid=new ArrayList<>();
+		for (Admin gridList : electionList) {
+			Map<String,Object> list=new HashMap<>();
+			list.put("electionCode", gridList.getElectionId());
+			list.put("electionName", gridList.getElectionName());
+			list.put("electionDate", gridList.getElectionDate());
+			
+			electionListGrid.add(list);
+			
+		}
+		ObjectMapper election=new ObjectMapper();
+		String electionLi=election.writeValueAsString(electionListGrid);
+		model.addAttribute("ElectionList", electionLi);
 		return electionList;
 	}
 
 	// Feedback list
-	public List<Voter> viewFeedback() {
+	public void viewFeedback(Model model) throws JsonProcessingException {
 		logger.info("View Feedback");
-		String sql = "select user_id,feedback from Feedback";
-		List<Voter> feedbackList = jdbctemplate.query(sql, new FeedbackMapper());
-		logger.info(feedbackList + "feedback records");
-		return feedbackList;
+		String sql = "select user_id,feedback,rating from Feedback";
+		List<Voter> feedbackList = jdbcTemplate.query(sql, new FeedbackMapper());
+		List<Map<String,Object>> feedbackListGrid=new ArrayList<>();
+		for (Voter gridList : feedbackList) {
+			Map<String,Object> list=new HashMap<>();
+			list.put("VoterCode", gridList.getUserId());
+			list.put("feedback", gridList.getFeedback());
+			list.put("rate", gridList.getRate());
+			
+			feedbackListGrid.add(list);
+			
+		}
+		ObjectMapper feedback=new ObjectMapper();
+		String feedbackLi=feedback.writeValueAsString(feedbackListGrid);
+		model.addAttribute("FeedbackList", feedbackLi);
 	}
 
 	// Voter's Report
-	public List<Voter> viewReports() {
+	public List<Voter> viewReports(Model model) throws JsonProcessingException {
 		logger.info("View Reports");
 		String sql = "select user_id,party_name,complaints from usercomplaints";
-		List<Voter> reportList = jdbctemplate.query(sql, new ReportMapper());
-		logger.info(reportList + "reports records");
+		List<Voter> reportList = jdbcTemplate.query(sql, new ReportMapper());
+		List<Map<String,Object>> reportListGrid=new ArrayList<>();
+		for (Voter gridList : reportList) {
+			Map<String,Object> list=new HashMap<>();
+			list.put("userCode", gridList.getUserId());
+			list.put("PartyName", gridList.getPartyName());
+			list.put("Complaints", gridList.getComplaints());
+			
+			reportListGrid.add(list);
+			
+		}
+		ObjectMapper report=new ObjectMapper();
+		String reportLi=report.writeValueAsString(reportListGrid);
+		model.addAttribute("ReportList", reportLi);
+	
 		return reportList;
 	}
 
 	// Maximum Vote count
-	public List<VoteCount> viewResult() {
+	public List<VoteCount> viewResult(Model model) {
 		String sql = "select distinct party_name,count from VoteCount where count=(select Max(count) from voteCount)";
-		List<VoteCount> countList = jdbctemplate.query(sql, new VoteCountMapper());
+		List<VoteCount> countList = jdbcTemplate.query(sql, new VoteCountMapper());
+		
+		String result="select distinct party_name,count from VoteCount";
+		List<VoteCount> resultList = jdbcTemplate.query(result, new VoteCountMapper());
+		model.addAttribute("ResultList", resultList);
 		logger.info(countList + "result records");
 		return countList;
 	}
 
 	public Integer voteCount(Model model) {
 		String query="select distinct party_name from Candidate";
-		List<Candidate> partyName= jdbctemplate.query(query,new PartyNameMapper());
+		List<Candidate> partyName= jdbcTemplate.query(query,new PartyNameMapper());
 		model.addAttribute("PARTYNAME", partyName);
 		logger.info(partyName + "count records");
 		
@@ -198,14 +314,14 @@ public class AdminDAO implements AdminInterface {
 		String name = null;
 		
 		for (Candidate candidate : partyName) {
-			 name=candidate.getCanPartyName();
+			 name=candidate.getCandidatePartyName();
 		
 		String query1 = "select count(party_name) from CastingVote where party_name=?";
-		 count= jdbctemplate.queryForObject(query1, Integer.class,name);
+		 count= jdbcTemplate.queryForObject(query1, Integer.class,name);
 		 
 		String insert="insert into voteCount(party_name,count) values (?,?)";
 		Object[] ins= {name,count};
-		jdbctemplate.update(insert, ins);
+		jdbcTemplate.update(insert, ins);
 		logger.info("Count Inserted ");
 		}
 		return count;
@@ -214,7 +330,7 @@ public class AdminDAO implements AdminInterface {
 	//separate vote count
 	public List<VoteCount> separateVoteCount(Model model) {
 		String query1="select DISTINCT (party_name),count from voteCount";
-		List<VoteCount> countList=jdbctemplate.query(query1,new VoteCountMapper());
+		List<VoteCount> countList=jdbcTemplate.query(query1,new VoteCountMapper());
 		model.addAttribute("COUNTLIST", countList);
 		return countList;
 		
@@ -224,26 +340,26 @@ public class AdminDAO implements AdminInterface {
 	// Total vote count
 	public Integer totalVoteCount() {
 		String sql = "SELECT COUNT(*) FROM CastingVote";
-		return jdbctemplate.queryForObject(sql, Integer.class);
+		return jdbcTemplate.queryForObject(sql, Integer.class);
 
 	}
 
 	//Total user count
 	public Integer totalUserCount() {
-		String sql = "SELECT COUNT(*) FROM ResidVoter";
-		return jdbctemplate.queryForObject(sql, Integer.class);
+		String sql = "SELECT COUNT(*) FROM ResidentVoter";
+		return jdbcTemplate.queryForObject(sql, Integer.class);
 	}
 
 	//Total NRI user count
 	public Integer totalNRIuserCount() {
-		String sql = "SELECT COUNT(*) FROM NRIVoter";
-		return jdbctemplate.queryForObject(sql, Integer.class);
+		String sql = "SELECT COUNT(*) FROM NonResidentVoter";
+		return jdbcTemplate.queryForObject(sql, Integer.class);
 	}
 	
 	//total candidate count
 	public Integer totalCandidateCount() {
 		String sql = "SELECT COUNT(*) FROM Candidate";
-		return jdbctemplate.queryForObject(sql, Integer.class);
+		return jdbcTemplate.queryForObject(sql, Integer.class);
 	}
 	
 
@@ -255,7 +371,7 @@ public class AdminDAO implements AdminInterface {
 			logger.info("Eligible for the election");
 			String query = "insert into adminReport(candidate_name,party_name,report_about_candidate) values(?,?,?)";
 			Object[] reg = { admin.getCandidateName(),admin.getPartyName(), admin.getReportOfCandidate() };
-			jdbctemplate.update(query, reg);
+			jdbcTemplate.update(query, reg);
 			logger.info("Report Inserted");
 		} 
 		else {
@@ -270,40 +386,44 @@ public class AdminDAO implements AdminInterface {
 
 		Integer pDuration=candidate.getYearsOfPunishment(); 
 		Integer rYear=candidate.getReleasedYear();
-
-		if(pDuration >4 && rYear<5) {
-			logger.info("You Can't Apply for Election For 5 Years");
-			return false;
-		}
-		else {
-				logger.info("You Can Apply for Election");
-				return true;
-				}
+		
+		return Optional.ofNullable(pDuration)
+	               .map(u -> {
+	                   if (pDuration >4 && rYear<5)  {
+	                       logger.info("You Can't Apply for Election For 5 Years");
+	                       return true;
+	                   } else {
+	                       logger.info("You Can Apply for Election");
+	                       return false;
+	                   }
+	               })
+	               .orElse(false);
 	}
 	
 	public Float votePercentageCalculation() {
 		Integer totalCount=totalVoteCount();
 		
 		Integer userCount=totalUserCount();
+		Integer nriCount=totalNRIuserCount();
+		Integer total=userCount+nriCount;
 		
-		return (totalCount.floatValue()/userCount.floatValue())*100;
+		return (totalCount.floatValue()/total.floatValue())*100;
 	}
 	
 	public float voteNRIPercentageCalculation() {
 		Integer totalCount=totalVoteCount();
-		
-		Integer userCount=totalNRIuserCount();
-		
+		Integer userNRICount=totalNRIuserCount();
+		return (totalCount.floatValue()/userNRICount.floatValue())*100;
+	}
+	
+	public float voterResidentPercentageCalculation() {
+		Integer totalCount=totalVoteCount();
+		Integer userCount=totalUserCount();
 		return (totalCount.floatValue()/userCount.floatValue())*100;
 	}
 	
-	public List<Voter> search(String searchData) {
-		String query="select ResidVoter.voter_name,ResidVoter.date_of_birth,ResidVoter.age,ResidVoter.voter_id,ResidVoter.father_name,ResidVoter.gender,ResidVoter.address,ResidVoter.city,ResidVoter.nationality,ResidVoter.mobileNumber,ResidVoter.email_id,castingVote.party_name,castingVote.vote from ResidVoter inner join castingVote on ResidVoter.voter_id=castingVote.voter_id where ResidVoter.gender like ? or ResidVoter.voter_id like ? or ResidVoter.city like ?";
-		return jdbctemplate.query(query,new SearchListMapper(),searchData,searchData,searchData);
-	}
+
+
 	
-	public List<NRIVoter> searchNRI(String searchNRIData) {
-		String query="select nrivoter.voter_name,nrivoter.date_of_birth,nrivoter.age,nrivoter.voter_id,nrivoter.father_name,nrivoter.gender,nrivoter.nationality,nrivoter.state,nrivoter.city,nrivoter.email_id,castingVote.party_name,castingVote.vote from nrivoter inner join castingVote on nrivoter.voter_id=castingVote.voter_id where nrivoter.gender like ? or nrivoter.voter_id like ? nrivoter.city like ?";
-		return jdbctemplate.query(query,new SearchListNRIMapper(),searchNRIData,searchNRIData,searchNRIData);
-	}
+	
 }

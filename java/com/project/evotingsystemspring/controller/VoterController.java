@@ -1,183 +1,181 @@
 package com.project.evotingsystemspring.controller;
 
 import java.sql.Date;
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
+import com.project.evotingsystemspring.dao.NRIvoterDAO;
 import com.project.evotingsystemspring.dao.VoterDAO;
+import com.project.evotingsystemspring.model.Admin;
 import com.project.evotingsystemspring.model.CastingVote;
+import com.project.evotingsystemspring.model.NRIVoter;
 import com.project.evotingsystemspring.model.Voter;
 import com.project.evotingsystemspring.myexception.AlreadyVotedException;
-import com.project.evotingsystemspring.myexception.DuplicationOfMailException;
-import com.project.evotingsystemspring.myexception.DuplicationOfMobileNoException;
-import com.project.evotingsystemspring.myexception.InvalidAddressException;
-import com.project.evotingsystemspring.myexception.InvalidAgeException;
-import com.project.evotingsystemspring.myexception.InvalidCityException;
-import com.project.evotingsystemspring.myexception.InvalidDobException;
-import com.project.evotingsystemspring.myexception.InvalidEmailIdException;
-import com.project.evotingsystemspring.myexception.InvalidGenderException;
-import com.project.evotingsystemspring.myexception.InvalidMobileNoException;
-import com.project.evotingsystemspring.myexception.InvalidNameException;
-import com.project.evotingsystemspring.myexception.InvalidNationalityException;
-import com.project.evotingsystemspring.myexception.InvalidPasswordException;
-import com.project.evotingsystemspring.myexception.InvalidVoterIdException;
+import com.project.evotingsystemspring.service.NRIVoterService;
 import com.project.evotingsystemspring.service.VoterService;
 import com.project.evotingsystemspring.validation.ValidationVs;
 
 @Controller
 public class VoterController {
 	
-	@Autowired
-	VoterDAO voterDao;
-	@Autowired
-	Voter voter;
-	@Autowired
-	VoterService vService;
 	
-	 Logger logger = LoggerFactory.getLogger(VoterController.class);
+	VoterDAO voterDao=new VoterDAO();
+	
+	NRIvoterDAO nVoterDao=new NRIvoterDAO();
+	
+	Voter voter=new Voter();
+
+	VoterService voterService=new VoterService();
+	
+	NRIVoterService nVoterService=new NRIVoterService();
+	
+	Logger logger = LoggerFactory.getLogger(VoterController.class);
 	 
 	//handler
 	@RequestMapping("/")
 	public String home() {
 		logger.info("Through Controller");
-		return "home";
+		return "home.html";
 	}
 	
-	@PostMapping("/registerVoter")
-	public String register(@RequestParam("name") String name, @RequestParam("dob") Date dob,
-			@RequestParam("voterId") String voterId,@RequestParam("fatherName") String fname,@RequestParam("gender") String gender,@RequestParam("address") String address,@RequestParam("city") String city,@RequestParam("nationality") String nationality,@RequestParam("mobileNumber") Long mNo,@RequestParam("email") String email,@RequestParam("password") String password,HttpSession session) throws InvalidNameException, InvalidDobException, InvalidAgeException, InvalidVoterIdException, InvalidGenderException, InvalidAddressException, InvalidPasswordException, InvalidEmailIdException, InvalidNationalityException, InvalidCityException, InvalidMobileNoException, DuplicationOfMailException, DuplicationOfMobileNoException {
-		logger.info("Through Controller3");
+	//NRI voter registration
+	@RequestMapping("/regNRI")
+	 public String registerUser(@ModelAttribute("NRIVoter") NRIVoter nVoter,HttpSession session,Model model) {
+			return "registerNRIvoter.html";
+		}
+	 
+	 @RequestMapping("/registerNRIVoter")
+	public String register(@ModelAttribute("NRIVoter") NRIVoter nVoter,HttpSession session,Model model ) {
+		logger.info("Through Controller2");
 		
 		ValidationVs validation=new ValidationVs();
 		
-		Integer userId=voterDao.generateRandomId();
-		voter.setUserId(userId);
+		Date dob=nVoter.getNriDateOfBirth();
+		Integer age=validation.ageCalculator(dob);
+		nVoter.setNriAge(age);
 		
-		validation.nameValidation(name);
-		voter.setVoterName(name);
+		for (int i = 1; i <=20; i++) {
+			session.removeAttribute("errorMessage1" + i);
+		}
+
+		if (Boolean.FALSE.equals(validation.nameValidation(nVoter.getNriVoterName(), model))
+				|| Boolean.FALSE.equals(validation.dateOfBirthValidation(nVoter.getNriDateOfBirth(), model))
+				|| Boolean.FALSE.equals(validation.ageValidation(age, model))
+				|| Boolean.FALSE.equals(validation.voterIdValidation(nVoter.getNriVoterId(), model))
+				|| Boolean.FALSE.equals(validation.fatherNameValidation(nVoter.getNriFatherName(), model))
+				|| Boolean.FALSE.equals(validation.genderValidation(nVoter.getNriGender(), model))
+				|| Boolean.FALSE.equals(validation.addressValidation(nVoter.getNriAddress(), model))
+				|| Boolean.FALSE.equals(validation.cityValidation(nVoter.getNriCity(), model))
+				|| Boolean.FALSE.equals(validation.nationalityValidation(nVoter.getNriNationality(), model))
+				|| Boolean.FALSE.equals(validation.emailValidation(nVoter.getNriEmailId(), model))
+				|| Boolean.FALSE.equals(validation.passwordValidation(nVoter.getnUserPassword(), model))
+				|| Boolean.FALSE.equals(nVoterDao.emailExist(nVoter, model))
+				|| Boolean.FALSE.equals(nVoterDao.voterIdExist(nVoter, model))) {
+			
+			for (int j = 1; j <=20; j++) {
+				if (model.getAttribute("errorMessage" + j) != null) {
+					String errorMessage = (String) model.getAttribute("errorMessage" + j);
+					model.addAttribute("ErrorMessage", errorMessage);
+				}
+			}
+			return "ErrorPopup.html";
+		}
 		
-		validation.dateOfBirthValidation(dob);
-		voter.setDateOfBirth(dob);
+		nVoterService.voterNRIregister(nVoter,session);
 		
-		Integer age=validation.ageValidation(dob);
-		voter.setAge(age);
-		
-		validation.voterIdValidation(voterId);
-		voter.setVoterId(voterId);
-		
-		validation.fatherNameValidation(fname);
-		voter.setFatherName(fname);
-		
-		validation.genderValidation(gender);
-		voter.setGender(gender);
-		
-		validation.addressValidation(address);
-		voter.setAddress(address);
-		
-		validation.cityValidation(city);
-		voter.setCity(city);
-		
-		validation.nationalityValidation(nationality);
-		voter.setNationality(nationality);
-		
-		validation.phoneNoValidation(mNo);
-		voterDao.mobileNoExist(voter);
-		voter.setMobileNumber(mNo);
-		
-		validation.emailValidation(email);
-		voterDao.emailExist(voter);
-		voter.setEmailId(email);
-		
-		validation.passwordValidation(password);
-		voter.setUserPassword(password);
-		
-		vService.voterRegisterService(voter, session);
-		
-		return "popUpRegsiter";
-		
+		return "popUpNRIregister.html";
 	}
 	
 	
-	@PostMapping("/loginVoter")
-	public String loginVoter(@RequestParam("voterId") String vId,@RequestParam("password") String password,HttpSession session,Model model) {
+	@RequestMapping("/loginVoter")
+	public String loginVoter(@ModelAttribute("Voter") Voter voter,HttpSession session,Model model) {
 		logger.info("Through login controller");
 		
 		
-		voter.setVoterId(vId);
-		voter.setUserPassword(password);
 		
-		if(Boolean.TRUE.equals(vService.voterLoginService(voter, session, model))) {
-			return "voterhomepage";
+		if(Boolean.TRUE.equals(voterService.voterLoginService(voter, session, model))) {
+			return "voterHomepage.html";
 		}
-		else if(Boolean.FALSE.equals(vService.voterLoginService(voter, session, model))) {
-			return "residentvoter";
+		else if(Boolean.FALSE.equals(voterService.voterLoginService(voter, session, model))) {
+			return "residentVoter.html";
 		}
-		return "residentvoter";
+		return "residentVoter.html";
 		
 		
 	}
 	
-	@PostMapping("/updatePassword")
-	public String updatePassword(@RequestParam("email") String id,@RequestParam("password") String password,@RequestParam("password1") String pass) {
-		logger.info("Update profile ");
-		
-		voter.setEmailId(id);
-		voter.setUserPassword(password);
-		voter.setUserPassword(pass);
-		vService.updatePasswordService(voter);
-		return "popUpForgot";	
-		
+	//forgot password controller
+	@RequestMapping("/forgotPassword")
+	public String forgotPasswordPage(@ModelAttribute("forgotPassword") Voter voter) {
+		return "forgotPassword.html";
 	}
 	
-	@PostMapping("/castVote")
-	public String castVote(@RequestParam("electionName") String electionName,@RequestParam("id") String id,@RequestParam("partyName") String pName,@RequestParam("vote") String vote,Model model,
-			HttpSession session) throws AlreadyVotedException {
-		CastingVote castVote=new CastingVote();
+	@GetMapping("/dynamicDropdown")
+	public String dynamicPartyName(@ModelAttribute("castVote")CastingVote castVote,HttpSession session,Model model) {
+		logger.info("List");
+		voterDao.gettingElectionDate( model);
 		
-		castVote.setElectionType(electionName);
-		castVote.setVoterId(id);
-		castVote.setPartyName(pName);
-		castVote.setVote(vote);
+		List<String>list=voterDao.dynamicPartyName();
+		model.addAttribute("dynamic", list);
+		
+		List<String>eList=voterDao.dynamicElectionName();
+		model.addAttribute("dynamicElection", eList);
+		
+		return "castVote.html";
+	}
+	
+	@GetMapping("/castVote")
+	public String castVote(@ModelAttribute("castVote")CastingVote castVote,HttpSession session,Model model) throws AlreadyVotedException {
+		
+		if (Boolean.FALSE.equals(voterDao.userIdPerVote(castVote,model))) {
+			String errorMessage = (String) model.getAttribute("error" );
+			model.addAttribute("ErrorMessage", errorMessage);
+				
+			return "ErrorPopup.html";
+		}
 
-		vService.castVoteService(castVote,session);
+		voterService.castVoteService(castVote,session);
 		
-		return "popUpVoted" ;
+		return "popUpVoted.html" ;
 		
 	}
 	
-	@PostMapping("/feedback")
-	public String userFeedback(@RequestParam("id") Integer id,@RequestParam("feedback") String feedback,@RequestParam("rating") String rate) {
-		logger.info("Through Controller9");
-		
-		voter.setUserId(id);
-		voter.setFeedback(feedback);
-		voter.setRate(rate);
-		
-		vService.feedbackService(voter);
-		
-		return "popUpFeed" ;
+	@RequestMapping("/feedbackPage")
+	public String feedbackPage(@ModelAttribute("feedback") Voter voter) {
+		return "feedbackVoter.html" ;
 	}
 	
-	@PostMapping("/report")
-	public String userComplaints(@RequestParam("id") Integer id,@RequestParam("partyName") String partyName,@RequestParam("complaints") String complaint) {
+	@GetMapping("/feedback")
+	public String userFeedback(@ModelAttribute("feedback") Voter voter) {
 		logger.info("Through Controller9");
 		
-		voter.setUserId(id);
-		voter.setPartyName(partyName);
-		voter.setComplaints(complaint);
+		voterService.feedbackService(voter);
 		
-		vService.complaintService(voter);
+		return "popUpFeedback.html" ;
+	}
+	
+	@RequestMapping("/reportPage")
+	public String reportPage(@ModelAttribute("report") Voter voter) {
+		return "report.html";
+	}
+	
+	@GetMapping("/report")
+	public String userComplaints(@ModelAttribute("report") Voter voter) {
+		logger.info("Through Controller complaints");
 		
-		return "voterhomepage";
+		voterService.complaintService(voter);
+		
+		return "voterHomepage.html";
 		
 	}
 	
@@ -185,32 +183,73 @@ public class VoterController {
 	public  String viewProfile(HttpSession session) {
 		logger.info("Through Controller4");
 		
-		vService.viewService(session);
+		voterService.viewService(session);
 		
-		return "viewProfilePage";
+		return "voterProfile.html";
+	}
+	
+	@RequestMapping("/updatePage")
+	public String updatePage(@ModelAttribute("updateDetails") Voter voter,HttpSession session) {
+		return "updateVoter.html";
 	}
 	
 	@GetMapping("/updateProfile")
-	public String updateProfile(@RequestParam("upname") String name,@RequestParam("updob") Date dob,@RequestParam("upvoterId") String vId,@RequestParam("upfatherName") String fName,@RequestParam("address") String address,@RequestParam("city") String city,@RequestParam("mobileNumber") Long mNo,@RequestParam("email") String email,HttpSession session) {
+	public String updateProfile(@ModelAttribute("updateDetails") Voter voter,HttpSession session) {
 		logger.info("Update profile ");
 		
-		voter.setVoterName(name);
-		voter.setDateOfBirth(dob);
-		voter.setVoterId(vId);
-		voter.setFatherName(fName);
-		voter.setAddress(address);
-		voter.setCity(city);
-		voter.setMobileNumber(mNo);
-		voter.setEmailId(email);
+		voterService.updateService( voter, session);
 		
-		vService.updateService( voter, session);
-		
-		return "viewProfilePage" ;
+		return "voterProfile.html" ;
 	}
 	
+	@RequestMapping("/aboutUs")
+	  public String aboutUs() {
+		return "aboutUs.html";
+		  
+	  }
 	
+	@RequestMapping("/contactUs")
+	  public String contactUs() {
+		return "contactUs.html";
+		  
+	  }
 	
+	//Election delete popup page
+	@RequestMapping("/adminElectionHomePage")
+	public String electionDeletePage() {
+		logger.info("admin Election Page");
+		return "adminPage.html";
+	}
 	
+	//candidate delete popup page
+	@RequestMapping("/adminDeleteHomePage")
+	public String candidateDeletePage() {
+		logger.info("admin deleted Page");
+		return "adminPage.html";
+	}
 	
+	//register pop up
+	@RequestMapping("/voterNRIHomePage")
+	public String voterNRIPage() {
+		logger.info("Voter NRI Page");
+		return "voterNRIhomepage.html";
+	}
+	
+	//administrator login  controller
+		@RequestMapping("/admin")
+		public String admin(@ModelAttribute("adminObject") Admin admin) {
+			return "adminLogin.html";
+			
+		}
+		
+	//NRI voter forgot password 
+	@GetMapping("/updateNRIPassword")
+	public String updatePassword(@ModelAttribute("forgotPassword") NRIVoter nVoter) {
+		logger.info("Update profile ");
+			
+		nVoterService.updatePasswordService(nVoter);
+			return "residentNRIvoter.html";	
+			
+		}
 
 }

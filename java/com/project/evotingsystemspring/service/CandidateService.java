@@ -2,24 +2,27 @@ package com.project.evotingsystemspring.service;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.project.evotingsystemspring.dao.AdminDAO;
 import com.project.evotingsystemspring.dao.CandidateDAO;
 import com.project.evotingsystemspring.model.Candidate;
 
 @Service
 public class CandidateService {
-	@Autowired
-	CandidateDAO candidatedao;
+
+	CandidateDAO candidateDao=new CandidateDAO();
+	AdminDAO adminDao=new AdminDAO();
 	
 	public void registerCandidateService(Candidate candidate) {
-		 candidatedao.regCandidate(candidate);
+		adminDao.criminalRecords(candidate);
+		candidateDao.regCandidate(candidate);
 	}
 	
-	public void viewCandService(Model model) {
-		List<Candidate> candidateList=candidatedao.viewRegCandidates();
+	public void viewCandService(Model model) throws JsonProcessingException {
+		List<Candidate> candidateList=candidateDao.viewRegCandidates(model);
 		model.addAttribute("CANDIDATE_LIST", candidateList);
 	}
 }

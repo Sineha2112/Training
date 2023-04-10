@@ -15,7 +15,7 @@ public class PartyNameMapper implements RowMapper<Candidate> {
 		
 		String pName=rs.getString("party_name");
 		
-		candidate.setCanPartyName(pName);
+		candidate.setCandidatePartyName(pName);
 		
 		return candidate;
 	}

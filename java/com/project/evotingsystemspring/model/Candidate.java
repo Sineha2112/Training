@@ -3,23 +3,21 @@ package com.project.evotingsystemspring.model;
 
 import java.util.Arrays;
 
-import org.springframework.stereotype.Repository;
 
-@Repository
 public class Candidate {
 	//data members of candidate class
 		private Integer electionId;
 		private Integer candidateId;
-		private String canPartyName;
-		private String canPartySymbol;
+		private String candidatePartyName;
+		private String candidatePartySymbol;
 		private String candidateName;
-		private String canGender;
-		private Integer canAge;
-		private String canAddress;
-		private String canCity;
-		private String canNationality;
-		private Long canMobileNo;
-		private String canEmailId;
+		private String candidateGender;
+		private Integer candidateAge;
+		private String candidateAddress;
+		private String candidateCity;
+		private String candidateNationality;
+		private Long candidateMobileNo;
+		private String candidateEmailId;
 		private String history;
 		private String data;
 		private String criminalCase;
@@ -38,27 +36,27 @@ public class Candidate {
 
 
 		//parameterized constructor
-		public Candidate(Integer electionId, Integer candidateId, String canPartyName, String canPartySymbol,
-				String candidateName, String canGender, Integer canAge) {
+		public Candidate(Integer electionId, Integer candidateId, String candidatePartyName,
+				String candidatePartySymbol, String candidateName, String candidateGender, Integer candidateAge) {
 			super();
 			this.electionId = electionId;
 			this.candidateId = candidateId;
-			this.canPartyName = canPartyName;
-			this.canPartySymbol = canPartySymbol;
+			this.candidatePartyName = candidatePartyName;
+			this.candidatePartySymbol = candidatePartySymbol;
 			this.candidateName = candidateName;
-			this.canGender = canGender;
-			this.canAge = canAge;
+			this.candidateGender = candidateGender;
+			this.candidateAge = candidateAge;
 		}
 
 
-		public Candidate(String canAddress, String canCity, String canNationality, Long canMobileNo, String canEmailId,
-				String history, String data) {
+		public Candidate(String candidateAddress, String candidateCity, String candidateNationality,
+				Long candidateMobileNo, String candidateEmailId, String history, String data) {
 			super();
-			this.canAddress = canAddress;
-			this.canCity = canCity;
-			this.canNationality = canNationality;
-			this.canMobileNo = canMobileNo;
-			this.canEmailId = canEmailId;
+			this.candidateAddress = candidateAddress;
+			this.candidateCity = candidateCity;
+			this.candidateNationality = candidateNationality;
+			this.candidateMobileNo = candidateMobileNo;
+			this.candidateEmailId = candidateEmailId;
 			this.history = history;
 			this.data = data;
 		}
@@ -76,7 +74,7 @@ public class Candidate {
 			this.imgPath1 = imgPath1;
 		}
 
-
+		
 		//getters setters
 		public Integer getElectionId() {
 			return electionId;
@@ -98,23 +96,23 @@ public class Candidate {
 		}
 
 
-		public String getCanPartyName() {
-			return canPartyName;
+		public String getCandidatePartyName() {
+			return candidatePartyName;
 		}
 
 
-		public void setCanPartyName(String canPartyName) {
-			this.canPartyName = canPartyName;
+		public void setCandidatePartyName(String candidatePartyName) {
+			this.candidatePartyName = candidatePartyName;
 		}
 
 
-		public String getCanPartySymbol() {
-			return canPartySymbol;
+		public String getCandidatePartySymbol() {
+			return candidatePartySymbol;
 		}
 
 
-		public void setCanPartySymbol(String canPartySymbol) {
-			this.canPartySymbol = canPartySymbol;
+		public void setCandidatePartySymbol(String candidatePartySymbol) {
+			this.candidatePartySymbol = candidatePartySymbol;
 		}
 
 
@@ -128,73 +126,73 @@ public class Candidate {
 		}
 
 
-		public String getCanGender() {
-			return canGender;
+		public String getCandidateGender() {
+			return candidateGender;
 		}
 
 
-		public void setCanGender(String canGender) {
-			this.canGender = canGender;
+		public void setCandidateGender(String candidateGender) {
+			this.candidateGender = candidateGender;
 		}
 
 
-		public Integer getCanAge() {
-			return canAge;
+		public Integer getCandidateAge() {
+			return candidateAge;
 		}
 
 
-		public void setCanAge(Integer canAge) {
-			this.canAge = canAge;
+		public void setCandidateAge(Integer candidateAge) {
+			this.candidateAge = candidateAge;
 		}
 
 
-		public String getCanAddress() {
-			return canAddress;
+		public String getCandidateAddress() {
+			return candidateAddress;
 		}
 
 
-		public void setCanAddress(String canAddress) {
-			this.canAddress = canAddress;
+		public void setCandidateAddress(String candidateAddress) {
+			this.candidateAddress = candidateAddress;
 		}
 
 
-		public String getCanCity() {
-			return canCity;
+		public String getCandidateCity() {
+			return candidateCity;
 		}
 
 
-		public void setCanCity(String canCity) {
-			this.canCity = canCity;
+		public void setCandidateCity(String candidateCity) {
+			this.candidateCity = candidateCity;
 		}
 
 
-		public String getCanNationality() {
-			return canNationality;
+		public String getCandidateNationality() {
+			return candidateNationality;
 		}
 
 
-		public void setCanNationality(String canNationality) {
-			this.canNationality = canNationality;
+		public void setCandidateNationality(String candidateNationality) {
+			this.candidateNationality = candidateNationality;
 		}
 
 
-		public Long getCanMobileNo() {
-			return canMobileNo;
+		public Long getCandidateMobileNo() {
+			return candidateMobileNo;
 		}
 
 
-		public void setCanMobileNo(Long canMobileNo) {
-			this.canMobileNo = canMobileNo;
+		public void setCandidateMobileNo(Long candidateMobileNo) {
+			this.candidateMobileNo = candidateMobileNo;
 		}
 
 
-		public String getCanEmailId() {
-			return canEmailId;
+		public String getCandidateEmailId() {
+			return candidateEmailId;
 		}
 
 
-		public void setCanEmailId(String canEmailId) {
-			this.canEmailId = canEmailId;
+		public void setCandidateEmailId(String candidateEmailId) {
+			this.candidateEmailId = candidateEmailId;
 		}
 
 
@@ -291,15 +289,18 @@ public class Candidate {
 		//toString
 		@Override
 		public String toString() {
-			return "Candidate [electionId=" + electionId + ", candidateId=" + candidateId + ", canPartyName="
-					+ canPartyName + ", canPartySymbol=" + canPartySymbol + ", candidateName=" + candidateName
-					+ ", canGender=" + canGender + ", canAge=" + canAge + ", canAddress=" + canAddress + ", canCity="
-					+ canCity + ", canNationality=" + canNationality + ", canMobileNo=" + canMobileNo + ", canEmailId="
-					+ canEmailId + ", history=" + history + ", data=" + data + ", criminalCase=" + criminalCase
-					+ ", yearsOfPunishment=" + yearsOfPunishment + ", releasedYear=" + releasedYear
-					+ ", candidateImage=" + Arrays.toString(candidateImage) + ", symbolImage="
+			return "Candidate [electionId=" + electionId + ", candidateId=" + candidateId + ", candidatePartyName="
+					+ candidatePartyName + ", candidatePartySymbol=" + candidatePartySymbol + ", candidateName="
+					+ candidateName + ", candidateGender=" + candidateGender + ", candidateAge=" + candidateAge
+					+ ", candidateAddress=" + candidateAddress + ", candidateCity=" + candidateCity
+					+ ", candidateNationality=" + candidateNationality + ", candidateMobileNo=" + candidateMobileNo
+					+ ", candidateEmailId=" + candidateEmailId + ", history=" + history + ", data=" + data
+					+ ", criminalCase=" + criminalCase + ", yearsOfPunishment=" + yearsOfPunishment + ", releasedYear="
+					+ releasedYear + ", candidateImage=" + Arrays.toString(candidateImage) + ", symbolImage="
 					+ Arrays.toString(symbolImage) + ", imgPath=" + imgPath + ", imgPath1=" + imgPath1 + "]";
 		}
+
+
 		
 		
 		

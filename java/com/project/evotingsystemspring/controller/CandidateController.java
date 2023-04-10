@@ -1,77 +1,100 @@
 package com.project.evotingsystemspring.controller;
 
+import java.sql.Date;
+
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.project.evotingsystemspring.dao.AdminDAO;
 import com.project.evotingsystemspring.dao.CandidateDAO;
 import com.project.evotingsystemspring.model.Candidate;
 import com.project.evotingsystemspring.service.CandidateService;
+import com.project.evotingsystemspring.validation.ValidationVs;
 
 @Controller
 public class CandidateController {
-	@Autowired
-	CandidateDAO candidateDao;
-	@Autowired
-	CandidateService cService;
-	@Autowired
-	AdminDAO adminDao;
+	
+	CandidateDAO candidateDao=new CandidateDAO();
+	
+	CandidateService candidateService=new CandidateService();
 
-	 Logger logger = LoggerFactory.getLogger(CandidateController.class);
+	AdminDAO adminDao=new AdminDAO();
+	
+	Candidate candidate=new Candidate();
+
+	Logger logger = LoggerFactory.getLogger(CandidateController.class);
 	 
-	@PostMapping("/regCandidates")
-	public String regCandidates(@RequestParam("name") String cName,@RequestParam("partyName") String pName,@RequestParam("partySymbol") String pSymbol,@RequestParam("gender") String gender,@RequestParam("age") Integer age,@RequestParam("address") String address,
-			@RequestParam("city") String city,@RequestParam("nationality") String nationality,@RequestParam("mobileNumber") Long mNo,@RequestParam("email") String email,@RequestParam("criminalRec") String criminalRec,@RequestParam("noOfYear") Integer noOfYear,@RequestParam("rYear") Integer rYear)
-			{
+	@RequestMapping("/registerCandidate")
+	public String registerCandidatePage(@ModelAttribute("registerCandidates") Candidate candidate,HttpSession session,Model model) {
+		return "registerCandidates.html";
+		
+	}
+	
+	@GetMapping("/regCandidates")
+	public String regCandidates(@ModelAttribute("registerCandidates") Candidate candidate,HttpSession session,Model model){
 		logger.info("Through COntroller");
-		Candidate candidate=new Candidate();
+ValidationVs validation=new ValidationVs();
 		
-		candidate.setCandidateName(cName);
-		candidate.setCanPartyName(pName);
-		candidate.setCanPartySymbol(pSymbol);
-		candidate.setCanAge(age);
-		candidate.setCanGender(gender);
-		candidate.setCanAddress(address);
-		candidate.setCanCity(city);
-		candidate.setCanNationality(nationality);
-		candidate.setCanMobileNo(mNo);
-		candidate.setCanEmailId(email);
-		candidate.setCriminalCase(criminalRec);
-		candidate.setYearsOfPunishment(noOfYear);
-		candidate.setReleasedYear(rYear);
+	
+		for (int i = 1; i <=20; i++) {
+			session.removeAttribute("errorMessage1" + i);
+		}
+
+		if (Boolean.FALSE.equals(validation.cNameValidation(candidate.getCandidateName(), model))
+				|| Boolean.FALSE.equals(validation.nameValidation(candidate.getCandidatePartyName(), model))
+				|| Boolean.FALSE.equals(validation.nameValidation(candidate.getCandidatePartySymbol(), model))
+				|| Boolean.FALSE.equals(validation.genderValidation(candidate.getCandidateGender(), model))
+				|| Boolean.FALSE.equals(validation.candidateAgeValidation(candidate.getCandidateAge(), model))
+				|| Boolean.FALSE.equals(validation.addressValidation(candidate.getCandidateAddress(), model))
+				|| Boolean.FALSE.equals(validation.cityValidation(candidate.getCandidateCity(), model))
+				|| Boolean.FALSE.equals(validation.nationalityValidation(candidate.getCandidateNationality(), model))
+				|| Boolean.FALSE.equals(validation.phoneNoValidation(candidate.getCandidateMobileNo(), model))
+				|| Boolean.FALSE.equals(validation.emailValidation(candidate.getCandidateEmailId(), model))) {
+			
+			for (int j = 1; j <=19; j++) {
+				if (model.getAttribute("errorMessage" + j) != null) {
+					String errorMessage = (String) model.getAttribute("errorMessage" + j);
+					model.addAttribute("ErrorMessage", errorMessage);
+				}
+			}
+			return "errorPopUp.html";
+		}
 		
-	   cService.registerCandidateService(candidate);
+	   candidateService.registerCandidateService(candidate);
 		
-		return "popUpCanRegister";
+		return "popUpCandidateRegister.html";
 	}
 
 	@RequestMapping("/viewRegCandidates")
-	public String viewCandidate(Model model) {
+	public String viewCandidate(Model model)throws JsonProcessingException {
 		logger.info("Through Controller3");
-		cService.viewCandService(model);
-		return "viewRegCandidates";
+		candidateService.viewCandService(model);
+		return "appliedCandidatesList.html";
 	}
 	
 	@RequestMapping("/adminReportHomePage")
 	public String reportPage() {
 		logger.info("admin Report Page");
-		return "adminpage";
+		return "voterHomepage.html";
 	}
 	
 	@RequestMapping("/userVoteHomePage")
 	public String votePage() {
 		logger.info("Voter voted Page");
-		return "voterhomepage";
+		return "voterHomepage.html";
 	}
 	
 	@RequestMapping("/CandidateHomePage")
-	public String canRegPage() {
+	public String candidateRegPage() {
 		logger.info("Candidate Registration Page");
-		return "home";
+		return "home.html";
 	}
 }

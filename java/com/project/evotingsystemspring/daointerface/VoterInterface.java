@@ -5,6 +5,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.ui.Model;
 
 import com.project.evotingsystemspring.model.CastingVote;
+import com.project.evotingsystemspring.model.NRIVoter;
 import com.project.evotingsystemspring.model.Voter;
 import com.project.evotingsystemspring.myexception.AlreadyVotedException;
 import com.project.evotingsystemspring.myexception.DuplicationOfMailException;
@@ -12,17 +13,17 @@ import com.project.evotingsystemspring.myexception.DuplicationOfMobileNoExceptio
 
 public interface VoterInterface {
 	
-	public void voterRegister(Voter voter,HttpSession session);
-	public void emailExist(Voter voter) throws DuplicationOfMailException ;
-	public void mobileNoExist(Voter voter) throws DuplicationOfMobileNoException;
-	public int generateRandomId() ;
+	public void nriVoterRegister(NRIVoter nVoter,HttpSession session);
+
+	public Boolean emailExist(Voter voter,Model model) ;
+	public Boolean mobileNoExist(Voter voter,Model model) ;
 	public Boolean voterLogin(Voter voter,HttpSession session,Model model);
 	public void forgetPassword(Voter voter);
 	public void viewProfile(HttpSession session);
 	public int updateProfile(Voter voter,HttpSession session) ;
 	public void castVote(CastingVote castvote,HttpSession session);
-	public void userIdPerVote(CastingVote castVote) throws AlreadyVotedException ;
+	public Boolean userIdPerVote(CastingVote castVote,Model model)  ;
 	public void addFeedback(Voter voter);
 	public void addComplaints(Voter voter) ;
-	public boolean gettingElectionDate(HttpSession session);
+	public boolean gettingElectionDate(Model model);
 }

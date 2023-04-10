@@ -12,10 +12,10 @@ public class MailIdMapperNri implements RowMapper<NRIVoter>{
 
 	@Override
 	public NRIVoter mapRow(ResultSet rs, int rowNum) throws SQLException {
-		NRIVoter nvoter=new NRIVoter();
+		NRIVoter nVoter=new NRIVoter();
 		String email=rs.getString("email_id");
-		nvoter.setNriEmailId(email);
-		return nvoter;
+		nVoter.setNriEmailId(email);
+		return nVoter;
 	}
 
 }

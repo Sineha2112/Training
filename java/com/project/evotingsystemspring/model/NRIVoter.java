@@ -2,9 +2,7 @@ package com.project.evotingsystemspring.model;
 
 import java.sql.Date;
 
-import org.springframework.stereotype.Repository;
 
-@Repository
 public class NRIVoter {
 	//data members for NRIVoter class
 		private Integer nriId;
@@ -15,12 +13,13 @@ public class NRIVoter {
 		private String nriFatherName;
 		private String nriGender;
 		private String nriNationality;
-		private String nriState;
+		private String nriAddress;
 		private String nriCity;
 		private String nriEmailId;
 		private String nUserPassword;
 		private String partyName;
 		private String vote;
+		private String nriNewPassword;
 		
 		//default constructor
 		public NRIVoter() {
@@ -42,11 +41,11 @@ public class NRIVoter {
 			this.nriGender = nriGender;
 		}
 
-		public NRIVoter(String nriNationality, String nriState, String nriCity, String nriEmailId,
+		public NRIVoter(String nriNationality, String nriAddress, String nriCity, String nriEmailId,
 				String nUserPassword) {
 			super();
 			this.nriNationality = nriNationality;
-			this.nriState = nriState;
+			this.nriAddress = nriAddress;
 			this.nriCity = nriCity;
 			this.nriEmailId = nriEmailId;
 			this.nUserPassword = nUserPassword;
@@ -118,13 +117,15 @@ public class NRIVoter {
 			this.nriNationality = nriNationality;
 		}
 
-		public String getNriState() {
-			return nriState;
+		public String getNriAddress() {
+			return nriAddress;
 		}
 
-		public void setNriState(String nriState) {
-			this.nriState = nriState;
+
+		public void setNriAddress(String nriAddress) {
+			this.nriAddress = nriAddress;
 		}
+
 
 		public String getNriCity() {
 			return nriCity;
@@ -163,6 +164,16 @@ public class NRIVoter {
 		public String getVote() {
 			return vote;
 		}
+		
+
+		public String getNriNewPassword() {
+			return nriNewPassword;
+		}
+
+
+		public void setNriNewPassword(String nriNewPassword) {
+			this.nriNewPassword = nriNewPassword;
+		}
 
 
 		public void setVote(String vote) {
@@ -175,7 +186,7 @@ public class NRIVoter {
 		public String toString() {
 			return "NRIVoter [nriId=" + nriId + ", nriVoterName=" + nriVoterName + ", nriDateOfBirth=" + nriDateOfBirth
 					+ ", nriAge=" + nriAge + ", nriVoterId=" + nriVoterId + ", nriFatherName=" + nriFatherName
-					+ ", nriGender=" + nriGender + ", nriNationality=" + nriNationality + ", nriState=" + nriState
+					+ ", nriGender=" + nriGender + ", nriNationality=" + nriNationality + ", nriAddress=" + nriAddress
 					+ ", nriCity=" + nriCity + ", nriEmailId=" + nriEmailId + ", nUserPassword=" + nUserPassword + "]";
 		}
 		

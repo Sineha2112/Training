@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.ui.Model;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.project.evotingsystemspring.model.Admin;
 import com.project.evotingsystemspring.model.Candidate;
 import com.project.evotingsystemspring.model.CastingVote;
@@ -17,22 +18,21 @@ public interface AdminInterface {
 
 	public Boolean adminLogin(Admin admin, HttpSession session, Model model);
 	
-	public List<Voter> viewVoter() ;
-	public List<NRIVoter> viewNriVoter() ;
-	public List<CastingVote> viewVoterVoteDetails() ;
+	public void viewVoter(Model model) throws JsonProcessingException  ;
+	public void viewNRIvoter(Model model) throws JsonProcessingException ;
+	public void viewVoterVoteDetails(Model model)throws JsonProcessingException ;
 	
-	public void addCandidates(Candidate c);
-	public int updateCandidates(Candidate c);
-	public void deleteCandidates(Candidate c) ;
-	public List<Candidate> viewCandidates();
+	public void addCandidates(Candidate candidate);
+	public void deleteCandidates(Candidate candidate) ;
+	public List<Candidate> viewCandidates() ;
 	
 	public void addElection(Admin a);
 	public void deleteElection(Admin a) ;
-	public List<Admin> viewElection();
+	public List<Admin> viewElection(Model model)throws JsonProcessingException;
 	
-	public List<Voter> viewFeedback();
-	public List<Voter> viewReports() ;
-	public List<VoteCount> viewResult();
+	public void viewFeedback(Model model)throws JsonProcessingException ;
+	public List<Voter> viewReports(Model model) throws JsonProcessingException ;
+	public List<VoteCount> viewResult(Model model);
 	
 	public Integer voteCount(Model model);
 	
@@ -42,4 +42,5 @@ public interface AdminInterface {
 	
 	public void expenseCalculate(Admin admin) ;
 	public boolean criminalRecords(Candidate candidate) ;
+	
 }

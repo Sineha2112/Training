@@ -2,9 +2,7 @@ package com.project.evotingsystemspring.model;
 
 import java.sql.Date;
 
-import org.springframework.stereotype.Repository;
 
-@Repository
 public class Voter {
 	//data members of voter class
 		private Integer userId;
@@ -26,13 +24,15 @@ public class Voter {
 		private Integer count;
 		private String complaints;
 		private String feedback;
-		private String rate;
+		private Integer rate;
 		private String partyName;
+		private String newPassword;
 		
 		//Default constructor
 		public Voter() {
-			
+			super();
 		}
+
 
 		//parameterized constructor
 		public Voter(String voterId, String address,String city, String nationality, Long mobileNumber, String emailId,
@@ -220,13 +220,23 @@ public class Voter {
 			this.partyName = partyName;
 		}
 
-		public String getRate() {
+		public Integer getRate() {
 			return rate;
 		}
 
-		public void setRate(String rate) {
+		public void setRate(Integer rate) {
 			this.rate = rate;
 		}
+
+		public String getNewPassword() {
+			return newPassword;
+		}
+
+
+		public void setNewPassword(String newPassword) {
+			this.newPassword = newPassword;
+		}
+
 
 		//toString
 		@Override

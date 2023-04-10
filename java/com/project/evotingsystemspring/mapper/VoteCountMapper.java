@@ -11,14 +11,14 @@ public class VoteCountMapper implements RowMapper<VoteCount> {
 
 	@Override
 	public VoteCount mapRow(ResultSet rs, int rowNum) throws SQLException {
-		VoteCount vc=new VoteCount();
+		VoteCount voteCount=new VoteCount();
 		String name=rs.getString(1);
 		int count=rs.getInt(2);
 		
-		vc.setPartyName(name);
-		vc.setCount(count);
+		voteCount.setPartyName(name);
+		voteCount.setCount(count);
 		
-		return vc;
+		return voteCount;
 	}
 
 }

@@ -12,7 +12,7 @@ public class CandidateMapper implements RowMapper<Candidate> {
 
 	@Override
 	public Candidate mapRow(ResultSet rs, int rowNum) throws SQLException {
-		Candidate c=new Candidate();
+		Candidate candidate=new Candidate();
 		
 		byte[] canImg=rs.getBytes(1);
 		byte[] syImg=rs.getBytes(2);
@@ -33,25 +33,25 @@ public class CandidateMapper implements RowMapper<Candidate> {
 		String base64Image = Base64.getEncoder().encodeToString(canImg);
 		String base64Image1 = Base64.getEncoder().encodeToString(syImg);
 		
-		c.setCandidateImage(canImg);
-		c.setSymbolImage(syImg);
-		c.setImgPath(base64Image);
-		c.setImgPath1(base64Image1);
-		c.setElectionId(eId);
-		c.setCandidateId(cId);
-		c.setCanPartyName(pName);
-		c.setCanPartySymbol(pSymbol);
-		c.setCandidateName(cName);
-		c.setCanGender(gender);
-		c.setCanAge(age);
-		c.setCanAddress(address);
-		c.setCanCity(city);
-		c.setCanNationality(nationality);
-		c.setCanMobileNo(mNo);
-		c.setCanEmailId(email);
-		c.setHistory(history);
+		candidate.setCandidateImage(canImg);
+		candidate.setSymbolImage(syImg);
+		candidate.setImgPath(base64Image);
+		candidate.setImgPath1(base64Image1);
+		candidate.setElectionId(eId);
+		candidate.setCandidateId(cId);
+		candidate.setCandidatePartyName(pName);
+		candidate.setCandidatePartySymbol(pSymbol);
+		candidate.setCandidateName(cName);
+		candidate.setCandidateGender(gender);
+		candidate.setCandidateAge(age);
+		candidate.setCandidateAddress(address);
+		candidate.setCandidateCity(city);
+		candidate.setCandidateNationality(nationality);
+		candidate.setCandidateMobileNo(mNo);
+		candidate.setCandidateEmailId(email);
+		candidate.setHistory(history);
 		
-		return c;
+		return candidate;
 	}
 
 }

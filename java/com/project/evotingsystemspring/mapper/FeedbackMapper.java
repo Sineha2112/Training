@@ -12,14 +12,16 @@ public class FeedbackMapper implements RowMapper<Voter>{
 	@Override
 	public Voter mapRow(ResultSet rs, int rowNum) throws SQLException {
 		
-		Voter v=new Voter();
-		int uId=rs.getInt("user_id");
+		Voter voter=new Voter();
+		Integer uId=rs.getInt("user_id");
 		String feedback=rs.getString("feedback");
+		Integer rating=rs.getInt("rating");
 		
-		v.setUserId(uId);
-		v.setFeedback(feedback);
+		voter.setUserId(uId);
+		voter.setFeedback(feedback);
+		voter.setRate(rating);
 		
-		return v;
+		return voter;
 	}
 	
 
