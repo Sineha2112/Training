@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Home</title>
+<link rel="stylesheet" th:href="@{/CSS/homePagestyles.css}">
+<link rel="stylesheet" th:href="@{/CSS/footerStyles.css}">
+<link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css}">
+<script type="module" th:src="@{https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js}"></script>
+</head>
+<body>
+<section class="Main">
+	<div class="menu">
+           <div class="logo"> <img th:src="@{/Images/logo.jpg}" alt="logo">
+                <h3 style="text-align:left;">E-VOTING</h3>
+            </div>
+            <ul>
+            <li><a class="active" th:href="@{#}"><em class="fa fa-home"></em>Home</a></li>
+            <li><a th:href="@{#}"><em class="fa fa-user"></em>Login</a>
+            <div class="subMenu">
+            <ul>
+	            <li><a th:href="@{/loginVoter}"><em class="fa fa-vcard"></em>Resident Voter</a></li>
+	            <li><a th:href="@{/loginNriVoter}"><em class="fa fa-vcard"></em>Non-Resident Voter</a></li>
+	            <li><a th:href="@{/registerCandidate}"><em class="fa fa-vcard"></em>Candidates</a></li>
+	            <li><a th:href="@{/admin}"><em class="fa fa-user"></em>Admin</a></li>
+            </ul>
+            </div></li>
+            <li><a th:href="@{/aboutUs}"><em class="fa fa-group"></em>About Us</a> </li>
+            <li><a th:href="@{/contactUs}"><em class="fa fa-phone"></em>Contact Us</a> </li>
+            </ul>
+         </div><br><br>
+    <div class="heading">
+        <span class="commission"><h1 style="text-align:center;margin-top:30px;">WELCOME TO THE E-VOTING SYSTEM </h1><img th:src="@{/Images/commission.png}" alt="commmission"></span>
+    </div>
+	<div class="container">
+	</div>
+    </section>
+    <div class="review">
+           <div class="rev-box box1">
+              <div class="avatar">
+                <img th:src="@{/Images/easy.png}" alt="easy" ></div>
+                <div class="info"><br>
+                  <h1>Easy to Use</h1>
+                </div>
+              <p>
+                E-Voting is very user friendly and voting can be done anytime and from anywhere within seconds.
+              </p>
+            </div>
+            <div class="rev-box box2">
+              <div class="avatar">
+                <img th:src="@{/Images/cost.png}" alt="cost" ><br></div>
+        		 <div class="info"><br>       
+                  <h1> Cost Effective</h1>
+                </div>
+              <p>
+                The complete election can be conducted for as low as Rs 10,000. Cost includes the cost of setting up the voting process and live result counting. No need to spend a money  on election booths, manpower, EVM machines, ballot paper, security, counting etc.
+              </p>
+            </div>
+            <div class="rev-box box3">
+              <div class="avatar">
+                <img th:src="@{/Images/checked.png}" alt="checked" ></div>
+                <div class="info"><br>
+                  <h1>Key electronic voting features.</h1>
+                </div>
+              <p>
+                Stay protected against double voting and other forms of vote manipulation. Get results instantly and dive deeper into voter analytics.
+              </p>
+            </div>
+            <div class="rev-box box4">
+              <div class="avatar">
+                <img th:src="@{/Images/lock.png}" alt="lock" ></div>
+                <div class="info"><br>
+                  <h1>A reliable online voting tool.</h1>
+                </div>
+              <p>
+                Run online elections for an important event or manage consistent, recurring votes.
+              </p>
+            </div>
+            <div class="rev-box box5">
+              <div class="avatar">
+                <img th:src="@{/Images/politics.png}" alt="politics" ></div>
+                <div class="info"><br>
+                  <h1>Candidate Profiles</h1>
+                </div>
+              <p>
+                Helps voters choose by including a biography, vision, campaign promises and contact information. By Uploading a candidate photo and their information
+              </p>
+            </div>
+			<div class="rev-box box6">
+              <div class="avatar">
+                <img th:src="@{/Images/anonymous.png}" alt="anonymous" ></div>
+                <div class="info"><br>
+                  <h1>Anonymous Voting</h1>
+                </div>
+              <p>
+                All voting choices are confidential and cannot be linked to the voter for elections. And results can be hidden until the election ends for further anonymity.
+              </p>
+            </div>   
+          </div>
+         <div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

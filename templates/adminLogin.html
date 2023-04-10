@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Admin Login</title>
+<style>
+* {
+	padding: 9px;
+	margin: 0;
+	box-sizing: border-box;
+}
+
+body {
+	background-color: #d2e9ff;
+	height: 100%;
+	box-sizing: border-box;
+}
+
+ button {
+	padding: 0.75em;
+	border: none;
+	outline: none;
+	background-color: black;
+	color: white;
+	border-radius: 0.25em;
+	opacity: 0.9;
+}
+ button a {
+	color: white;
+}
+
+.login {
+	width: 550px;
+	margin: auto;
+	margin: 20 0 0 450px;
+	padding: 20px;
+	border-radius: 10px;
+	background-color: white;
+}
+
+.imgadmin {
+	padding-left: 200px;
+	margin-top:-170px;
+}
+.btn{
+margin-top: -100px;
+}
+
+h1 {
+	text-align: center;
+}
+
+h2 {
+	text-align: center;
+}
+</style>
+</head>
+<body>
+<div class="Admin">
+		<button><a th:href="@{/}">Home</a></button>
+</div>
+	<div class="login">
+	<h2>ADMIN LOGIN</h2>
+	<br>
+	<form name="Login" th:action="@{/adminLogin}" th:obj="${adminObject }">
+			<label for="AdminId"><strong>Enter Admin Code:</strong></label><br> 
+			<input type="text" name="adminId" placeholder="Admin Code" required><br>
+			<br> <label for="password"><strong>Enter Password:</strong></label><br>
+		 	<input type="password" name="password" placeholder="Password" required><br>
+			<br>
+			
+			<div class="imgadmin">
+					<img alt="feedback" th:src="@{\Images\adminlogin.jpg}" id="feddback"
+						height=270px width=310px>
+				</div>
+				
+			<div class="btn">
+				<button type="submit">Login</button>
+				&emsp;&emsp;
+				<button type="reset">Cancel</button>
+			</div>
+			<br>
+	</form>
+		</div>
+</body>
+</html>

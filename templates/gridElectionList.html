@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Election List</title>
+
+<!-- slick grid start  -->
+<link rel="stylesheet"
+	th:href="@{/SlickGrid/css/smoothness/jquery-ui-1.8.16.custom.css}"
+	type="text/css" />
+<link rel="stylesheet" th:href="@{/SlickGrid/slick.grid.css}"
+	type="text/css" />
+
+<link rel="stylesheet" th:href="@{/SlickGrid/controls/slick.columnpicker.css}" type="text/css" />
+<link rel="stylesheet" th:href="@{/SlickGrid/css/smoothness/slick.gridmenu.css}" type="text/css" />
+
+
+<link rel="stylesheet" th:href="@{CSS/slickStyles.css}">
+<!-- slick grid end  -->
+</head>
+<body>
+
+	<input TYPE="button" VALUE="Back" onClick="history.go(-1);">
+	<h1 style="text-align: center">Election List</h1>
+	<div style="position: relative; ">
+		<div style="width: 450px;">
+			<div id="myGrid" style="width: 100%; height: 200px; margin:auto 350px;"></div>
+		</div>
+	</div>
+	<input type="hidden" id="electionList" th:value="${ElectionList}">
+	
+	<script th:src="@{/SlickGrid/lib/jquery-1.7.min.js}"></script>
+	<script th:src="@{/SlickGrid/lib/jquery-ui-1.8.16.custom.min.js}"></script>
+	<script th:src="@{/SlickGrid/lib/jquery.event.drag-2.2.js}"></script>
+
+	<script th:src="@{/SlickGrid/slick.core.js}"></script>
+	<script th:src="@{/SlickGrid/slick.dataview.js}"></script>
+	<script th:src="@{/SlickGrid/slick.grid.js}"></script>
+	<script th:src="@{/Javascript/dateFormatter.js}"></script>
+	
+	<script th:src="@{/SlickGrid/plugins/slick.rowselectionmodel.js}"></script>
+    <script th:src="@{/SlickGrid/slick.interactions.js}"></script>
+    <script th:src="@{/SlickGrid/controls/slick.pager.js}"></script>
+    <script th:src="@{/SlickGrid/controls/slick.columnpicker.js}"></script>
+
+	<script th:src="@{/JavaScript/electionListGrid.js}"></script>
+
+
+</body>
+</html>

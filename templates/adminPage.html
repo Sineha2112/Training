@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Admin Home</title>
+<link rel="stylesheet" th:href="@{/CSS/adminpagestyles.css}">
+<link th:href="@{https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css}" rel="stylesheet">
+<link rel="shortcut icon" th:href="@{assets/img/kxp_fav.png}" type="image/x-icon">
+<style type="text/css">
+.session{
+	margin-left:700px;
+	color:white;
+}
+#adminPic{
+	margin-top: 155px;
+	margin-left: 485px;
+}
+</style>
+</head>
+<body>
+<div class="sidebar close">
+            <a th:href="@{#}" class="logo-box">
+                <em class="bx bxl-xing"></em>
+                <div class="logo-name">E-Voting</div>
+            </a>
+            
+            <ul class="sidebar-list">
+            <li>
+                <div class="title">
+                    <a th:href="@{#}" class="link"><em class="bx bx-grid-alt"></em>
+                        <span class="name">Dashboard</span></a>
+                </div>
+                <div class="submenu">
+                    <a th:href="@{#}" class="link submenu-title">Dashboard</a>
+                </div>
+            </li >
+            
+            <li class="dropdown">
+                <div class="title"><a th:href="@{#}" class="link"><em class="bx bxs-user"></em>
+                    <span class="name">Voters</span></a>
+                    <em class="bx bxs-chevron-down"></em>
+                </div>
+                <div class="submenu">
+                    <a th:href="@{#}" class="link submenu-title">Voters</a>
+                    <a th:href="@{/viewVoter}" class="link">Voters Details</a>
+                    <a th:href="@{/viewNRIvoter}" class="link">NRI Voters Details</a>
+                    <a th:href="@{/viewVoterVoteDetails}" class="link">Voter's Vote Details</a>
+                </div></li>
+                
+            <li class="dropdown">
+                <div class="title"><a th:href="@{#}" class="link"><em class="bx bxs-user-check"></em>
+                    <span class="name">Candidates</span></a>
+                    <em class="bx bxs-chevron-down"></em>
+                </div>
+                <div class="submenu">
+                    <a th:href="@{#}" class="link submenu-title">Candidates</a>
+                    <a th:href="@{addCandidatesPage}" class="link">Add Candidates</a>
+            	    <a th:href="@{/candidatesDeletePage}" class="link">Remove Candidates</a>
+            	    <a th:href="@{/viewRegCandidates}" class="link">Applied Candidates</a>
+            	    <a th:href="@{/reportCandidatePage}" class="link">Asset Details</a>
+            	    <a th:href="@{/viewCandidates}" class="link">View Candidates</a>
+                </div>
+            </li>
+            
+            <li class="dropdown">
+                <div class="title"><a th:href="@{#}" class="link"><em class="bx bx-arch"></em>
+                    <span class="name">Election</span></a>
+                    <em class="bx bxs-chevron-down"></em>
+                </div>
+                <div class="submenu">
+                    <a th:href="@{#}" class="link submenu-title">Election</a>
+                    <a th:href="@{/electionPage}" class="link">Add Election</a>
+                    <a th:href="@{/deleteElectionPage}" class="link">Remove Election</a>
+                    <a th:href="@{/viewElection}" class="link">View Election</a>
+                </div></li>
+                
+            <li class="dropdown">
+                 <div class="title"><a th:href="@{#}" class="link"><em class="bx bxs-checkbox-checked "></em>
+                    <span class="name">Vote Count</span></a>
+                    <em class="bx bxs-chevron-down"></em>
+                </div>
+                <div class="submenu">
+               		 <a th:href="@{#}" class="link submenu-title">Vote Count</a>
+                     <a th:href="@{/voteCount}" class="link">Count Of A Party</a>
+                     <a th:href="@{/electionResult}" class="link">Election Result</a> 
+                </div>
+               </li>
+               
+              <li>
+                 <div class="title">
+                    <a th:href="@{/percentage}" class="link">
+                         <em class="bx bxs-chart"></em>
+                        <span class="name">Vote Percentage</span>
+                    </a>
+                </div>
+                <div class="submenu">
+                  <a th:href="@{#}" class="link submenu-title">Vote Percentage</a>
+                </div></li>
+                
+            <li>
+                <div class="title">
+                    <a th:href="@{/feedbackList}" class="link">
+                        <em class="bx bxs-message"></em>
+                        <span class="name">Voters Feedback</span>
+                    </a>
+                </div>
+                <div class="submenu">
+                    <a th:href="@{/feedbackList}" class="link submenu-title">Voters Feedback</a>
+                </div></li>
+                
+             <li>
+                 <div class="title">
+                    <a th:href="@{/reportList}" class="link">
+                         <em class="bx bxs-message-detail"></em>
+                        <span class="name">Voters Reports</span>
+                    </a>
+                </div>
+                <div class="submenu">
+                  <a th:href="@{/reportList}" class="link submenu-title">Voters Reports</a>
+                </div></li>
+                
+            <li>
+                <div class="title">
+                   <a th:href="@{/Logout}" onclick="logOut()" class="link">
+                        <em class="bx bxs-log-out"></em>
+                       <span class="name">Log Out</span>
+                   </a>                   </div>
+                <div class="submenu">
+                 <a th:href="@{/Logout}" onclick="logOut()" class="link submenu-title">Log Out</a>
+               </div></li>
+                    </ul>
+                    
+                </div>
+    <section class="home">
+    <div class="menu">
+        <div class="toggle-sidebar">
+            <em class="bx bx-menu"></em>
+                <div class="text">&emsp;Admin Dashboard</div>
+                 <div class="session" th:text="${session.adminName}" ></div>
+            </div>
+            </div>
+   
+    <div class="box-container">
+    <div class="box box1">
+    	<a th:href="@{#}"></a>
+    	<div class="text">
+    		<h2 class="topic-heading">Total Votes </h2>
+    		<p th:text="${VOTE_COUNT}"></p>
+    	</div>
+    </div>
+    <div class="box box2">
+    <a th:href="@{#}"></a> 
+    	<div class="text">
+    		<h2 class="topic-heading">Total User</h2>
+    		<p th:text="${USER_COUNT}"></p>
+    	</div>
+    </div>
+    <div class="box box3">
+    	<a th:href="@{#}"></a>
+    	<div class="text">
+    		<h2 class="topic-heading">Total NRI User </h2>
+    		<p th:text="${NRIUSER_COUNT}"></p>
+    	</div>
+    </div>
+     <div class="box box4">
+    	<a th:href="@{#}"></a>
+    	<div class="text">
+    		<h2 class="topic-heading">Total Candidates </h2>
+    		<p th:text="${CANDIDATE_COUNT}"></p>
+    	</div>
+    </div>
+    </div>
+    <img th:src="@{\Images\adminPage.jpg}" alt="adminPic" id="adminPic" height="400px" width="700px">
+
+    </section> 
+       
+       <script th:src="@{/Javascript/adminToggleJs.js}"></script>
+       
+      <script th:src="@{Javascript/logOutConfirmation.js}"></script>
+
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Add Election</title>
+<style type="text/css">
+* {
+	padding: 9px;
+	margin: 0;
+	box-sizing: border-box;
+}
+
+body {
+	background-color: #d2e9ff;
+	height: 100%;
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center;
+	box-sizing: border-box;
+}
+
+.add {
+	width: 600px;
+	margin: auto;
+	margin: 20 0 0 450px;
+	padding: 20px;
+	border-radius: 10px;
+	background-color: white;
+}
+
+.add button {
+	padding: 0.75em;
+	border: none;
+	outline: none;
+	background-color: rgb(1, 6, 8);
+	color: white;
+	border-radius: 0.25em;
+	opacity: 0.9;
+}
+
+.add button:hover {
+	cursor: pointer;
+	background-color: rgb(140, 140, 151);
+}
+
+input[type=button] {
+	background-color: black;
+	border: none;
+	text-decoration: none;
+	color: white;
+	width: 20%;
+	padding: 10px 20px;
+	margin: 1px 10px;
+	cursor: pointer;
+	border-radius: 0.25em;
+}
+
+h1 {
+	text-align: center;
+}
+
+.imgelection {
+	padding-left: 230px;
+	margin-top:-300px;
+}
+</style>
+</head>
+<body>
+	<div class="voter">
+		<h1>Election</h1>
+		<form name="Election" th:action="@{/addElection}" th:object="${addElection}">
+			<div class="add">
+				<label for="id"><strong>Enter Election Code:</strong> </label><br>
+				<input type="number" name="id" th:field="*{electionId}" placeholder="Election Code"><br>
+				
+				<br> <label for="name"><strong>Enter Election
+						Name:</strong></label><br> 
+				<input type="text" name="name" th:field="*{electionName}" placeholder="Name"><br>
+						
+				<br> <label for="date"><strong>Enter Election Date:</strong></label><br> 
+				<input type="date" name="Date" id="Date" th:field="*{electionDate}" placeholder="Election Date"><br>
+					
+				<div><br>
+					<button type="submit">Submit</button>&nbsp;
+					<button type="reset">Cancel</button>
+					<INPUT TYPE="button" VALUE="Back"
+						onClick="history.go(-1);">
+				</div>
+				
+					<div class="imgelection">
+					<img alt="election" th:src="@{\Images\election.jpg}" id="feedback"
+						height=310px width=355px>
+				</div>
+				
+				
+			</div>
+		</form>
+	</div>
+</body>
+</html>

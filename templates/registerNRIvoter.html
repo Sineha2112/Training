@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Register NRI Voter</title>
+<link rel="stylesheet" th:href="@{/CSS/loginstyles.css}">
+<script th:src="@{/Javascript/showPassword.js}"></script>
+</head>
+<body>
+<div class="main">
+	<section class="signup">
+		<div class="container">
+			<div class="signup-content">
+				<div class="signup-form">
+					<h2>Sign Up</h2>
+<form id="registerForm" name="registerForm"  th:action="@{/registerNRIVoter}" th:object="${NRIVoter}" >
+	<div class="form-group">
+		<label for="name"></label><br> 
+		<input type="text" name="name" placeholder="Name" required id="name"  th:field="*{nriVoterName}" onkeyup="nameValid()" >
+		<div class="name">
+     		<span id="nameNRI-error"></span>
+    	 </div><br>
+	</div>
+	<div class="form-group">
+		<label for="date"></label><br> 
+		<input type="date" name="dob" th:field="*{nriDateOfBirth}" placeholder="DOB" id="dob"><br>
+	</div>
+	<div class="form-group">
+		<label for="voterId"></label><br> 
+		<input type="text" name="voterId" th:field="*{nriVoterId}" placeholder="Voter Id" id="voterId" onkeyup="voterIdValidation()" >
+		<div class="voterId">
+			<span id="voterIdNRI-error"></span>
+		</div><br>
+	</div>
+	<div class="form-group">
+		<label for="fatherName"></label><br>
+	    <input type="text" name="fatherName" th:field="*{nriFatherName}" placeholder="Father Name" id="fatherName" onkeyup="fatherNameValid()">
+	    <div class="fatherName">
+			<span id="voterFname-error"></span>
+		</div><br>
+	</div>
+	<div class="form-group">
+	  <div class="gender">
+		<label for="gender"></label><br> 
+		<input type="radio" name="gender" th:field="*{nriGender}" value="male"> Male 
+		<input type="radio" name="gender" th:field="*{nriGender}" value="female"> Female 
+		<input type="radio" th:field="*{nriGender}" name="gender" value="prefer not to say">Prefer not to say<br>
+	  </div>
+	</div>
+   <div class="form-group">
+		<label for="Nationality"></label><br> 
+		<input type="text" name="nationality" th:field="*{nriNationality}" placeholder="Nationality" id="nationality" onkeyup="nationalityValid()">
+		<div class="nationality">
+			<span id="voterNationality-error"></span>
+		</div><br>
+	</div>
+	<div class="form-group">
+		<label for="address"></label><br> 
+		<input type="text" name="address" th:field="*{nriAddress}" placeholder="Address" id="address" onkeyup="addressValidation()">
+		<div class="address">
+    		 <span id="voterAddress-error"></span>
+     	</div><br>
+	</div>
+ 	<div class="form-group">
+		<label for="city"></label><br> 
+		<input type="text" name="city" th:field="*{nriCity}" placeholder="City" id="city" onkeyup="cityValid()" >
+		<div class="city">
+			<span id="voterCity-error"></span>
+		</div><br>
+	</div>
+	<div class="form-group">
+		<label for="email"></label><br>
+	    <input type="email" name="email" th:field="*{nriEmailId}" placeholder="Email Id" id="email" onkeyup="emailIdValidation()">
+	     <div class="Email">
+     		<span id="EmailId-error"></span>
+     	</div><br>
+	</div>
+	<div class="form-group">
+		<label for="password"></label><br> 
+		<input type="password" name="password" th:field="*{nUserPassword}" placeholder="Password" id="password" onkeyup="passwordValidation()">
+		<div class="password">
+     		<span id="voterPassword-error"></span>
+     	</div><br>
+	</div>
+	<div class="form-group">
+		<label>Show Password</label> <input type="checkbox" onclick="myFunction()">
+	</div>
+	<div class="form-submit">
+		<button type="submit">Register</button>&emsp;
+		<button type="reset">Cancel</button>
+		<input TYPE="button" VALUE="Back" onClick="history.go(-1);">
+	</div>
+</form>
+</div>
+	<div class="signup-image">
+		<figure>
+			<img th:src="@{/Images/registergif.gif}" alt="sing up image">
+		</figure>
+		<div class="signLink">Already have an account? <a th:href="@{/loginNriVoter}" class="signup-image-link">Sign In</a></div>
+	</div>
+</div>
+	</div>
+		</section>
+	</div>
+	<script th:src="@{/Javascript/RegisterNRIvalidation.js}"></script>
+</body>
+</html>

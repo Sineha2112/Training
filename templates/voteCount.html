@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Vote Count</title>
+<style>
+.box {
+  height: 140px;
+  width: 230px;
+  border-radius: 15px;
+  box-shadow: 3px 3px 10px rgba(153, 162, 159, 0.751);
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out;
+  text-decoration: none;
+  margin-left:40px;
+  margin-top: 40px;
+}
+.box:hover {
+  transform: scale(1.08);
+}
+ h2{
+      color:black;
+      text-decoration: none;
+ }
+ p{
+ font-size:50px;
+ color:rgb(229, 228, 226);
+ }
+.box:nth-child(1) {
+	margin-bottom:-220px;
+   background-color:rgb(25, 25, 112);
+  text-decoration: none;
+}
+.box:nth-child(2) {
+	margin-left:330px;
+	margin-bottom:-220px;
+  background-color: rgb(25, 25, 112);
+  text-decoration: none;
+}
+.box:nth-child(3) {
+	margin-left:620px;
+	margin-bottom:-220px;
+  background-color: rgb(25, 25, 112);
+  text-decoration: none;
+}
+.box:nth-child(4) {
+margin-left:910px;
+	margin-bottom:20px;
+background-color:rgb(25, 25, 112);
+text-decoration: none;
+}
+.box:nth-child(5) {
+	margin-bottom:20px;
+    background-color: rgb(25, 25, 112);
+    text-decoration: none;
+  }
+  .box:nth-child(6) {
+	margin-left:330px;
+	margin-top:-201px;
+    background-color: rgb(25, 25, 112);
+    text-decoration: none;
+  }
+   .box:nth-child(7) {
+	margin-left:620px;
+	margin-top:-201px;
+    background-color: rgb(25, 25, 112);
+    text-decoration: none;
+  }
+  .box:nth-child(8) {
+	margin-left:910px;
+	margin-top:-201px;
+    background-color: rgb(25, 25, 112);
+    text-decoration: none;
+  }
+  
+.box img {
+  height: 20px;
+}
+.box .text {
+  color:none;
+}
+.topic {
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 1px;
+  text-decoration: none;
+}
+.text{
+  text-decoration: none;
+}
+ 
+.topic-heading {
+  font-size: 20px;
+  letter-spacing: 3px;
+  text-decoration: none;
+  color:rgb(229, 228, 226);
+}
+ input[type=button] {
+            background-color:black;
+            border: none;
+            text-decoration: none;
+            border-radius:8px;
+            color: white;
+            width:10%;
+            padding: 10px 20px;
+            margin:1px 20px;
+            cursor: pointer;
+         }
+</style>
+</head>
+<body>
+       <input type="button" value="Back" onClick="history.back()">
+	<h1 style="text-align:center">Vote Count Of A Particular Party</h1>
+ <div class="box-container">
+    <div class="box box1"  th:each="list:${COUNTLIST}">
+    	<a href="#"></a>
+    	<div class="text">
+    		<h2 class="topic-heading" th:text="${list.partyName}"></h2>
+    		<p><strong><span th:text="${list.count}"></span></strong></p>
+    	</div>
+    </div>
+    </div>
+</body>
+</html>

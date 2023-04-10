@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Add Candidates</title>
+<link rel="stylesheet" th:href="@{/CSS/loginstyles.css}">
+
+</head>
+<body>
+<div class="main">
+	<section class="signup">
+		<div class="container">
+			<div class="signup-content">
+				<div class="signup-form">
+					<h2>Add Candidates</h2>
+<form id="addForm" name="addForm"  th:action="@{/addCandidates}" th:object="${addCandidates}" method="post"  enctype="multipart/form-data">
+   <div class="form-group">
+    	<label for="eid"></label><br>
+        <input type="number" name="electionId" th:field="*{electionId}" placeholder="Election Id" id="electionId"><br><br>
+   </div>
+    <div class="form-group">
+        <label for="id"></label><br>
+        <input type="number" name="candidateId" th:field="*{candidateId}" placeholder="Candidate Id" id="candidateId"><br><br>
+    </div>
+    <div class="form-group">
+         <label for="partyName"></label><br>
+         <input type="text" name="partyName" th:field="*{candidatePartyName}" placeholder="Party Name" id="partyName" onkeyup="partyNameValid()">
+         <div class="name">
+     		<span id="partyName-error"></span>
+    	 </div><br><br> 
+    </div>
+    <div class="form-group">
+         <label for="partySymbol"></label><br>
+         <input type="text" name="partySymbol" th:field="*{candidatePartySymbol}" placeholder="Party Symbol" id="partySymbol" onkeyup="partySymbolValidation()">
+         <div class="symbol">
+     		<span id="partySymbol-error"></span>
+    	 </div><br><br>
+    </div>
+    <div class="form-group">
+          <label for="name"></label><br>
+          <input type="text" name="name" th:field="*{candidateName}" placeholder="Name" required id="name" onkeyup="candidateNameValid()"> 
+          <div class="name">
+     		<span id="candidateName-error"></span>
+    	 </div><br><br><br>
+     </div>
+     <div class="form-group">
+        <div class="gender">
+            <label for="gender"></label><br>
+            <input type="radio" name="gender" th:field="*{candidateGender}" value="Male" > Male
+            <input type="radio" name="gender" th:field="*{candidateGender}" value="Female"> Female
+            <input type="radio" name="gender" th:field="*{candidateGender}" value="Prefer not to say">Prefer not to say<br>
+         </div>
+     </div>
+     <div class="form-group">
+           <label for="age"></label><br>
+           <input type="number" name="age" th:field="*{candidateAge}"placeholder="Age" required id="age" onkeyup="ageValidation()">
+           <div class="age">
+	     	<span id="age-error"></span>
+	     </div><br>
+     </div>
+     <div class="form-group"> 
+           <label for="address"></label><br>
+           <input type="text" name="address" th:field="*{candidateAddress}" placeholder="Address"  required id="address" onkeyup="candidateAddressValidation()">
+           <div class="address">
+    		 <span id="candidateAddress-error"></span>
+     		</div><br><br>
+     </div>
+     <div class="form-group">
+           <label for="city"></label><br>
+           <input type="text" name="city" th:field="*{candidateCity}" placeholder="City" pattern="^[a-zA-Z]+(?:[\\s-][a-zA-Z]+)*$" title="Use Only Letters" required id="city" onkeyup="candidateCityValid()">
+           <div class="city">
+			<span id="candidateCity-error"></span>
+		</div><br><br>
+     </div>
+     <div class="form-group">
+           <label for="Nationality"></label><br>
+           <input type="text" name="nationality" th:field="*{candidateNationality}" placeholder="Nationality" required id="nationality" onkeyup="nationalityValid()">
+           <div class="nationality">
+			<span id="candidateNationality-error"></span>
+			</div><br><br>
+     </div>
+     <div class="form-group">
+            <label for="mobileNumber"></label><br>
+            <input type="tel" name="mobileNumber" th:field="*{candidateMobileNo}" required placeholder="Mobile Number"  id="mobileNumber" onkeyup="mobileNoValidation1()">
+            <div class="mobile">
+     		<span id="candidateMobileNo-error"></span>
+    	 </div><br><br>
+     </div>
+     <div class="form-group">
+            <label for="email"></label><br>
+            <input type="email" name="email" th:field="*{candidateEmailId}" required placeholder="Email Id" id="email" onkeyup="emailIdValidation()" >
+             <div class="Email">
+     			<span id="candidateEmailId-error"></span>
+     		</div><br><br>
+     </div>
+     <div class="form-group">
+            <label for="history"></label><br>
+            <input type="text" name="history" th:field="*{history}" placeholder="History" required id="history"><br><br>
+     </div>
+     <div class="form-group">
+             <label for="image"></label>
+	         <input type="file" name="canImg"  placeholder="Upload Your Image" required id="file">
+     </div>
+     <div class="form-group">
+             <label for="image"></label>
+	         <input type="file" name="sImg"  placeholder="Upload Party Symbol" required id="file">
+     </div>
+     <div class="form-submit">
+             <button type="submit">Submit</button>&emsp;
+             <button type="reset">Cancel</button>
+            <input TYPE="button" VALUE="Back" onClick="history.go(-1);">
+     </div>
+</form>
+    </div>
+    <div class="signup-image">
+		<figure>
+			<img th:src="@{\Images\addCandidates.jpg}" alt="sign up image">
+		</figure>
+	</div>
+ </div>
+  </div>
+</section>
+ </div>
+ <script th:src="@{/Javascript/candidatesRegisterValidation.js}"></script>
+</body>
+</html>

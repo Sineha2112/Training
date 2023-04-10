@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Candidates Profile</title>
+<link rel="stylesheet" th:href="@{/CSS/regCandidateStyles.css}">
+<style type="text/css">
+input[type=button] {
+            background-color:black;
+            border: none;
+            text-decoration: none;
+            color: white;
+            width:10%;
+            padding: 10px 10px;
+            margin:1px 15px;
+            border-radius:8px;
+            cursor: pointer;
+         }
+</style>
+</head>
+<body>
+	<input type="button" value="Back" onClick="history.back()">
+<h1 style="text-align:center;">Candidates List</h1>
+	
+			<div class="card " th:each="list:${CANDIDATE_LIST}">
+				<div class="image">
+						<img alt="image" th:src="'data:image/jpg;base64,'+ ${list.imgPath}" style="width: 150px; height: 120px;">&emsp;
+						
+						<img alt="logo" th:src="'data:image/jpg;base64,'+ ${list.imgPath1}" style="width: 150px; height: 120px;"><br><br> 
+					
+						<strong>CANDIDATE NAME: </strong><span th:text="${list.candidateName}"></span><br><br>
+					
+						<strong>PARTY NAME: </strong><span th:text="${list.candidatePartyName}"></span><br><br>
+					
+						<strong>PARTY SYMBOL: </strong><span th:text="${list.candidatePartySymbol}"></span><br><br>
+					
+						<strong>CANDIDATE AGE: </strong><span th:text="${list.candidateAge}"></span><br><br>
+						
+						<strong>ADDRESS: </strong><span th:text="${list.candidateAddress}"></span><br><br>
+						
+						<strong>CITY: </strong><span th:text="${list.candidateCity}"></span><br><br>
+						
+						<strong>MOBILE NUMBER: </strong><span th:text="${list.candidateMobileNo}"></span><br><br>
+					
+						<strong>CANDIDATE EMAIL ID: </strong><span th:text="${list.candidateEmailId}"></span><br><br>
+						
+						<strong>CANDIDATE CRIMINAL RECORDS: </strong><span th:text="${list.history}"></span><br><br>
+				</div>
+			</div>
+			
+</body>
+</html>

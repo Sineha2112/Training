@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Voter Home page</title>
+<link th:href='@{https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css}' rel='stylesheet'>
+<link rel="stylesheet" th:href="@{CSS/footerStyles.css}">
+<script type="module" th:src="@{https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js}"></script>
+<link rel="stylesheet" th:href="@{CSS/homePagestyles.css}">
+<link rel="stylesheet" th:href="@{CSS/quotesStyles.css}">
+<link rel="stylesheet" th:href="@{CSS/slideshowstyles.css}">
+<style type="text/css">
+.session{
+	margin-top:26px;
+	text-align:right;
+	margin-right: 40px;
+}
+body{
+	background-image: url("Images/voterPage.jpg");
+	background-size:  900px 770px;
+	background-repeat: no-repeat;
+	background-position: center top;
+	
+}
+.menu .bx{
+    margin-right: 8px;
+
+}
+
+</style>
+</head>
+<body>
+<div class="menu">
+	<ul>
+		<li><a th:href="@{/dynamicDropdown}" id="disabled"> <em class="bx bx-checkbox-checked"></em>Cast Vote</a></li>
+		<li><a th:href="@{/viewCandidates}"><em class="bx bx-images "></em>View Candidates</a></li>
+		<li><a th:href="@{/electionResult}"><em class="bx bx-select-multiple"></em>View Result</a></li>
+		<li><a th:href="@{/feedbackPage}"><em class="bx bx-message"></em>Feedback</a></li>
+		<li><a th:href="@{/reportPage}"><em class="bx bx-message-detail"></em>Report</a></li>
+		<li><a th:href="@{/viewUser}"><em class="bx bx-user"></em>My Profile</a></li>
+		<li><a th:href="@{/Logout}" onclick="logOut()"><em class="bx bx-log-out"></em>Log Out</a></li>
+	</ul>
+	
+	<div class="session" th:text="${session.userName}" ></div>
+	</div><br>
+<h1 style="text-align:center;">WELCOME VOTER</h1>
+
+<div th:replace="fragments/quotes :: quotes"></div>
+
+<div th:replace="fragments/footer :: footer"></div>
+
+<script th:src="@{Javascript/logOutConfrimation.js}"></script>
+
+</body>
+
+</body>
+</html>

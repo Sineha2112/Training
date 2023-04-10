@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Vote Result</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link rel="stylesheet" th:href="@{CSS/resultStyles.css}">
+</head>
+<body>
+	 <input type="button" value="Back" onClick="history.back()">
+ <img th:src="@{/Images/winner.jpg}" alt="success" height="640x" width="745px" id="successImg">
+<div class="container">
+		<div class="header">
+			<img th:src="@{\Images\logo.jpg}" alt="Logo" >
+			<h1>Winner</h1>
+		</div>
+		<div class="winner">
+			<img th:src="@{\Images\winner_badge.gif}" alt="Winner">
+			 <div class="each" th:each="result:${COUNT_LIST}">
+			<h2 th:text="${result.partyName}"></h2>
+			<p><strong>Vote Count : </strong><span th:text="${result.count}"></span></p>
+		</div>
+	</div>
+	</div>
+
+	<div class="chartCard">
+      <div class="chartBox">
+   			<canvas id="myChart"></canvas>
+      </div>
+    </div>
+   
+   <script th:inline="javascript">
+      var chartData = /*[[${ResultList}]]*/ '';
+      var labels = chartData.map(function(item) { return item.partyName });
+      var values = chartData.map(function(item) { return item.count });
+      var ctx = document.getElementById('myChart').getContext('2d');
+      var chart = new Chart(ctx, {
+         type: 'bar',
+         data: {
+            labels: labels,
+            datasets: [{
+               label: 'Vote Count',
+               data: values,
+               backgroundColor: [
+                   'rgba(255, 26, 104, 0.2)',
+                   'rgba(54, 162, 235, 0.2)',
+                   'rgba(255, 206, 86, 0.2)',
+                   'rgba(75, 192, 192, 0.2)',
+                   'rgba(153, 102, 255, 0.2)',
+                   'rgba(255, 159, 64, 0.2)',
+                   'rgba(0, 0, 0, 0.2)'
+                 ],
+                 borderColor: [
+                   'rgba(255, 26, 104, 1)',
+                   'rgba(54, 162, 235, 1)',
+                   'rgba(255, 206, 86, 1)',
+                   'rgba(75, 192, 192, 1)',
+                   'rgba(153, 102, 255, 1)',
+                   'rgba(255, 159, 64, 1)',
+                   'rgba(0, 0, 0, 1)'
+                 ],
+               borderWidth: 1
+            }]
+         },
+         options: {
+        	 indexAxis:'y',
+            scales: {
+               xAxes: [{
+                  ticks: {
+                     beginAtZero: true
+                  }
+               }]
+            }
+         }
+      });
+   </script>
+
+	
+</body>
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Delete Candidate</title>
+
+<link rel="stylesheet" th:href="@{/CSS/deletePopupStyles.css}">
+
+<link rel="stylesheet" th:href="@{/SlickGrid/css/smoothness/jquery-ui-1.8.16.custom.css}" type="text/css" />
+<link rel="stylesheet" th:href="@{/SlickGrid/slick.grid.css}" type="text/css" />
+
+<link rel="stylesheet" th:href="@{/SlickGrid/controls/slick.columnpicker.css}" type="text/css" />
+<link rel="stylesheet" th:href="@{/SlickGrid/css/smoothness/slick.gridmenu.css}" type="text/css" />
+
+
+<link rel="stylesheet" th:href="@{CSS/slickStyles.css}">
+</head>
+<body>
+	
+	<input TYPE="button" VALUE="Back" onClick="history.go(-1);">
+	<h1 style="text-align: center">Candidate List</h1>
+	<div style="position: relative; ">
+		<div style="width: 1240px;">
+			<div id="myGrid" style="width: 100%; height: 200px; margin:auto 10px;"></div>
+			
+		</div>
+        <button class="del-button" id="del"  >Delete</button>  
+		<form th:action="@{/deleteCandidates}" method="get" th:object="${candidateDelete}">
+		
+			<input type="hidden" id="canId" name="candidateId" th:field="*{candidateId}"/>
+			
+			<div class="global-container" id="global">
+	        <div id="window">
+	        <p id="head-msg">This action cannot be undone</p>
+	        <p id="main-msg">Are you sure you want to delete?</p>
+	        <div id="confirm">
+	            <button class="cancel" type="reset">CANCEL</button>
+	            <button class="delete" id="button">DELETE</button>
+	        </div>
+	        </div>
+	    </div>
+    </form>
+	</div>
+	
+	<input type="hidden" id="candidate" th:value="${candidateGrid}">
+	
+	
+	<script th:src="@{/SlickGrid/lib/jquery-1.7.min.js}"></script>
+	<script th:src="@{/SlickGrid/lib/jquery-ui-1.8.16.custom.min.js}"></script>
+	<script th:src="@{/SlickGrid/lib/jquery.event.drag-2.2.js}"></script>
+
+	<script th:src="@{/SlickGrid/slick.core.js}"></script>
+	<script th:src="@{/SlickGrid/slick.dataview.js}"></script>
+	<script th:src="@{/SlickGrid/slick.grid.js}"></script>
+
+    <script th:src="@{/SlickGrid/plugins/slick.rowselectionmodel.js}"></script>
+    <script th:src="@{/SlickGrid/slick.interactions.js}"></script>
+    <script th:src="@{/SlickGrid/controls/slick.pager.js}"></script>
+    <script th:src="@{/SlickGrid/controls/slick.columnpicker.js}"></script>
+
+	<script th:src="@{/JavaScript/deleteCandidateGridList.js}"></script>
+	
+	<script type="text/javascript">candidateGrid();</script>
+	
+	<script th:src="@{/Javascript/deletePopUpScript.js}"></script>
+	<script th:src="@{./app.js}"></script>
+    
+    <script>
+    document.getElementById('button').onclick = function() {  
+          var markedCheckbox = document.getElementsByName('checkName');
+          var inputField= document.getElementById('canId');
+          var value=[];
+          for (var checkbox of markedCheckbox) {  
+            if (checkbox.checked){
+                
+            console.log(value);
+                value.push(checkbox.value);
+              document.body.append(checkbox.value + ',');  
+            }
+          }  
+                inputField.value=value;
+                var inputField= document.getElementById('canId').value;
+                if(inputField == ""){
+                   alert('Please select a candidate to delete')
+                  return false;
+                }else{
+                let del = document.getElementById("del");
+                let popWin = document.querySelector(".global-container");
+                let cancelButton = document.querySelector(".cancel");
+
+                del.addEventListener("click",popIt);
+                function popIt(){
+                  popWin.classList.remove("unpop");
+                  popWin.classList.add("pop");
+                }
+
+                cancelButton.addEventListener("click",unPopIt);
+                function unPopIt(){
+                  popWin.classList.remove("pop");
+                  popWin.classList.add("unpop");
+                }
+
+                popWin.addEventListener("click",outWin);
+                function outWin(e){
+                  if (e.target.id === "global"){
+                    unPopIt();
+                  }
+                }
+                return true;
+                }
+        }  
+    
+    </script>
+	
+	
+</body>
+</html>

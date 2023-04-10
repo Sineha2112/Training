@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>vote Cast</title>
+<style type="text/css">
+* {
+	padding: 5px;
+	margin: 0;
+	box-sizing: border-box;
+}
+
+body {
+	background-color: #d2e9ff;
+	height: 100%;
+	box-sizing: border-box;
+}
+
+.cast {
+	width: 600px;
+	padding: 10px;
+	border-radius: 10px;
+	background-color: white;
+	margin-left:280px;
+}
+
+.cast button {
+	padding: 0.75em;
+	border: none;
+	outline: none;
+	background-color: rgb(1, 6, 8);
+	color: white;
+	border-radius: 0.25em;
+	opacity: 0.9;
+}
+
+.cast button:hover {
+	cursor: pointer;
+	background-color: rgb(140, 140, 151);
+}
+
+.imgVote {
+	padding-left: 240px;
+	margin-top: -280px;
+}
+
+h1 {
+	text-align: center;
+}
+
+input[type=button] {
+	background-color: black;
+	border: none;
+	text-decoration: none;
+	color: white;
+	width: 15%;
+	border-radius: 0.25em;
+	padding: 10px 10px;
+	margin: 1px 7px;
+	cursor: pointer;
+}
+.btn{
+padding-top: 30px;}
+
+
+</style>
+</head>
+<body>
+	<div class="voter">
+		<form name="castVote" th:action="@{/castVote}" th:object="${castVote}">
+			<div class="cast">
+		<h1>Voting Process</h1>
+				<br> <label for="name"><strong>Select Election Name:</strong></label><br> 
+					
+					<select name="electionName" id="electionName"
+					th:field="*{electionType}">
+					<option value=""> select</option>
+					<option th:each="list : ${dynamicElection}" th:value="${list}"
+						th:text="${list}"></option>
+				</select><br> <br>
+				
+				 <label for="id"><strong>Enter Voter Id:</strong></label><br> 
+				 <input type="text" name="voterId" th:field="*{voterId}" placeholder="Voter Id" required id="id"><br>
+
+				<br> <label for="partyName"><strong>Select Party Name:</strong></label><br> 
+						
+					<select name="partyName" id="partyName"
+					th:field="*{partyName}">
+					<option value=""> select</option>
+					<option th:each="list : ${dynamic}" th:value="${list}"
+						th:text="${list}"></option>
+
+				</select><br>
+
+				<div class="btn">
+					<button type="submit" id="isDisabled" name="vote"
+						value="vote">Vote</button>
+					<button type="reset">Cancel</button>
+					<input TYPE="button" VALUE="Back" onClick="history.go(-1);">
+				</div>
+
+				<div class="imgVote">
+					<img alt="feedback" th:src="@{\Images\castVote.jpg}" id="feddback"
+						height=350px width=350px>
+				</div>
+				
+				<div class="pollImg">
+		
+		<h2 style="font-style: italic;">
+			"Vote for who is right, to make the future bright."<br><br>
+		</h2>
+	</div>
+			</div>
+		</form>
+
+	</div>
+	
+
+	<script type="text/javascript">
+		var date="[[${EDATE}]]";
+		console.log(date);
+		const d = new Date().getDate();
+		const d2 = new Date().getMonth();
+		const d3=new Date().getFullYear();
+		
+		const c = new Date(date).getDate();
+		const c2 = new Date(date).getMonth();
+		const c3 = new Date(date).getFullYear();
+		console.log(c3);
+		
+		hide();
+		function hide() {
+			if (d == c && d2 == c2 && d3 == c3) {
+				document.getElementById("isDisabled").disabled = false;
+				alert("Welcome to the voting process");
+			} else {
+				document.getElementById("isDisabled").disabled = true;
+				alert("There is no election today");
+			}
+		}
+	</script>
+</body>
+</html>

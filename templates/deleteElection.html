@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Delete Election</title>
+<style type="text/css">
+* {
+	padding: 9px;
+	margin: 0;
+	box-sizing: border-box;
+}
+
+body {
+	background-color:#d2e9ff;
+	height: 100%;
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center;
+	box-sizing: border-box;
+}
+
+.voter button {
+	padding: 0.75em;
+	border: none;
+	outline: none;
+	background-color: rgb(8, 8, 7);
+	color: white;
+	border-radius: 0.25em;
+	opacity: 0.9;
+}
+
+.delete {
+	width: 362px;
+	margin: auto;
+	margin: 20 0 0 450px;
+	padding: 20px;
+	border-radius: 10px;
+	background-color: white;
+}
+
+.voter button a {
+	color: white;
+}
+
+.delete button {
+	padding: 0.75em;
+	border: none;
+	outline: none;
+	background-color: rgb(1, 6, 8);
+	color: white;
+	border-radius: 0.25em;
+	opacity: 0.9;
+}
+
+.delete button:hover {
+	cursor: pointer;
+	background-color: rgb(140, 140, 151);
+}
+
+h1 {
+	text-align: center;
+}
+
+input[type=button] {
+	background-color: black;
+	border: none;
+	text-decoration: none;
+	color: white;
+	width: 20%;
+	border-radius: 0.25em;
+	padding: 10px 10px;
+	margin: 1px 10px;
+	cursor: pointer;
+}
+</style>
+</head>
+<body>
+	<div class="voter">
+		<h1>Delete Election</h1>
+		<form name="deleteElection" th:action="@{/deleteElection}" th:object="${delete}" >
+			<div class="delete">
+				<label for="id"><strong>Enter Election Code:</strong> </label>
+			    <input type="number" name="id" th:field="*{electionId}" placeholder="Election Code"><br>
+
+				<div>
+					<button type="submit">Submit</button>&nbsp;
+					<button type="reset">Cancel</button>
+					<INPUT TYPE="button" VALUE="Back" onClick="history.go(-1);">
+				</div>
+			</div>
+		</form>
+	</div>
+</body>
+</html>

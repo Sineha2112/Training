@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Reports About Candidates</title>
+<link rel="stylesheet" th:href="@{/CSS/loginstyles.css}">
+
+</head>
+<body>
+<div class="main">
+	<section class="signup">
+	   <div class="container">
+			<div class="signup-content">
+				<div class="signup-form">
+					<h1>Asset Details Of The Candidate</h1>
+<form name="assetDetails" id="assetDetails" th:action="@{/reportsOfCandidate}" th:object="${reportsOfCandidates}" method="get">
+ <div class="form-group">
+	<label for="id"></label><br>
+	<input type="text" name="id" id="id" th:field="*{candidateName}" Placeholder="Candidate Name"  pattern="[A-Za-z]+" title="Use Only Letters"><br>
+  </div>
+  
+  <div class="form-group">							
+	<br> <label for="partyName"></label><br> 
+	<input type="text" name="partyName" th:field="*{partyName}" placeholder="Party Name" id="partyName"  pattern="[A-Z]+" title="Use Only Letters"><br>
+   </div>
+   
+   <div class="form-group">
+	<br> <label for="presentAssetValue"></label><br> 
+	<input type="number" name="aValue" id="aValue" th:field="*{assetValue}" Placeholder=" Present Asset Details"><br>
+   </div>
+   
+   <div class="form-group">
+	<br> <label for="pasttAssetValue"></label><br> 
+	<input type="number" name="pValue" id="pValue" th:field="*{pastAssetValue}" Placeholder="Past Asset Details"><br>
+	</div>
+	<div class="form-group">											
+	<br> <label for="report"></label><br> 
+	<input type="text" name="report" id="report" th:field="*{reportOfCandidate}" Placeholder="Report Of The Candidate"><br><br>
+	</div>
+								
+	<div class="form-submit">
+		<button type="submit">Submit</button>&emsp;
+		<button type="reset">Cancel</button>
+		<input TYPE="button" VALUE="Back" onClick="history.go(-1);">
+	</div>
+</form>
+	</div>
+	<div class="signup-image">
+		<figure>
+			<img th:src="@{\Images\asset.jpg}" alt="sing up image">
+		</figure>
+	</div>
+</div>
+</div>
+	</section>
+	</div>
+</body>
+</html>

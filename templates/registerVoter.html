@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Register demo</title>
+<link rel="stylesheet" th:href="@{/CSS/loginstyles.css}">
+<script th:src="@{/Javascript/showPassword.js}"></script>
+
+</head>
+<body>
+<div class="main">
+	<section class="signup">
+			<div class="container">
+				<div class="signup-content">
+					<div class="signup-form">
+						<h2>Sign Up</h2>
+<form id="registerForm" th:action="@{/registerVoter}" method="post" th:object="${User}">
+ 	 <div class="form-group">
+		<label for="Name"></label>
+		<input type="text" name="name" id="name" placeholder="Name" onkeyup="nameValid()" th:field="*{voterName}"/>
+		 <div class="name">
+     		<span id="name-error"></span>
+    	 </div><br>
+	</div>
+	<div class="form-group">
+		<label for="Date Of Birth"></label>
+		<input type="date" placeholder="DOB" name="dob" id="dob" th:field="*{dateOfBirth}"/><br>
+	</div>
+	<div class="form-group">
+		<label for="Voter Id"></label>
+		<input type="text" name="voterId" placeholder="Voter Id" id="voterId" onkeyup="voterIdValidation()" th:field="*{voterId}"/>
+		<div class="voterId">
+			<span id="voterId-error"></span>
+		</div><br>
+	</div>
+	<div class="form-group">
+		<label for="Father Name"></label>
+		<input type="text" name="fatherName" placeholder="Father Name" id="fatherName" onkeyup="fatherNameValid()" th:field="*{fatherName}"/>
+		<div class="fatherName">
+			<span id="fname-error"></span>
+		</div><br>
+	</div>
+	<div class="form-group">
+	 <div class="gender">
+		<label for="Gender"></label>
+		<input type="radio" name="gender" th:field="*{gender}" value="Male" />Male
+		<input type="radio" name="gender" th:field="*{gender}" value="Female" />Female
+		<input type="radio" name="gender" th:field="*{gender}" value="prefer not to say" />Prefer Not To Say<br>
+	 </div>
+	</div>
+	<div class="form-group">
+		<label for="Address"></label>
+		<input type="text" name="address" placeholder="Address"  onkeyup="addressValidation()"  th:field="*{address}"/>
+		<div class="address">
+    		 <span id="address-error"></span>
+     	</div><br>
+	</div>
+	<div class="form-group">
+		<label for="City"></label>
+		<input type="text" name="city" placeholder="City" id="city" onkeyup="cityValid()" th:field="*{city}"/>
+		<div class="city">
+			<span id="city-error"></span>
+		</div><br>
+	</div>
+	<div class="form-group">
+		<label for="Nationality"></label>
+		<input type="text" name="nationality" placeholder="Nationality" id="nationality" onkeyup="nationalityValid() " th:field="*{nationality}"/>
+		<div class="nationality">
+			<span id="nationality-error"></span>
+		</div><br>
+	</div>
+	<div class="form-group">
+		<label for="Mobile Number"></label>
+		<input type="tel" name="mobileNumber" placeholder="Mobile Number" id="mobileNumber" onkeyup="mobileNoValidation1()" th:field="*{mobileNumber}"/>
+		 <div class="mobile">
+     		<span id="mobileNo-error"></span>
+    	 </div><br>
+	</div>
+	<div class="form-group">
+		<label for="Email Id"></label>
+		<input type="email" name="email" placeholder="Email Id" id="email" onkeyup="mailIdValidation()" th:field="*{emailId}"/>
+		 <div class="mail">
+     		<span id="mailId-error"></span>
+     	</div><br>
+	</div>
+	<div class="form-group">
+		<label for="Password"></label>
+		<input type="password" name="password" placeholder="Password" id="password" onkeyup="passwordValidation()" th:field="*{userPassword}"/>
+		<div class="password">
+     		<span id="password-error"></span>
+     	</div><br>
+	</div>
+	<div class="form-group">
+		<label>Show Password</label> 
+		<input type="checkbox" onclick="myFunction()">
+	</div>
+    <div class="form-submit">
+         <button type="submit">Register</button>&emsp;
+         <button type="reset">Cancel</button>
+         <input TYPE="button" VALUE="Back" onClick="history.go(-1);">
+    </div>   
+</form>
+</div>
+       <div class="signup-image">
+			<figure>
+			<img th:src="@{\Images\registergif.gif}" alt="sign up image">
+			</figure>
+			<div class="signLink">Already have an account? <a th:href="@{#}" class="signup-image-link">Sign In</a></div>
+			</div>
+        </div>
+        		
+	</div>
+</section>
+</div>
+ <script th:src="@{/Javascript/RegisterValidation.js}"></script> 
+</body>
+</html>

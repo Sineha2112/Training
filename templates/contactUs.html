@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Contact Us</title>
+<link rel="stylesheet" th:href="@{/CSS/contactusstyless.css}">
+<link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css}">
+</head>
+<body>
+<div class="container">
+  <div class="card">
+    <div class="left">
+      <img th:src="@{/Images/contactUs.jpg}" alt="contactUs">
+    </div>
+    <div class="right">
+      <h2>Contact Us</h2>
+      <div class="contact">
+        <div class="form-container">
+          <form class="form">
+            <div class="username">
+              <input type="text" placeholder="Enter your Name">
+            </div><br>
+            <div class="useremail">
+              <input type="email" placeholder="Enter your email" required>
+            </div><br>
+            <div class="usermessage">
+              <textarea placeholder="Enter your message" required></textarea>
+            </div><br>
+            <div class="usersubmit">
+              <input type="submit" value="Contact Us">
+              <input type="button" value="Back" onClick="history.back()">
+            </div>
+          </form>
+        </div>
+     <div class="content">
+       <div class="left-side">
+			<div class="address details">
+				<em class="fa fa-map-marker"></em><br>
+				<div class="topic">Address</div>
+				<div class="text-one">Surkhet, NP12</div>
+			</div>
+			<div class="phone details">
+				<em class="fa fa-phone"></em><br>
+				<div class="topic">Phone</div><br>
+				<div class="text-one">+0098 9893 5647</div>
+				<div class="text-two">+0096 3434 5678</div>
+			</div>
+			<div class="email details">
+			     <em class="fa fa-envelope"></em><br>
+				 <div class="topic">Email</div><br>
+				 <div class="text-one">eVoting@gmail.com</div>
+				 <div class="text-two">info.eVoting@gmail.com</div>
+			</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</body>
+</html>

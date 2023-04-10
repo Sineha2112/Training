@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html  lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>NRI Profile Page</title>
+<link rel="stylesheet" th:href="@{/CSS/profilePageStyles.css}">
+<style type="text/css">
+input[type=button] {
+            background-color:#5e72e4;
+            border: none;
+            text-decoration: none;
+            color: white;
+            width:10%;
+            border-radius:10px;
+            padding: 10px 10px;
+            margin:1px 15px;
+            cursor: pointer;
+         }
+</style>
+</head>
+<body>
+ <div class="main-content">
+      <!-- Top navbar -->
+      <nav class="navbar navbar-top" id="navbar-main">
+        <div class="container-fluid">
+          
+          <h2>User profile</h2>
+          <input type="button" value="Back" onClick="history.back()">
+        </div>
+      </nav>
+      <!-- Header -->
+      <div class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center" >
+        <!-- Mask -->
+        <span class="mask bg-gradient-default opacity-8"></span>
+        <!-- Header container -->
+        <div class="container-fluid d-flex align-items-center">
+          <div class="row">
+            <div class="col-lg-7 col-md-10">
+              <a th:href="@{/updateNRIpage}" class="btn btn-info">Edit profile</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Page content -->
+      <div class="container-fluid mt--7">
+        <div class="row">
+          <div class="col-xl-4 order-xl-2 mb-5 mb-xl-0">
+            <div class="card card-profile shadow">
+              <div class="row justify-content-center">
+                <div class="col-lg-3 order-lg-2">
+                  <div class="card-profile-image">
+                    <a th:href="@{#}">
+                      <img th:src="@{/Images/profile.jpg}" alt="profile" class="rounded-circle"><br>
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="card-body pt-0 pt-md-4">
+                <br><br><div class="text-center">
+                  <h3>
+                    <span th:text="${session.VoterName}"></span><span class="font-weight-light">,<span th:text="${session.Age}"></span> </span>
+                  </h3>
+                  <div class="h5 font-weight-300">
+                    <em class="ni location_pin mr-2"></em><span th:text="${session.city}"></span>
+                  </div>
+                  
+                  <hr class="my-4">
+                </div>
+              </div>
+              <img th:src="@{/Images/profileSide.jpg}" alt="sideImg" height="420px" width="400px">
+            </div>
+          </div>
+          <div class="col-xl-8 order-xl-1">
+            <div class="card bg-secondary shadow">
+              <div class="card-header bg-white border-0">
+                <div class="row align-items-center">
+                  <div class="col-8">
+                    <h3 class="mb-0">My account</h3>
+                  </div>
+                  <div class="col-4 text-right">
+                    <a th:href="@{#!}" class="btn btn-sm btn-primary">Settings</a>
+                  </div>
+                </div>
+              </div>
+              <div class="card-body">
+                <form>
+                  <h6 class="heading-small text-muted mb-4">Non Resident User information</h6>
+                  <div class="pl-lg-4">
+                    <div class="row">
+                    <div class="col-lg-6">
+                      <div class="form-group focused">
+                        <label class="form-control-label" for="input-first-name">User Id</label>
+                        <input type="text" id="input-first-name" class="form-control form-control-alternative" placeholder="User Id" th:value="${session.NRIid}">
+                      </div>
+                    </div>
+                    
+                      <div class="col-lg-6">
+                        <div class="form-group focused">
+                          <label class="form-control-label" for="input-username">Username</label>
+                          <input type="text" id="input-username" class="form-control form-control-alternative" placeholder="Username" th:value="${session.VoterName}">
+                        </div>
+                      </div>
+                      
+                      <div class="col-lg-6">
+                        <div class="form-group">
+                          <label class="form-control-label" for="input-email">Email address</label>
+                          <input type="email" id="input-email" class="form-control form-control-alternative" placeholder="email" th:value="${session.emailId}">
+                        </div>
+                      </div>
+                      
+                        <div class="col-lg-6">
+                      <div class="form-group focused">
+                        <label class="form-control-label" for="input-last-name">Date Of Birth</label>
+                        <input type="text" id="input-last-name" class="form-control form-control-alternative" placeholder="Date Of Birth" th:value="${session.DOB}">
+                      </div>
+                     </div>
+                     
+                      <div class="col-lg-6">
+                      <div class="form-group focused">
+                        <label class="form-control-label" for="input-username"> Father Name</label>
+                        <input type="text" id="input-username" class="form-control form-control-alternative" placeholder="Father Name" th:value="${session.fatherName}">
+                      </div>
+                    </div>
+                    
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-email">Voter Id</label>
+                        <input type="email" id="input-email" class="form-control form-control-alternative" placeholder="Voter Id" th:value="${session.VoterId}">
+                      </div>
+                    </div>
+                    
+                    <div class="col-lg-6">
+                      <div class="form-group focused">
+                        <label class="form-control-label" for="input-username">Gender</label>
+                        <input type="text" id="input-username" class="form-control form-control-alternative" placeholder="Father Name" th:value="${session.gender}">
+                      </div>
+                    </div>
+                    
+                    </div>
+                    
+                  </div>
+                  <hr class="my-4">
+                  <!-- Address -->
+                  <h6 class="heading-small text-muted mb-4">Contact information</h6>
+                  <div class="pl-lg-4">
+                    <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group focused">
+                          <label class="form-control-label" for="input-address">Address</label>
+                          <input id="input-address" class="form-control form-control-alternative" placeholder="Home Address" th:value="${session.Address}" type="text">
+                        </div>
+                      </div>
+                     
+                    
+                    
+                      <div class="col-lg-4">
+                        <div class="form-group focused">
+                          <label class="form-control-label" for="input-city">City</label>
+                          <input type="text" id="input-city" class="form-control form-control-alternative" placeholder="City" th:value="${session.city}">
+                        </div>
+                      </div>
+                   
+                    
+                    <div class="col-lg-4">
+                        <div class="form-group focused">
+                          <label class="form-control-label" for="input-country">Nationality</label>
+                          <input type="text" id="input-country" class="form-control form-control-alternative" placeholder="Nationality" th:value="${session.nationality}">
+                        </div>
+                    </div>
+                   </div>
+                  </div>
+                  <hr class="my-4">
+                  
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>NRI Voter</title>
+<link rel="stylesheet" th:href="@{/CSS/loginstyles.css}">
+<style type="text/css">
+button {
+	background-color: #0096FF;
+	border: none;
+	text-decoration: none;
+	padding: 10px 20px;
+	text-align: center;
+	display: inline-block;
+	font-size: 16px;
+	border-radius: 8px;
+}
+
+button a {
+	text-decoration: none;
+	color: white;
+}
+</style>
+</head>
+<body>
+	<nav>
+		<button type="submit"><a th:href="@{/}">Home</a></button>&emsp;
+		<button type="submit"><a th:href="@{/regNRI}">Register</a></button>
+	</nav>
+	<div class="container1">
+		
+	</div>
+	<br>
+
+	<div class="main">
+		<section class="signIn">
+			<div class="container"><br>
+			 <div class="container1">
+    		    <h3 >"Vote today for a better tomorrow."</h3>
+      		 </div>
+				<div class="signInContent">
+					<div class="signinin-image">
+						<figure>
+							<img th:src="@{/Images/login.gif}" alt="signIn iamge">
+						</figure>
+						<span class="signLink"><a th:href="@{/regNRI}" class="signUpLink">Create an account</a></span>
+					</div>
+					<div class="signin-form">
+						<h2 class="form-title">Sign In</h2>
+
+						<form name="Login" th:action="@{/loginNriVoter}" class="loginForm" method="get" th:object="${NRILoginVoter}">
+							<div class="form-group">
+								<label for="name"></label><br> 
+								<input type="text" name="voterId" placeholder="Voter Id" th:field="*{nriVoterId}" pattern="^[A-Z]{3}[0-9]{7}$" title="Must Contain 3 Letters and 7 Numbers" required><br>
+								<br>
+							</div>
+
+							<div class="form-group">
+								<label for="password"></label><br> 
+								<input type="password" name="password" placeholder="Password" th:field="*{nUserPassword}" required><br>
+								<br>
+							</div>
+
+							<div class="form-submit">
+								<button type="submit">Login</button>
+								&emsp;
+								<button type="reset">Cancel</button>
+					
+							</div>
+							<p>
+								Forgot <a th:href="@{/forgotPasswordNRI}">&emsp;Password?</a>
+							</p>
+						</form>
+
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+</body>
+</html>
