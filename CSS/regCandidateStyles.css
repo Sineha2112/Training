@@ -1,17 +1,20 @@
 @charset "ISO-8859-1";
 body{
 	 background-color: #d2e9ff;
+	 padding-left:35px;
 }
 .card{
-     width: 34%;
+     width: 40%;
+     padding-left:35px;
      display: inline-block;
      box-shadow: 0.5px 0.5px 5px black;
      border-radius: 5px; 
-     margin: 1%;
+     margin: 3%;
      background-color: white;
     }
 
 .image img{
+	padding-top:15px;
   width: 100%;
   border-top-right-radius: 5px;
   border-top-left-radius: 5px;

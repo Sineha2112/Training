@@ -194,7 +194,7 @@
     width: calc(100% - 78px);
 }
 .home .toggle-sidebar{
-    height: 60px;
+    height: 50px;
     display: flex;
     align-items: center;
     width: fit-content;

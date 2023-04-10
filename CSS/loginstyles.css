@@ -1,7 +1,7 @@
 @charset "ISO-8859-1";
 
 display-flex, .display-flex, .display-flex-center, .signup-content,
-	.signInContent {
+.signInContent {
 	display: flex;
 	display: -webkit-flex;
 }
@@ -176,11 +176,11 @@ figure {
 
 .form-submit button {
 	display: inline-block;
-	background: #6dabe4;
+	background: #0096FF;
 	color: #fff;
 	border-bottom: none;
   	width: auto;
-	padding: 8px 25px;
+	padding: 9px 25px;
 	border-radius: 5px;
 	-moz-border-radius: 5px;
   -webkit-border-radius: 5px;
@@ -196,7 +196,7 @@ figure {
 }
 
 .signIn {
-	margin-top: -55px;
+	margin-top: -58px;
 }
 
 .signinin-image {
@@ -395,13 +395,13 @@ label.valid:after {
 	}
 }
 input[type=button] {
-	background-color:#6dabe4 ;
+	background-color:#0096FF ;
 	border: none;
 	text-decoration: none;
 	color: white;
 	width:auto;
 	border-radius: 0.25em;
-	padding: 3px 10px;
+	padding: 0px 20px;
 	margin: 1px 10px;
 	cursor: pointer;
 }
@@ -418,4 +418,15 @@ input[type=button] {
 
 .signLink{
 	font-size:18px;
+}
+h3{
+	text-align:center;
+	font-family: "dancing script", cursive;
+	font-style:italic;
+	text-shadow:  1px 1px 3px #0096FF;
+	font-size: 25px;
+}
+span{
+	color:red;
+	margin-left:10px;
 }

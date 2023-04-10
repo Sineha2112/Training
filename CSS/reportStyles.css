@@ -1,0 +1,59 @@
+@charset "ISO-8859-1";
+* {
+	padding: 9px;
+	margin: 0;
+	box-sizing: border-box;
+}
+
+body {
+	background-color: #d2e9ff;
+	height: 100%;
+	box-sizing: border-box;
+}
+
+.report {
+	width: 520px;
+	margin: 50px auto;
+	padding: 25px;
+	border-radius: 10px;
+	background-color: white;
+}
+
+.report button {
+	padding: 0.75em;
+	border: none;
+	outline: none;
+	background-color: rgb(1, 6, 8);
+	color: white;
+	border-radius: 0.25em;
+	opacity: 0.9;
+}
+
+.report button:hover {
+	cursor: pointer;
+	background-color: rgb(140, 140, 151);
+}
+
+h1 {
+	text-align: center;
+}
+
+.imgReport {
+	padding-left: 190px;
+	margin-top: -200px;
+}
+
+input[type=button] {
+	background-color: black;
+	border-radius: 0.25em;
+	border: none;
+	text-decoration: none;
+	color: white;
+	width: 15%;
+	padding: 10px 10px;
+	margin: 1px 15px;
+	cursor: pointer;
+}
+.btn{
+margin-top: -80px;
+}

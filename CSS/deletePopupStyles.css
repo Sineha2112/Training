@@ -1,0 +1,89 @@
+@charset "ISO-8859-1";
+*{
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+    font-family: sans-serif;
+  }
+  .del-button{
+    margin: 1rem;
+    width:10%;
+    padding:10px;
+    background-color: #ff3131;
+    border-radius: 8px;
+    
+  }
+  .global-container{
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0,0,0,0.5);
+    z-index:2;
+    height: 100vh;
+    width: 100vw;
+    position: absolute;
+    top: -60px;
+    left: 0px;
+  }
+  .pop{
+    display: flex;
+  }
+  .unpop{
+    display: none;
+    animation-name: close;
+    animation-duration: 0.3s;
+  }
+  @keyframes grow{
+    0%{
+      transform: scale(0.5,0.5)
+    }
+    100%{
+      transform: scale(1,1)
+    }
+  }
+  
+  #window{
+    text-align: center;
+    animation-name: grow;
+    animation-duration: 0.3s;
+  }
+  #head-msg{
+    background-color: white;
+    width: 100%;
+    padding: 1rem;
+    font-weight: bolder;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+  }
+  #main-msg{
+    background-color: white;
+    width: 100%;
+    padding: 2rem 1rem;
+    font-weight: bold;
+  }
+  #confirm{
+    background-color: white;
+    width: 100%;
+    padding: 1rem;
+    text-align: right;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    font-weight: bold;
+  }
+  button{
+    padding: 5px;
+    font-size: 12px;
+    font-weight: bold;
+  }
+  .delete{
+    background-color: darkorange;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+  }
+  .cancel{
+    background-color: #777;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+  }
